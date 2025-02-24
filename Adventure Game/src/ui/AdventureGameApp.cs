@@ -89,12 +89,15 @@ namespace Adventure_Game.src.ui {
 
                 if (input.ToLower().Contains("easy") || input.ToLower() == "e") {
                     difficulty = 0.5;
+                    Console.WriteLine("Easy difficulty selected!");
                     break;
                 } else if (input.ToLower().Contains("normal") || input.ToLower() == "n") {
                     difficulty = 0.75;
+                    Console.WriteLine("Normal difficulty selected!");
                     break;
                 } else if (input.ToLower().Contains("hard") || input.ToLower() == "h") {
                     difficulty = 1;
+                    Console.WriteLine("Hard difficulty selected!");
                     break;
                 } else {
                     Console.WriteLine("That is not an option, please choose an option from the list and try again");
@@ -103,7 +106,7 @@ namespace Adventure_Game.src.ui {
         }
 
         private void CreateCharacter() {
-            Console.WriteLine("Input your character's name");
+            Console.WriteLine("Please input your character's name");
             characterName = Console.ReadLine();
             while (true) {
                 //Quick default character creator for testing purposes
