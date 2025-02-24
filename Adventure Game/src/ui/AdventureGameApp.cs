@@ -22,7 +22,6 @@ namespace Adventure_Game.src.ui {
         private double baseStrength;
         private double weaponStrength;
         private double health;
-        //Normal (reasonably comfortable) difficulty is 0.75; easy difficulty is 0.5 and hard difficulty is 1
         private double difficulty;
         private uint rotation;
         private uint age;
@@ -40,6 +39,8 @@ namespace Adventure_Game.src.ui {
         {
             while (true) {
                 InitializeVariables();
+
+                ChooseDifficulty();
 
                 CreateCharacter();
 
@@ -64,7 +65,6 @@ namespace Adventure_Game.src.ui {
             baseStrength = 1;
             weaponStrength = 0;
             health = 20;
-            difficulty = 0.75;
             rotation = 1; age = 0; ageLastShopped = 0;
             weapon = "fists";
             weaponPlural = false;
@@ -72,6 +72,34 @@ namespace Adventure_Game.src.ui {
             tutorialSkipped = false;
 
             randomNumber = new Random();
+        }
+
+        /// <summary>
+        /// Asks the user which difficulty they would like to play on and sets the value of <c>difficulty</c> accordingly.
+        /// </summary>
+        /// <remarks>
+        /// Changes the value of <c>difficulty</c> from not-assigned to the value appropriate for the difficulty selected by the user. For easy, that is 0.5, normal is 0.75, and hard is 1.
+        /// </remarks>
+        private void ChooseDifficulty() {
+            while (true) {
+                Console.WriteLine("Would you like to play in easy, normal, or hard difficulty?");
+                string? input = Console.ReadLine();
+
+                if (input is null) continue;
+
+                if (input.ToLower().Contains("easy") || input.ToLower() == "e") {
+                    difficulty = 0.5;
+                    break;
+                } else if (input.ToLower().Contains("normal") || input.ToLower() == "n") {
+                    difficulty = 0.75;
+                    break;
+                } else if (input.ToLower().Contains("hard") || input.ToLower() == "h") {
+                    difficulty = 1;
+                    break;
+                } else {
+                    Console.WriteLine("That is not an option, please choose an option from the list and try again");
+                }
+            }
         }
 
         private void CreateCharacter() {
@@ -540,7 +568,7 @@ namespace Adventure_Game.src.ui {
                             double damageDealtToPlayer = (randomNumber.NextDouble() * (monsterStrength - (monsterStrength * 0.8))) + (monsterStrength * 0.8);
                             health -= damageDealtToPlayer;
                             if (health > 0) {
-                                TextPrinter.CreateTwoMiddlesText("The " + monster + " hit you for ", ConsoleColor.DarkRed, Math.Round(damageDealtToPlayer, 2) + " damage", ", leaving you with ", ConsoleColor.Red, Math.Round(health, 2) + " health", otherTextColour: ConsoleColor.Red);
+                                TextPrinter.CreateTwoMiddlesText("The " + monster + " hit you for ", ConsoleColor.DarkRed, Math.Round(damageDealtToPlayer, 2) + " damage", ", leaving you with ", ConsoleColor.Red, Math.Round(health, 2) + " health", defaultColour: ConsoleColor.Red);
                             } else {
                                 TextPrinter.CreateMiddleText("The " + monster + " hit you for ", ConsoleColor.DarkRed, Math.Round(damageDealtToPlayer, 2) + " damage", ", defeating you", ConsoleColor.Red);
                                 Console.WriteLine("Better luck next time");
@@ -554,8 +582,8 @@ namespace Adventure_Game.src.ui {
                             if (monsterHealth > 0) {
                                 if (monsterType == 2) //If the monster is bandits
                                 {
-                                    TextPrinter.CreateTwoMiddlesText("You hit the " + monster + " for ", ConsoleColor.DarkRed, Math.Round(damageDealtByPlayer, 2) + " damage", ", leaving them with ", ConsoleColor.Red, Math.Round(monsterHealth, 2) + " health", otherTextColour: ConsoleColor.Green);
-                                } else TextPrinter.CreateTwoMiddlesText("You hit the " + monster + " for ", ConsoleColor.DarkRed, Math.Round(damageDealtByPlayer, 2) + " damage", ", leaving it with ", ConsoleColor.Red, Math.Round(monsterHealth, 2) + " health", otherTextColour: ConsoleColor.Green);
+                                    TextPrinter.CreateTwoMiddlesText("You hit the " + monster + " for ", ConsoleColor.DarkRed, Math.Round(damageDealtByPlayer, 2) + " damage", ", leaving them with ", ConsoleColor.Red, Math.Round(monsterHealth, 2) + " health", defaultColour: ConsoleColor.Green);
+                                } else TextPrinter.CreateTwoMiddlesText("You hit the " + monster + " for ", ConsoleColor.DarkRed, Math.Round(damageDealtByPlayer, 2) + " damage", ", leaving it with ", ConsoleColor.Red, Math.Round(monsterHealth, 2) + " health", defaultColour: ConsoleColor.Green);
                             } else if (monsterType == 2) //If the monster is bandits
                               {
                                 TextPrinter.CreateMiddleText("You hit the " + monster + " for ", ConsoleColor.DarkRed, Math.Round(damageDealtByPlayer, 2) + " damage", ", defeating them", ConsoleColor.Green);
@@ -582,7 +610,7 @@ namespace Adventure_Game.src.ui {
                             double damageDealtToPlayer = (randomNumber.NextDouble() * (monsterStrength - (monsterStrength * 0.8))) + (monsterStrength * 0.8);
                             health -= damageDealtToPlayer;
                             if (health > 0) {
-                                TextPrinter.CreateTwoMiddlesText("The " + monster + " hit you for ", ConsoleColor.DarkRed, Math.Round(damageDealtToPlayer, 2) + " damage", ", leaving you with ", ConsoleColor.Red, Math.Round(health, 2) + " health", otherTextColour: ConsoleColor.Red);
+                                TextPrinter.CreateTwoMiddlesText("The " + monster + " hit you for ", ConsoleColor.DarkRed, Math.Round(damageDealtToPlayer, 2) + " damage", ", leaving you with ", ConsoleColor.Red, Math.Round(health, 2) + " health", defaultColour: ConsoleColor.Red);
                             } else {
                                 TextPrinter.CreateMiddleText("The " + monster + " hit you for ", ConsoleColor.Red, Math.Round(damageDealtToPlayer, 2) + " damage", ", defeating you", ConsoleColor.Red);
                                 Console.WriteLine("Better luck next time");
