@@ -1296,8 +1296,8 @@ Martin Anderson 13/05/21*/
                                                 if (hours > maxHours) {
                                                     Console.WriteLine("You would not benefit from sleeping for that long");
                                                 }
-                                                else if (hours > 8) {
-                                                    Console.WriteLine("You may only sleep up to 8 hours per night");
+                                                else if (hours > 10) {
+                                                    Console.WriteLine("You may only sleep up to 10 hours per night");
                                                 }
                                                 else if (hours == 0) {
                                                     Console.WriteLine("You successfully exited the inn");
@@ -1374,7 +1374,7 @@ Martin Anderson 13/05/21*/
                                                     else Console.WriteLine("That was not an option");
                                                 }
                                             }
-                                            else Console.WriteLine("You did not input a number, please input a number from 1-12");
+                                            else Console.WriteLine("You did not input a number, please input a number from 0-10");
                                         }
                                     }
                                     else if (input.ToLower().Contains("pass") || input.ToLower() == "p") {
