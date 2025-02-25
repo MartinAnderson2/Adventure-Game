@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Adventure_Game.src.ui {
-    static class TextPrinter {
+    static class ConsolePrinter {
         /// <summary>
         /// Write <paramref name="text"/> to the current line in the specified colour.
         /// </summary>
@@ -104,6 +104,16 @@ namespace Adventure_Game.src.ui {
             WriteColouredText(colourFour, fourthColouredText);
             WriteLineColouredText(defaultColour, finalText);
             Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
+        /// <summary>
+        /// Print <paramref name="numberOfLines"/> blank lines to the console.
+        /// </summary>
+        /// <param name="numberOfLines">The number of blank lines to print</param>
+        public static void PrintBlankLines(uint numberOfLines) {
+            for (uint i = 0; i < numberOfLines; i++) {
+                Console.WriteLine();
+            }
         }
     }
 }

@@ -9,17 +9,14 @@ namespace Adventure_Game.src.model {
         public int XPos { get; set; }
         public int YPos { get; set; }
         public int Gold { get; set; }
-        public int WeaponValue { get; set; }
+        public Weapon HeldWeapon { get; set; }
         public int ClassValue { get; set; }
         public int TypeValue { get; set; }
         public int MaxHealth { get; set; }
         public int NumHealthPotions { get; set; }
         public double BaseStrength { get; set; }
-        public double WeaponStrength { get; set; }
         public double Health { get; set; }
         public uint Rotation { get; set; }
-        public string WeaponName { get; set; }
-        public bool WeaponPlural { get; set; }
         public string Name { get; set; }
         public string Class { get; set; }
         public string Subclass { get; set; }
@@ -32,19 +29,16 @@ namespace Adventure_Game.src.model {
         /// <param name="weaponName">The name of the player's current weapon</param>
         /// <param name="weaponPlural">Is the name of the player's current weapon is plural</param>
         /// <param name="startingHealth">The starting health of the player</param>
-        public Player(int weaponValue, double weaponStrength, string weaponName, bool weaponPlural, double startingHealth, string characterName, string characterClass, string characterType) {
+        public Player(Weapon weapon, double startingHealth, string characterName, string characterClass, string characterType) {
             this.XPos = 0;
             this.YPos = 0;
             this.Gold = 0;
-            this.WeaponValue = weaponValue;
+            this.HeldWeapon = weapon;
             this.MaxHealth = 20;
             this.NumHealthPotions = 0;
             this.BaseStrength = 1;
-            this.WeaponStrength = weaponStrength;
             this.Health = startingHealth;
             this.Rotation = 1;
-            this.WeaponName = weaponName;
-            this.WeaponPlural = weaponPlural;
             this.Name = characterName;
             this.Class = characterClass;
             this.Subclass = characterType;
