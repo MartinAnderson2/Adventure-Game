@@ -348,7 +348,7 @@ namespace Adventure_Game.src.ui {
                 while (true) {
                     ConsolePrinter.CreateTwoMiddlesText("You come across a wolf. It has ", ConsoleColor.Red, "30 health", " and ", ConsoleColor.DarkRed, "3 strength");
                     Console.WriteLine("It is sleeping");
-                    ConsolePrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, player.Health + " health", " and ", ConsoleColor.DarkRed, (player.HeldWeapon.Strength + player.BaseStrength) + " strength");
+                    ConsolePrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, player.Health + " health", " and ", ConsoleColor.DarkRed, player.GetTotalStrength() + " total strength");
                     ConsolePrinter.WriteLineColouredText(ConsoleColor.Cyan, "Since the wolf is significantly stronger than you, you probably will not win the fight. You should try to sneak past it to continue");
                     Console.WriteLine("Would you like to \"fight\" it or try to \"sneak\" past it?");
                     string? input = Console.ReadLine();
@@ -400,10 +400,10 @@ namespace Adventure_Game.src.ui {
                 }
                 Console.WriteLine("You find a treasure chest with a " + player.HeldWeapon.Name + " inside!");
                 if (player.HeldWeapon.NameIsPlural) {
-                    ConsolePrinter.CreateMiddleText("Your " + player.HeldWeapon.Name + " have brought you up to ", ConsoleColor.DarkRed, (player.HeldWeapon.Strength + player.BaseStrength) + " strength");
+                    ConsolePrinter.CreateMiddleText("Your " + player.HeldWeapon.Name + " have brought you up to ", ConsoleColor.DarkRed, player.GetTotalStrength() + " total strength");
                 }
                 else {
-                    ConsolePrinter.CreateMiddleText("Your " + player.HeldWeapon.Name + " has brought you up to ", ConsoleColor.DarkRed, (player.HeldWeapon.Strength + player.BaseStrength) + " strength");
+                    ConsolePrinter.CreateMiddleText("Your " + player.HeldWeapon.Name + " has brought you up to ", ConsoleColor.DarkRed, player.GetTotalStrength() + " total strength");
                 }
                 while (true) {
                     Console.WriteLine("Would you like to go straight, right, or left?");
@@ -434,7 +434,7 @@ namespace Adventure_Game.src.ui {
                 while (true) {
                     ConsolePrinter.CreateTwoMiddlesText("You come across a stoneling. It has ", ConsoleColor.Red, "1 health", " and ", ConsoleColor.DarkRed, "1 strength");
                     Console.WriteLine("It is awake and has seen you");
-                    ConsolePrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, player.Health + " health", " and ", ConsoleColor.DarkRed, (player.HeldWeapon.Strength + player.BaseStrength) + " strength");
+                    ConsolePrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, player.Health + " health", " and ", ConsoleColor.DarkRed, player.GetTotalStrength() + " total strength");
                     ConsolePrinter.WriteLineColouredText(ConsoleColor.Cyan, "Since you are significantly stronger than the stoneling, you will almost certainly win this fight and if you do, you will get loot. Additionally, you are unlikely to sneak past successfully since it has seen you");
                     Console.WriteLine("Would you like to \"fight\" the stoneling or try to \"sneak\" past it?");
                     string? input = Console.ReadLine();
@@ -528,7 +528,7 @@ namespace Adventure_Game.src.ui {
                 double monsterStrength, monsterHealth;
                 bool seen = false, awake = true, playerFirstHit = true;
                 void Monsters() {
-                    monsterPowerLevel = random.Next(Convert.ToInt32((player.BaseStrength + player.HeldWeapon.Strength) * player.MaxHealth * game.GetDifficultyMultiplier()));
+                    monsterPowerLevel = random.Next(Convert.ToInt32(player.GetTotalStrength() * player.MaxHealth * game.GetDifficultyMultiplier()));
                     if (monsterPowerLevel > 1250000) {
                         monster = "queen dragon";
                         monsterHealth = 5000;
@@ -618,7 +618,7 @@ namespace Adventure_Game.src.ui {
                             }
                             else if (awake) Console.WriteLine("They are awake but have not seen you");
                             else Console.WriteLine("They are sleeping");
-                            ConsolePrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, Math.Round(player.Health, 2) + " health", " and ", ConsoleColor.DarkRed, (player.HeldWeapon.Strength + player.BaseStrength) + " strength");
+                            ConsolePrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, Math.Round(player.Health, 2) + " health", " and ", ConsoleColor.DarkRed, player.GetTotalStrength() + " total strength");
                             Console.WriteLine("Would you like to \"fight\" the " + monster + " or try to \"sneak\" past them?");
                         }
                         else if (monsterType == 1 || monsterType == 6) //Monster is an imp or an orc
@@ -629,7 +629,7 @@ namespace Adventure_Game.src.ui {
                             }
                             else if (awake) Console.WriteLine("It is awake but has not seen you");
                             else Console.WriteLine("It is sleeping");
-                            ConsolePrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, Math.Round(player.Health, 2) + " health", " and ", ConsoleColor.DarkRed, (player.HeldWeapon.Strength + player.BaseStrength) + " strength");
+                            ConsolePrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, Math.Round(player.Health, 2) + " health", " and ", ConsoleColor.DarkRed, player.GetTotalStrength() + " total strength");
                             Console.WriteLine("Would you like to \"fight\" the " + monster + " or try to \"sneak\" past it?");
                         }
                         else //Monster name is singular and does not start with a vowel
@@ -640,7 +640,7 @@ namespace Adventure_Game.src.ui {
                             }
                             else if (awake) Console.WriteLine("It is awake but has not seen you");
                             else Console.WriteLine("It is sleeping");
-                            ConsolePrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, Math.Round(player.Health, 2) + " health", " and ", ConsoleColor.DarkRed, (player.HeldWeapon.Strength + player.BaseStrength) + " strength");
+                            ConsolePrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, Math.Round(player.Health, 2) + " health", " and ", ConsoleColor.DarkRed, player.GetTotalStrength() + " total strength");
                             Console.WriteLine("Would you like to \"fight\" the " + monster + " or try to \"sneak\" past it?");
                         }
                         string input = Console.ReadLine();
@@ -1093,7 +1093,7 @@ namespace Adventure_Game.src.ui {
                             if (input == "swap" || input == "sw") {
                                 player.HeldWeapon = new Weapon(newWeaponName, newWeaponStrength, newWeaponValue, newWeaponPlural);
 
-                                ConsolePrinter.CreateMiddleText("You are now using the " + newWeaponName + ", bringing you to ", ConsoleColor.DarkRed, (player.BaseStrength + player.HeldWeapon.Strength) + " strength");
+                                ConsolePrinter.CreateMiddleText("You are now using the " + newWeaponName + ", bringing you to ", ConsoleColor.DarkRed, player.GetTotalStrength() + " total strength");
                                 break;
                             }
                             else if (input == "sell" || input == "se") {
@@ -1152,7 +1152,7 @@ namespace Adventure_Game.src.ui {
                                     Weapon oldWeapon = player.HeldWeapon;
                                     player.HeldWeapon = new Weapon(newWeaponName, newWeaponStrength, newWeaponValue, newWeaponPlural);
 
-                                    ConsolePrinter.CreateMiddleText("You successfully swapped your " + oldWeapon.Name + " for your " + newWeaponName + ", bringing you to ", ConsoleColor.DarkRed, (player.BaseStrength + player.HeldWeapon.Strength) + " strength");
+                                    ConsolePrinter.CreateMiddleText("You successfully swapped your " + oldWeapon.Name + " for your " + newWeaponName + ", bringing you to ", ConsoleColor.DarkRed, player.GetTotalStrength() + " total strength");
                                     ConsolePrinter.CreateTwoMiddlesText("You sold your " + oldWeapon.Name + " for ", ConsoleColor.DarkYellow, oldWeapon.Value + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                     inputWorks = true;
                                 }
@@ -1179,7 +1179,7 @@ namespace Adventure_Game.src.ui {
                                             Weapon oldWeapon = player.HeldWeapon;
                                             player.HeldWeapon = new Weapon(newWeaponName, newWeaponStrength, newWeaponValue, newWeaponPlural);
 
-                                            ConsolePrinter.CreateMiddleText("You successfully swapped your " + oldWeapon.Name + " for your " + newWeaponName + ", bringing you to ", ConsoleColor.DarkRed, (player.HeldWeapon.Strength + player.BaseStrength) + " strength");
+                                            ConsolePrinter.CreateMiddleText("You successfully swapped your " + oldWeapon.Name + " for your " + newWeaponName + ", bringing you to ", ConsoleColor.DarkRed, player.GetTotalStrength() + " total strength");
                                             ConsolePrinter.CreateTwoMiddlesText("You sold your " + oldWeapon.Name + " for ", ConsoleColor.DarkYellow, oldWeapon.Value + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                             inputWorks = true;
                                         }
@@ -1504,7 +1504,7 @@ namespace Adventure_Game.src.ui {
                                             player.BaseStrength += amount;
                                             game.BaseStrengthStock -= Convert.ToUInt32(amount);
                                             player.Gold -= Convert.ToInt32(50 * costMultiplier * amount);
-                                            ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.DarkRed, amount + " base strength", ", bringing you up to ", ConsoleColor.DarkRed, (player.BaseStrength + player.HeldWeapon.Strength) + " total strength", " and leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold");
+                                            ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.DarkRed, amount + " base strength", ", bringing you up to ", ConsoleColor.DarkRed, player.GetTotalStrength() + " total strength", " and leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                             purchasedSomething = true;
                                             break;
                                         }

@@ -67,5 +67,13 @@ namespace Adventure_Game.src.model {
             this.YPos = 0;
             this.Rotation = 1;
         }
+
+        /// <summary>
+        /// Add the player's base strength and weapon strength to calculate their total strength.
+        /// </summary>
+        /// <returns>The player's total strength</returns>
+        public double GetTotalStrength() {
+            return BaseStrength + HeldWeapon.Strength;
+        }
     }
 }
