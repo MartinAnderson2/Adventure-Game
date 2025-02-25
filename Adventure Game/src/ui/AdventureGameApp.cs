@@ -13,13 +13,7 @@ namespace Adventure_Game.src.ui {
     /// </summary>
     class AdventureGameApp {
         Player player;
-        private double difficulty;
-        private uint daysPlayed;
-        private uint dateLastShopped;
-        private uint healthPotionStock;
-        private uint baseStrengthStock;
-        private uint maxHealthStock;
-        private bool everUsedHealthPotion;
+        GameState game;
         Random random;
 
         public AdventureGameApp() {
@@ -43,12 +37,7 @@ namespace Adventure_Game.src.ui {
         private void InitializeVariables() {
             player = new Player(Weapon.FISTS, 20, "", "", "");
 
-            healthPotionStock = 0;
-            baseStrengthStock = 0;
-            maxHealthStock = 0;
-            daysPlayed = 0;
-            dateLastShopped = 0;
-            everUsedHealthPotion = false;
+            game = new GameState();
 
             random = new Random();
         }
@@ -67,17 +56,17 @@ namespace Adventure_Game.src.ui {
                 if (input is null) continue;
 
                 if (input.ToLower() == "easy" || input.ToLower() == "e") {
-                    difficulty = 0.5;
+                    game.Difficulty = 0.5;
                     Console.WriteLine("Easy difficulty selected!");
                     break;
                 }
                 else if (input.ToLower() == "normal" || input.ToLower() == "n") {
-                    difficulty = 0.75;
+                    game.Difficulty = 0.75;
                     Console.WriteLine("Normal difficulty selected!");
                     break;
                 }
                 else if (input.ToLower() == "hard" || input.ToLower() == "h") {
-                    difficulty = 1;
+                    game.Difficulty = 1;
                     Console.WriteLine("Hard difficulty selected!");
                     break;
                 }
@@ -440,7 +429,7 @@ namespace Adventure_Game.src.ui {
             while (true) {
                 Move();
 
-                daysPlayed++;
+                game.DaysPlayed++;
 
                 //Map
                 string monster; //monster is the name of the monster, newWeapon is the weapon that the user just found
@@ -448,7 +437,7 @@ namespace Adventure_Game.src.ui {
                 double monsterStrength, monsterHealth;
                 bool seen = false, awake = true, playerFirstHit = true;
                 void Monsters() {
-                    monsterPowerLevel = random.Next(Convert.ToInt32((player.BaseStrength + player.HeldWeapon.Strength) * player.MaxHealth * difficulty));
+                    monsterPowerLevel = random.Next(Convert.ToInt32((player.BaseStrength + player.HeldWeapon.Strength) * player.MaxHealth * game.Difficulty));
                     if (monsterPowerLevel > 1250000) {
                         monster = "queen dragon";
                         monsterHealth = 5000;
@@ -1262,12 +1251,12 @@ namespace Adventure_Game.src.ui {
                 }
                 void Shops(string shopkeeperName, double costMultiplier) {
                     ConsolePrinter.CreateMiddleText("You enter " + shopkeeperName + "\'s shop with ", ConsoleColor.DarkYellow, player.Gold + " gold");
-                    if (daysPlayed < 5) // The player found the shop near the spawn and wouldn't have enough money to buy anything anyway, this is here in order to minimize confusion and have fewer elements at the beginning
+                    if (game.DaysPlayed < 5) // The player found the shop near the spawn and wouldn't have enough money to buy anything anyway, this is here in order to minimize confusion and have fewer elements at the beginning
                     {
                         ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "We don't accept noobs at our shop", "\""); // If the player went straight to a shop
                         Console.WriteLine("You exit " + shopkeeperName + "'s shop");
                     }
-                    else if (dateLastShopped + 5 > daysPlayed && healthPotionStock + baseStrengthStock + maxHealthStock == 0) //If it has been less than 5 days since shopped and there is still no stock
+                    else if (game.DateLastShopped + 5 > game.DaysPlayed && game.HealthPotionStock + game.BaseStrengthStock + game.MaxHealthStock == 0) //If it has been less than 5 days since shopped and there is still no stock
                       {
                         ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "We are out of stock", "\"");
                         Console.WriteLine("You exit " + shopkeeperName + "'s shop");
@@ -1275,84 +1264,84 @@ namespace Adventure_Game.src.ui {
                     else //There is either stock or it is time to restock
                       {
                         bool purchasedSomething = false;
-                        if (!(dateLastShopped + 5 > daysPlayed)) //It has been more than 4 days since the player shopped and the stock has to reroll
+                        if (!(game.DateLastShopped + 5 > game.DaysPlayed)) //It has been more than 4 days since the player shopped and the stock has to reroll
                         {
                             int healthPotionRNG = random.Next(0, 10); //Health potion stock
                             if (healthPotionRNG < 5) //0-4
                             {
-                                healthPotionStock = 5;
+                                game.HealthPotionStock = 5;
                             }
                             else if (healthPotionRNG < 7) //5-6
                               {
-                                healthPotionStock = 4;
+                                game.HealthPotionStock = 4;
                             }
                             else if (healthPotionRNG < 9) //7-8
                               {
-                                healthPotionStock = 3;
+                                game.HealthPotionStock = 3;
                             }
-                            else healthPotionStock = 2;
+                            else game.HealthPotionStock = 2;
                             int maxHealthRNG = random.Next(0, 10); //Max health stock
                             if (maxHealthRNG < 5) //0-4
                             {
-                                maxHealthStock = 2;
+                                game.MaxHealthStock = 2;
                             }
                             else if (maxHealthRNG < 7) //5-6
                               {
-                                maxHealthStock = 3;
+                                game.MaxHealthStock = 3;
                             }
-                            else maxHealthStock = 1; //7-9
+                            else game.MaxHealthStock = 1; //7-9
                             int damageRNG = random.Next(0, 10); //Base strength stock
                             if (random.Next(0, 10) == 5) //5
                             {
-                                baseStrengthStock = 2;
+                                game.BaseStrengthStock = 2;
                             }
-                            else baseStrengthStock = 1; //0-4, 6-9
+                            else game.BaseStrengthStock = 1; //0-4, 6-9
                         }
                         while (true) {
-                            if (player.Gold > 49 * costMultiplier && healthPotionStock > 0 && maxHealthStock > 0 && baseStrengthStock > 0) {
+                            if (player.Gold > 49 * costMultiplier && game.HealthPotionStock > 0 && game.MaxHealthStock > 0 && game.BaseStrengthStock > 0) {
                                 ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Would you like to buy 5 more \"max health\", 1 more \"base strength\", a health \"potion\", or \"exit\"?", "\"");
                             }
-                            else if (player.Gold > 49 * costMultiplier && healthPotionStock > 0 && maxHealthStock > 0) {
+                            else if (player.Gold > 49 * costMultiplier && game.HealthPotionStock > 0 && game.MaxHealthStock > 0) {
                                 ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Would you like to buy 5 more \"max health\", a health \"potion\", or \"exit\"?", "\"");
                             }
-                            else if (player.Gold > 49 * costMultiplier && healthPotionStock > 0 && baseStrengthStock > 0) {
+                            else if (player.Gold > 49 * costMultiplier && game.HealthPotionStock > 0 && game.BaseStrengthStock > 0) {
                                 ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Would you like to buy 1 more \"base strength\", a health \"potion\", or \"exit\"?", "\"");
                             }
-                            else if (player.Gold > 49 * costMultiplier && maxHealthStock > 0 && baseStrengthStock > 0) {
+                            else if (player.Gold > 49 * costMultiplier && game.MaxHealthStock > 0 && game.BaseStrengthStock > 0) {
                                 ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Would you like to buy 1 more \"base strength\", 5 more \"max health\", or \"exit\"?", "\"");
                             }
-                            else if (player.Gold > 49 * costMultiplier && maxHealthStock > 0) {
+                            else if (player.Gold > 49 * costMultiplier && game.MaxHealthStock > 0) {
                                 ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Would you like to buy 5 more \"max health\", or \"exit\"?", "\"");
                             }
-                            else if (player.Gold > 49 * costMultiplier && baseStrengthStock > 0) {
+                            else if (player.Gold > 49 * costMultiplier && game.BaseStrengthStock > 0) {
                                 ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Would you like to buy 1 more \"base strength\", or \"exit\"?", "\"");
                             }
-                            else if (player.Gold > 14 * costMultiplier && healthPotionStock > 0) {
+                            else if (player.Gold > 14 * costMultiplier && game.HealthPotionStock > 0) {
                                 ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Would you like to buy a health \"potion\", or \"exit\"?", "\"");
                             }
-                            else if (purchasedSomething && healthPotionStock + maxHealthStock + baseStrengthStock == 0) {
+                            else if (purchasedSomething && game.HealthPotionStock + game.MaxHealthStock + game.BaseStrengthStock == 0) {
                                 ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "You sold me out! Come back again in a couple of days and I should have more stock", "\"");
                                 Console.WriteLine("You exit " + shopkeeperName + "'s shop");
-                                if (!everUsedHealthPotion) {
+                                if (!game.EverUsedHealthPotion) {
                                     Console.WriteLine();
                                     if (player.NumHealthPotions == 1) {
                                         ConsolePrinter.CreateFourMiddlesText("To use your ", ConsoleColor.Red, "health potion", ", type \"potion\", \"p\", or \"use potion\". ", ConsoleColor.Red, "Health potions", " will heal ", ConsoleColor.Red, "50%", " of your ", ConsoleColor.Red, "maximum health", " and can only be used when you are asked in which direction you wish to travel", ConsoleColor.Cyan);
                                     }
                                     else ConsolePrinter.CreateFourMiddlesText("To use your ", ConsoleColor.Red, "health potions", ", type \"potion\", \"p\", or \"use potion\". ", ConsoleColor.Red, "Health potions", " will heal ", ConsoleColor.Red, "50%", " of your ", ConsoleColor.Red, "maximum health", " and can only be used when you are asked in which direction you wish to travel", ConsoleColor.Cyan);
-                                    everUsedHealthPotion = true;
+                                    game.EverUsedHealthPotion = true;
                                 }
                                 break;
                             }
                             else if (purchasedSomething) {
                                 ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Thank you for purchasing from my store. Feel free to come back when you get more gold", "\"");
                                 Console.WriteLine("You exit " + shopkeeperName + "'s shop");
-                                if (!everUsedHealthPotion) {
+                                if (!game.EverUsedHealthPotion) {
                                     Console.WriteLine();
                                     if (player.NumHealthPotions == 1) {
                                         ConsolePrinter.CreateFourMiddlesText("To use your ", ConsoleColor.Red, "health potion", ", type \"potion\", \"p\", or \"use potion\". ", ConsoleColor.Red, "Health potions", " will heal ", ConsoleColor.Red, "50%", " of your ", ConsoleColor.Red, "maximum health", " and can only be used when you are asked in which direction you wish to travel", ConsoleColor.Cyan);
                                     }
                                     else ConsolePrinter.CreateFourMiddlesText("To use your ", ConsoleColor.Red, "health potions", ", type \"potion\", \"p\", or \"use potion\". ", ConsoleColor.Red, "Health potions", " will heal ", ConsoleColor.Red, "50%", " of your ", ConsoleColor.Red, "maximum health", " and can only be used when you are asked in which direction you wish to travel", ConsoleColor.Cyan);
-                                    everUsedHealthPotion = true;
+                                    game.EverUsedHealthPotion = true;
                                 }
                                 break;
                             }
@@ -1362,18 +1351,18 @@ namespace Adventure_Game.src.ui {
                                 break;
                             }
                             string input = Console.ReadLine();
-                            if (maxHealthStock > 0 && input.ToLower() == "health" || input.ToLower() == "max" || input.ToLower() == "m" || input.ToLower() == "h" && player.Gold > 49 * costMultiplier && input.ToLower() != "health potion") {
+                            if (game.MaxHealthStock > 0 && input.ToLower() == "health" || input.ToLower() == "max" || input.ToLower() == "m" || input.ToLower() == "h" && player.Gold > 49 * costMultiplier && input.ToLower() != "health potion") {
                                 while (true) {
-                                    if (maxHealthStock == 1) {
-                                        ConsolePrinter.CreateFourMiddlesText("", ConsoleColor.Gray, shopkeeperName + " says \"", "I currently have ", ConsoleColor.Red, maxHealthStock + " set of 5 extra max health", " in stock. How many would you like to buy at ", ConsoleColor.DarkYellow, 50 * costMultiplier + " gold", " each?", ConsoleColor.Gray, "\" (Say none if you do not want any)", "", ConsoleColor.Magenta);
+                                    if (game.MaxHealthStock == 1) {
+                                        ConsolePrinter.CreateFourMiddlesText("", ConsoleColor.Gray, shopkeeperName + " says \"", "I currently have ", ConsoleColor.Red, game.MaxHealthStock + " set of 5 extra max health", " in stock. How many would you like to buy at ", ConsoleColor.DarkYellow, 50 * costMultiplier + " gold", " each?", ConsoleColor.Gray, "\" (Say none if you do not want any)", "", ConsoleColor.Magenta);
                                     }
-                                    else ConsolePrinter.CreateFourMiddlesText("", ConsoleColor.Gray, shopkeeperName + " says \"", "I currently have ", ConsoleColor.Red, maxHealthStock + " sets of 5 extra max health", " in stock. How many would you like to buy at ", ConsoleColor.DarkYellow, 50 * costMultiplier + " gold", " each?", ConsoleColor.Gray, "\" (Say none if you do not want any)", "", ConsoleColor.Magenta);
+                                    else ConsolePrinter.CreateFourMiddlesText("", ConsoleColor.Gray, shopkeeperName + " says \"", "I currently have ", ConsoleColor.Red, game.MaxHealthStock + " sets of 5 extra max health", " in stock. How many would you like to buy at ", ConsoleColor.DarkYellow, 50 * costMultiplier + " gold", " each?", ConsoleColor.Gray, "\" (Say none if you do not want any)", "", ConsoleColor.Magenta);
                                     string secondInput = Console.ReadLine();
                                     if (uint.TryParse(secondInput, out uint amount)) {
                                         if (amount == 0) {
                                             break;
                                         }
-                                        else if (amount > maxHealthStock) {
+                                        else if (amount > game.MaxHealthStock) {
                                             ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "I do not have that many in stock", "\"");
                                         }
                                         else if (amount * 50 * costMultiplier > player.Gold) {
@@ -1382,7 +1371,7 @@ namespace Adventure_Game.src.ui {
                                         else {
                                             player.MaxHealth += amount * 5;
                                             player.Health += amount * 5;
-                                            maxHealthStock -= Convert.ToUInt32(amount);
+                                            game.MaxHealthStock -= Convert.ToUInt32(amount);
                                             player.Gold -= Convert.ToInt32(50 * costMultiplier * amount);
                                             ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.Red, amount * 5 + " max health", ", bringing you up to ", ConsoleColor.Red, player.MaxHealth + " max health", " and leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                             purchasedSomething = true;
@@ -1396,15 +1385,15 @@ namespace Adventure_Game.src.ui {
                                 }
 
                             }
-                            else if (baseStrengthStock > 0 && input.ToLower() == "strength" || input.ToLower() == "base" || input.ToLower() == "s" || input.ToLower() == "b" && player.Gold > 49 * costMultiplier) {
+                            else if (game.BaseStrengthStock > 0 && input.ToLower() == "strength" || input.ToLower() == "base" || input.ToLower() == "s" || input.ToLower() == "b" && player.Gold > 49 * costMultiplier) {
                                 while (true) {
-                                    ConsolePrinter.CreateFourMiddlesText("", ConsoleColor.Gray, shopkeeperName + " says \"", "I currently have ", ConsoleColor.DarkRed, baseStrengthStock + " base strength", " in stock. How much would you like to buy at ", ConsoleColor.DarkYellow, 50 * costMultiplier + " gold", " each?", ConsoleColor.Gray, "\" (Say none if you do not want any)", "", ConsoleColor.Magenta);
+                                    ConsolePrinter.CreateFourMiddlesText("", ConsoleColor.Gray, shopkeeperName + " says \"", "I currently have ", ConsoleColor.DarkRed, game.BaseStrengthStock + " base strength", " in stock. How much would you like to buy at ", ConsoleColor.DarkYellow, 50 * costMultiplier + " gold", " each?", ConsoleColor.Gray, "\" (Say none if you do not want any)", "", ConsoleColor.Magenta);
                                     string secondInput = Console.ReadLine();
                                     if (uint.TryParse(secondInput, out uint amount)) {
                                         if (amount == 0) {
                                             break;
                                         }
-                                        else if (amount > baseStrengthStock) {
+                                        else if (amount > game.BaseStrengthStock) {
                                             ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "I do not have that much in stock", "\"");
                                         }
                                         else if (amount * 50 * costMultiplier > player.Gold) {
@@ -1412,7 +1401,7 @@ namespace Adventure_Game.src.ui {
                                         }
                                         else {
                                             player.BaseStrength += amount;
-                                            baseStrengthStock -= Convert.ToUInt32(amount);
+                                            game.BaseStrengthStock -= Convert.ToUInt32(amount);
                                             player.Gold -= Convert.ToInt32(50 * costMultiplier * amount);
                                             ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.DarkRed, amount + " base strength", ", bringing you up to ", ConsoleColor.DarkRed, (player.BaseStrength + player.HeldWeapon.Strength) + " total strength", " and leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                             purchasedSomething = true;
@@ -1425,16 +1414,16 @@ namespace Adventure_Game.src.ui {
                                     else ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "That is not a number", "\"");
                                 }
                             }
-                            else if (healthPotionStock > 0 && input.ToLower() == "potion" || input.ToLower() == "p" || input.ToLower() == "h p" && player.Gold > 14 * costMultiplier) //Potion heals 50% of max health
+                            else if (game.HealthPotionStock > 0 && input.ToLower() == "potion" || input.ToLower() == "p" || input.ToLower() == "h p" && player.Gold > 14 * costMultiplier) //Potion heals 50% of max health
                               {
                                 while (true) {
-                                    ConsolePrinter.CreateFourMiddlesText("", ConsoleColor.Gray, shopkeeperName + " says \"", "I currently have ", ConsoleColor.Red, healthPotionStock + " health potions", " in stock. How many would you like to buy at ", ConsoleColor.DarkYellow, 15 * costMultiplier + " gold", " each?", ConsoleColor.Gray, "\" (Say none if you do not want any)", "", ConsoleColor.Magenta);
+                                    ConsolePrinter.CreateFourMiddlesText("", ConsoleColor.Gray, shopkeeperName + " says \"", "I currently have ", ConsoleColor.Red, game.HealthPotionStock + " health potions", " in stock. How many would you like to buy at ", ConsoleColor.DarkYellow, 15 * costMultiplier + " gold", " each?", ConsoleColor.Gray, "\" (Say none if you do not want any)", "", ConsoleColor.Magenta);
                                     string secondInput = Console.ReadLine();
                                     if (uint.TryParse(secondInput, out uint amount)) {
                                         if (amount == 0) {
                                             break;
                                         }
-                                        else if (amount > healthPotionStock) {
+                                        else if (amount > game.HealthPotionStock) {
                                             ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "I do not have that many in stock", "\"");
                                         }
                                         else if (amount * 15 * costMultiplier > player.Gold) {
@@ -1442,7 +1431,7 @@ namespace Adventure_Game.src.ui {
                                         }
                                         else {
                                             player.NumHealthPotions += amount;
-                                            healthPotionStock -= amount;
+                                            game.HealthPotionStock -= amount;
                                             player.Gold -= Convert.ToInt32(15 * costMultiplier * amount);
                                             if (player.NumHealthPotions == 1) {
                                                 if (amount == 1) {
@@ -1472,13 +1461,13 @@ namespace Adventure_Game.src.ui {
                             else if (input.ToLower() == "exit" || input.ToLower() == "e" && purchasedSomething) {
                                 ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "See you again later", "\"");
                                 Console.WriteLine("You exit " + shopkeeperName + "'s shop");
-                                if (!everUsedHealthPotion) {
+                                if (!game.EverUsedHealthPotion) {
                                     Console.WriteLine();
                                     if (player.NumHealthPotions == 1) {
                                         ConsolePrinter.CreateFourMiddlesText("To use your ", ConsoleColor.Red, "health potion", ", type \"potion\", \"p\", or \"use potion\". ", ConsoleColor.Red, "Health potions", " will heal ", ConsoleColor.Red, "50%", " of your ", ConsoleColor.Red, "maximum health", " and can only be used when you are asked in which direction you wish to travel", ConsoleColor.Cyan);
                                     }
                                     else ConsolePrinter.CreateFourMiddlesText("To use your ", ConsoleColor.Red, "health potions", ", type \"potion\", \"p\", or \"use potion\". ", ConsoleColor.Red, "Health potions", " will heal ", ConsoleColor.Red, "50%", " of your ", ConsoleColor.Red, "maximum health", " and can only be used when you are asked in which direction you wish to travel", ConsoleColor.Cyan);
-                                    everUsedHealthPotion = true;
+                                    game.EverUsedHealthPotion = true;
                                 }
                                 break;
                             }
@@ -1487,7 +1476,7 @@ namespace Adventure_Game.src.ui {
                                 Console.WriteLine("You exit " + shopkeeperName + "'s shop");
                                 break;
                             }
-                            else if (baseStrengthStock == 0 || healthPotionStock == 0 || maxHealthStock == 0) {
+                            else if (game.BaseStrengthStock == 0 || game.HealthPotionStock == 0 || game.MaxHealthStock == 0) {
                                 ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "I don't sell that, maybe try coming back in a few days?", "\"");
                             }
                             else ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "That is not an option, please look at what I have for sale", "\"");
