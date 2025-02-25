@@ -10,7 +10,6 @@ namespace Adventure_Game.src.model {
     /// a variable to store whether or not the name is plural.
     /// </summary>
     class Weapon {
-        public static Weapon FISTS = new Weapon("fists", 0, 0, true);
         public string Name { get; }
         public double Strength { get; }
         public int Value { get; }

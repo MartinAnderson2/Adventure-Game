@@ -27,26 +27,45 @@ namespace Adventure_Game.src.model {
         public uint Rotation { get; set; }
 
         /// <summary>
-        /// Create a new Player at (0, 0) with no gold, 20 maximum health, no health potions, a base strength of 1, facing North.
+        /// Create a new Player with a name, class, and subclass, with full health and maximum health set to the
+        /// default, no health potions, 1 base strength, no weapon, no gold, and stood at (0, 0), facing North.
         /// </summary>
-        /// <param name="weaponValue">The value (in gold) of the player's current weapon</param>
-        /// <param name="weaponStrength">The strength of the player's current weapon</param>
-        /// <param name="weaponName">The name of the player's current weapon</param>
-        /// <param name="weaponPlural">Is the name of the player's current weapon is plural</param>
-        /// <param name="startingHealth">The starting health of the player</param>
-        public Player(Weapon weapon, double startingHealth, string characterName, string characterClass, string characterType) {
-            this.XPos = 0;
-            this.YPos = 0;
-            this.Gold = 0;
-            this.HeldWeapon = weapon;
-            this.MaxHealth = 20;
+        /// <param name="name">The player's name.</param>
+        /// <param name="class">The name of the player's class.</param>
+        /// <param name="classValue">An integer representing the player's class.</param>
+        /// <param name="subclass">The name of the player's subclass.</param>
+        /// <param name="subclassValue">An integer representing the player's subclass.</param>
+        public Player(string name, string @class, int classValue, string subclass, int subclassValue) {
+            this.Name = name;
+            this.Class = @class;
+            this.ClassValue = classValue;
+            this.Subclass = subclass;
+            this.SubclassValue = subclassValue;
+            this.Health = GameState.STARTING_MAX_HEALTH;
+            this.MaxHealth = GameState.STARTING_MAX_HEALTH;
             this.NumHealthPotions = 0;
             this.BaseStrength = 1;
-            this.Health = startingHealth;
+            this.HeldWeapon = GameState.FISTS;
+            this.Gold = 0;
+            this.XPos = 0;
+            this.YPos = 0;
             this.Rotation = 1;
-            this.Name = characterName;
-            this.Class = characterClass;
-            this.Subclass = characterType;
+        }
+
+        /// <summary>
+        /// Reset the player's health and maximum health to the starting maximum, number of health potions to 0, base
+        /// strength to 1, currently held weapon to nothing, gold to 0, position to (0, 0), and make them face North.
+        /// </summary>
+        public void ResetState() {
+            this.Health = GameState.STARTING_MAX_HEALTH;
+            this.MaxHealth = GameState.STARTING_MAX_HEALTH;
+            this.NumHealthPotions = 0;
+            this.BaseStrength = 1;
+            this.HeldWeapon = GameState.FISTS;
+            this.Gold = 0;
+            this.XPos = 0;
+            this.YPos = 0;
+            this.Rotation = 1;
         }
     }
 }

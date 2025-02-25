@@ -12,10 +12,13 @@ namespace Adventure_Game.src.ui {
     /// Represents an application that allows users to play in a fantasy-based world through text.
     /// </summary>
     class AdventureGameApp {
-        Player player;
         GameState game;
+        Player player;
         Random random;
 
+        /// <summary>
+        /// Begin running the Adventure Game and restart until the user decides to quit.
+        /// </summary>
         public AdventureGameApp() {
             while (true) {
                 InitializeVariables();
@@ -34,10 +37,13 @@ namespace Adventure_Game.src.ui {
             }
         }
 
+        /// <summary>
+        /// Set the fields' initial values. Specifically, set up the game state, store a reference to the player, and
+        /// prepare the random number generator.
+        /// </summary>
         private void InitializeVariables() {
-            player = new Player(Weapon.FISTS, 20, "", "", "");
-
             game = new GameState();
+            player = game.GamePlayer;
 
             random = new Random();
         }
@@ -46,7 +52,7 @@ namespace Adventure_Game.src.ui {
         /// Ask the user which difficulty they would like to play on and set the value of <c>difficulty</c> accordingly.
         /// </summary>
         /// <remarks>
-        /// Change the value of <c>difficulty</c> from not-assigned to the value appropriate for the difficulty selected by the user. For easy, that is 0.5, normal is 0.75, and hard is 1.
+        /// Changes the value of <c>difficulty</c> from not-assigned to the value appropriate for the difficulty selected by the user. For easy, that is 0.5, normal is 0.75, and hard is 1.
         /// </remarks>
         private void ChooseDifficulty() {
             while (true) {
@@ -56,17 +62,17 @@ namespace Adventure_Game.src.ui {
                 if (input is null) continue;
 
                 if (input.ToLower() == "easy" || input.ToLower() == "e") {
-                    game.Difficulty = 0.5;
+                    game.GameDifficulty = GameState.Difficulty.Easy;
                     Console.WriteLine("Easy difficulty selected!");
                     break;
                 }
                 else if (input.ToLower() == "normal" || input.ToLower() == "n") {
-                    game.Difficulty = 0.75;
+                    game.GameDifficulty = GameState.Difficulty.Normal;
                     Console.WriteLine("Normal difficulty selected!");
                     break;
                 }
                 else if (input.ToLower() == "hard" || input.ToLower() == "h") {
-                    game.Difficulty = 1;
+                    game.GameDifficulty = GameState.Difficulty.Hard;
                     Console.WriteLine("Hard difficulty selected!");
                     break;
                 }
@@ -76,11 +82,14 @@ namespace Adventure_Game.src.ui {
             }
         }
 
+        /// <summary>
+        /// Ask the user to name their character and to decide the character's class and subclass.
+        /// </summary>
         private void CreateCharacter() {
             Console.WriteLine("Please input your character's name");
             player.Name = Console.ReadLine();
             while (true) {
-                //Quick default character creator for testing purposes
+                // Quick default character creator for testing purposes
                 // TODO: Remove when done
                 if (player.Name == "Me") {
                     player.Class = "fighter";
@@ -250,12 +259,14 @@ namespace Adventure_Game.src.ui {
             }
         }
 
+        /// <summary>
+        /// A tutorial that explains the game. Let the user skip the tutorial at any time, otherwise run them through
+        /// sneaking away from enemies, finding new weapons, and fighting enemies.
+        /// </summary>
         private void Tutorial() {
             void Skip() {
                 Console.WriteLine("Tutorial has successfully been skipped");
-                if (player.Gold == 0) {
-                    player.Gold = 1;
-                }
+                player.ResetState();
             }
             Console.WriteLine();
             ConsolePrinter.WriteLineColouredText(ConsoleColor.White, "Tutorial");
@@ -382,10 +393,14 @@ namespace Adventure_Game.src.ui {
                 player.Gold++;
                 ConsolePrinter.CreateTwoMiddlesText("You got ", ConsoleColor.DarkYellow, "1 gold", ", bringing you up to ", ConsoleColor.DarkYellow, player.Gold + " gold");
                 ConsolePrinter.WriteLineColouredText(ConsoleColor.White, "Congratulations on completing the tutorial! Good luck on your adventures");
+                player.ResetState();
                 break;
             }
         }
 
+        /// <summary>
+        /// Randomly decide which type of forest the player is adventuring in. This has no impact on gameplay.
+        /// </summary>
         private void IntroduceForest() {
             int forestType = random.Next(10); // 0-9
             switch (forestType) {
@@ -425,6 +440,10 @@ namespace Adventure_Game.src.ui {
             }
         }
 
+        /// <summary>
+        /// Run the actual game now that the player's name, class, and subclass are set. First move the player in the
+        /// direction of their choice then run the appropriate interaction. Repeat until the player dies.
+        /// </summary>
         private void PlayGame() {
             while (true) {
                 Move();
@@ -437,7 +456,7 @@ namespace Adventure_Game.src.ui {
                 double monsterStrength, monsterHealth;
                 bool seen = false, awake = true, playerFirstHit = true;
                 void Monsters() {
-                    monsterPowerLevel = random.Next(Convert.ToInt32((player.BaseStrength + player.HeldWeapon.Strength) * player.MaxHealth * game.Difficulty));
+                    monsterPowerLevel = random.Next(Convert.ToInt32((player.BaseStrength + player.HeldWeapon.Strength) * player.MaxHealth * game.GetDifficultyMultiplier()));
                     if (monsterPowerLevel > 1250000) {
                         monster = "queen dragon";
                         monsterHealth = 5000;
@@ -1679,6 +1698,10 @@ namespace Adventure_Game.src.ui {
             }
         }
 
+        /// <summary>
+        /// Determine which directions the player is able to move in then provide them with those options and move them
+        /// in the direction of their choice.
+        /// </summary>
         private void Move() {
             bool straight, right, left;
             if ((player.Rotation == 1 && player.YPos > 2) || (player.Rotation == 2 && player.XPos > 2) || (player.Rotation == 3 && player.YPos < -2) || (player.Rotation == 4 && player.XPos < -2)) {
