@@ -10,10 +10,10 @@ namespace Adventure_Game.src.model {
         public int YPos { get; set; }
         public int Gold { get; set; }
         public int WeaponValue { get; set; }
-        public int CharacterClassValue { get; set; }
-        public int CharacterTypeValue { get; set; }
+        public int ClassValue { get; set; }
+        public int TypeValue { get; set; }
         public int MaxHealth { get; set; }
-        public int HealthPotionsOwned { get; set; }
+        public int NumHealthPotions { get; set; }
         public double BaseStrength { get; set; }
         public double WeaponStrength { get; set; }
         public double Health { get; set; }
@@ -21,8 +21,8 @@ namespace Adventure_Game.src.model {
         public string WeaponName { get; set; }
         public bool WeaponPlural { get; set; }
         public string Name { get; set; }
-        public string CharacterClass { get; set; }
-        public string CharacterType { get; set; }
+        public string Class { get; set; }
+        public string Subclass { get; set; }
 
         /// <summary>
         /// Create a new Player at (0, 0) with no gold, 20 maximum health, no health potions, a base strength of 1, facing North.
@@ -38,7 +38,7 @@ namespace Adventure_Game.src.model {
             this.Gold = 0;
             this.WeaponValue = weaponValue;
             this.MaxHealth = 20;
-            this.HealthPotionsOwned = 0;
+            this.NumHealthPotions = 0;
             this.BaseStrength = 1;
             this.WeaponStrength = weaponStrength;
             this.Health = startingHealth;
@@ -46,8 +46,8 @@ namespace Adventure_Game.src.model {
             this.WeaponName = weaponName;
             this.WeaponPlural = weaponPlural;
             this.Name = characterName;
-            this.CharacterClass = characterClass;
-            this.CharacterType = characterType;
+            this.Class = characterClass;
+            this.Subclass = characterType;
         }
     }
 }
