@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -1046,7 +1047,7 @@ namespace Adventure_Game.src.ui {
                                 break;
                         }
                     }
-                    else Environment.Exit(2);
+                    else Debug.Fail("Random number generator produced unexpected output");
                     double newWeaponStrength = (newWeaponLevel + 2); //Creates the base damage of the weapon before adding class and type buffs or debuffs
                     if ((newWeaponClass == player.ClassValue) && (newWeaponType == (player.SubclassValue + 1))) //Check if both the class and type match (effectively just checking the type matches)
                     {
@@ -1817,7 +1818,7 @@ namespace Adventure_Game.src.ui {
                                 player.XPos--;
                                 break;
                             default:
-                                System.Environment.Exit(1);
+                                Debug.Fail("Direction was not one of 1, 2, 3, or 4");
                                 break;
                         }
                         break;
@@ -1846,7 +1847,7 @@ namespace Adventure_Game.src.ui {
                                 player.Rotation = 3;
                                 break;
                             default:
-                                System.Environment.Exit(1);
+                                Debug.Fail("Direction was not one of 1, 2, 3, or 4");
                                 break;
                         }
                         break;
@@ -1875,7 +1876,7 @@ namespace Adventure_Game.src.ui {
                                 player.Rotation = 1;
                                 break;
                             default:
-                                System.Environment.Exit(1);
+                                Debug.Fail("Direction was not one of 1, 2, 3, or 4");
                                 break;
                         }
                         break;
