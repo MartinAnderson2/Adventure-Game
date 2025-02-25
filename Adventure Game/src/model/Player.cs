@@ -5,21 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Adventure_Game.src.model {
+    /// <summary>
+    /// Represents a player with a name, class, and subclass, with some amount of health, with a maximum amount of
+    /// health they can heal to, some number of health potions, a base strength without weapons, a weapon they are
+    /// using, and a certain amount of gold, who is at a certain location facing a certain direction.
+    /// </summary>
     class Player {
-        public int XPos { get; set; }
-        public int YPos { get; set; }
-        public int Gold { get; set; }
-        public Weapon HeldWeapon { get; set; }
+        public string Name { get; set; }
+        public string Class { get; set; }
         public int ClassValue { get; set; }
-        public int TypeValue { get; set; }
+        public string Subclass { get; set; }
+        public int SubclassValue { get; set; }
+        public double Health { get; set; }
         public int MaxHealth { get; set; }
         public int NumHealthPotions { get; set; }
         public double BaseStrength { get; set; }
-        public double Health { get; set; }
+        public Weapon HeldWeapon { get; set; }
+        public int Gold { get; set; }
+        public int XPos { get; set; }
+        public int YPos { get; set; }
         public uint Rotation { get; set; }
-        public string Name { get; set; }
-        public string Class { get; set; }
-        public string Subclass { get; set; }
 
         /// <summary>
         /// Create a new Player at (0, 0) with no gold, 20 maximum health, no health potions, a base strength of 1, facing North.

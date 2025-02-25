@@ -8,15 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Adventure_Game.src.ui {
-    // Represents an application that allows users to play in a fantasy-based world through text.
+    /// <summary>
+    /// Represents an application that allows users to play in a fantasy-based world through text.
+    /// </summary>
     class AdventureGameApp {
         Player player;
-        private int healthPotionStock;
-        private int baseStrengthStock;
-        private int maxHealthStock;
         private double difficulty;
         private uint daysPlayed;
         private uint dateLastShopped;
+        private int healthPotionStock;
+        private int baseStrengthStock;
+        private int maxHealthStock;
         private bool everUsedHealthPotion;
         Random random;
 
@@ -95,7 +97,7 @@ namespace Adventure_Game.src.ui {
                     player.Class = "fighter";
                     player.ClassValue = 0;
                     player.Subclass = "barbarian";
-                    player.TypeValue = 0;
+                    player.SubclassValue = 0;
                     break;
                 }
                 Console.WriteLine("Is " + player.Name + " going to be a fighter, magician, rogue, cleric, or ranger?");
@@ -112,19 +114,19 @@ namespace Adventure_Game.src.ui {
                         if (player.Subclass.ToLower() == "barbarian" || player.Subclass.ToLower() == "barb" || player.Subclass.ToLower() == "b") {
                             Console.WriteLine(player.Name + " is now a barbarian");
                             player.Subclass = "barbarian";
-                            player.TypeValue = 0;
+                            player.SubclassValue = 0;
                             break;
                         }
                         else if (player.Subclass.ToLower() == "knight" || player.Subclass.ToLower() == "k") {
                             Console.WriteLine(player.Name + " is now a knight");
                             player.Subclass = "knight";
-                            player.TypeValue = 1;
+                            player.SubclassValue = 1;
                             break;
                         }
                         else if (player.Subclass.ToLower() == "samurai" || player.Subclass.ToLower() == "s") {
                             Console.WriteLine(player.Name + " is now a samurai");
                             player.Subclass = "samurai";
-                            player.TypeValue = 2;
+                            player.SubclassValue = 2;
                             break;
                         }
                         else Console.WriteLine("That is not an option, please choose an option from the list and try again");
@@ -143,19 +145,19 @@ namespace Adventure_Game.src.ui {
                         if (player.Subclass.ToLower() == "nature" || player.Subclass.ToLower() == "n") {
                             Console.WriteLine(player.Name + " is now a nature magician");
                             player.Subclass = "nature";
-                            player.TypeValue = 0;
+                            player.SubclassValue = 0;
                             break;
                         }
                         else if (player.Subclass.ToLower() == "elemental" || player.Subclass.ToLower() == "element" || player.Subclass.ToLower() == "e") {
                             Console.WriteLine(player.Name + " is now an elemental magician");
                             player.Subclass = "elemental";
-                            player.TypeValue = 1;
+                            player.SubclassValue = 1;
                             break;
                         }
                         else if (player.Subclass.ToLower() == "illusionist" || player.Subclass.ToLower() == "illusion" || player.Subclass.ToLower() == "i") {
                             Console.WriteLine(player.Name + " is now an illusionist magician");
                             player.Subclass = "illusionist";
-                            player.TypeValue = 2;
+                            player.SubclassValue = 2;
                             break;
                         }
                         else Console.WriteLine("That is not an option, please choose an option from the list and try again");
@@ -174,19 +176,19 @@ namespace Adventure_Game.src.ui {
                         if (player.Subclass.ToLower() == "thief" || player.Subclass.ToLower() == "thief" || player.Subclass.ToLower() == "stealer" || player.Subclass.ToLower() == "t") {
                             Console.WriteLine(player.Name + " is now a thief");
                             player.Subclass = "thief";
-                            player.TypeValue = 0;
+                            player.SubclassValue = 0;
                             break;
                         }
                         else if (player.Subclass.ToLower() == "pirate" || player.Subclass.ToLower() == "p") {
                             Console.WriteLine(player.Name + " is now a pirate");
                             player.Subclass = "pirate";
-                            player.TypeValue = 1;
+                            player.SubclassValue = 1;
                             break;
                         }
                         else if (player.Subclass.ToLower() == "ninja" || player.Subclass.ToLower() == "n") {
                             Console.WriteLine(player.Name + " is now a ninja");
                             player.Subclass = "ninja";
-                            player.TypeValue = 2;
+                            player.SubclassValue = 2;
                             break;
                         }
                         else Console.WriteLine("That is not an option, please choose an option from the list and try again");
@@ -205,19 +207,19 @@ namespace Adventure_Game.src.ui {
                         if (player.Subclass.ToLower() == "priest" || player.Subclass.ToLower() == "p") {
                             Console.WriteLine(player.Name + " is now a preist");
                             player.Subclass = "priest";
-                            player.TypeValue = 0;
+                            player.SubclassValue = 0;
                             break;
                         }
                         else if (player.Subclass.ToLower() == "healer" || player.Subclass.ToLower() == "heal" || player.Subclass.ToLower() == "h") {
                             Console.WriteLine(player.Name + " is now a healer");
                             player.Subclass = "healer";
-                            player.TypeValue = 1;
+                            player.SubclassValue = 1;
                             break;
                         }
                         else if (player.Subclass.ToLower() == "templar" || player.Subclass.ToLower() == "templ" || player.Subclass.ToLower() == "t") {
                             Console.WriteLine(player.Name + " is now a templar");
                             player.Subclass = "templar";
-                            player.TypeValue = 2;
+                            player.SubclassValue = 2;
                             break;
                         }
                         else Console.WriteLine("That is not an option, please choose an option from the list and try again");
@@ -236,19 +238,19 @@ namespace Adventure_Game.src.ui {
                         if (player.Subclass.ToLower() == "sniper" || player.Subclass.ToLower() == "snipe" || player.Subclass.ToLower() == "sn") {
                             Console.WriteLine(player.Name + " is now a sniper");
                             player.Subclass = "sniper";
-                            player.TypeValue = 0;
+                            player.SubclassValue = 0;
                             break;
                         }
                         else if (player.Subclass.ToLower() == "scout" || player.Subclass.ToLower() == "sc") {
                             Console.WriteLine(player.Name + " is now a scout");
                             player.Subclass = "scout";
-                            player.TypeValue = 1;
+                            player.SubclassValue = 1;
                             break;
                         }
                         else if (player.Subclass.ToLower() == "forester" || player.Subclass.ToLower() == "forest" || player.Subclass.ToLower() == "f") {
                             Console.WriteLine(player.Name + " is now a forester");
                             player.Subclass = "forester";
-                            player.TypeValue = 2;
+                            player.SubclassValue = 2;
                             break;
                         }
                         else Console.WriteLine("That is not an option, please choose an option from the list and try again");
@@ -969,7 +971,7 @@ namespace Adventure_Game.src.ui {
                     }
                     else Environment.Exit(2);
                     double newWeaponStrength = (newWeaponLevel + 2); //Creates the base damage of the weapon before adding class and type buffs or debuffs
-                    if ((newWeaponClass == player.ClassValue) && (newWeaponType == (player.TypeValue + 1))) //Check if both the class and type match (effectively just checking the type matches)
+                    if ((newWeaponClass == player.ClassValue) && (newWeaponType == (player.SubclassValue + 1))) //Check if both the class and type match (effectively just checking the type matches)
                     {
                         newWeaponStrength *= 1.5;
                     }

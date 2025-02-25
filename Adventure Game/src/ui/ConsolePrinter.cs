@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Adventure_Game.src.ui {
+    /// <summary>
+    /// Contains various static methods to make common console printing tasks easier.
+    /// </summary>
     static class ConsolePrinter {
         /// <summary>
         /// Write <paramref name="text"/> to the current line in the specified colour.

@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Adventure_Game.src.ui {
-    // Starts the application
+    /// <summary>
+    /// Starts the application.
+    /// </summary>
     class Program {
         static void Main(string[] args) {
             new AdventureGameApp();
