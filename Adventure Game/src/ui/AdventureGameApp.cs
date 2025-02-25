@@ -53,11 +53,8 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Ask the user which difficulty they would like to play on and set the value of <c>difficulty</c> accordingly.
+        /// Ask the user which difficulty they would like to play on and sets it accordingly.
         /// </summary>
-        /// <remarks>
-        /// Changes the value of <c>difficulty</c> from not-assigned to the value appropriate for the difficulty selected by the user. For easy, that is 0.5, normal is 0.75, and hard is 1.
-        /// </remarks>
         private void ChooseDifficulty() {
             while (true) {
                 Console.WriteLine("Would you like to play in easy, normal, or hard difficulty?");
