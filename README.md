@@ -26,8 +26,3 @@ It is meant to be a fun fantasy experience loosely inspired by the D&D world.
  - As you improve your player's strength and health, the enemies you encounter will become stronger.
  - The game ends when your character dies.
  - Once your character dies, type `yes` to quit the game or `no` to restart it and play with a new character.
-
-## Exit Codes
- - 0 : Program exited normally
- - 1 : Internal variable somehow set to invalid value (Rotation was not 1-4)
- - 2 : Random number generator issue (Random Number Generator Generated an unexpected number)
