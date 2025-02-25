@@ -75,6 +75,10 @@ namespace Adventure_Game.src.model {
             this.EverUsedHealthPotion = false;
         }
 
+        /// <summary>
+        /// Return the difficulty multiplier appropriate for the selected difficulty.
+        /// </summary>
+        /// <returns>0.5 if the difficulty is set to easy, 0.75 if it is set to normal, and 1 if it is set to hard.</returns>
         public double GetDifficultyMultiplier() {
             switch(GameDifficulty) {
                 case Difficulty.Easy:
