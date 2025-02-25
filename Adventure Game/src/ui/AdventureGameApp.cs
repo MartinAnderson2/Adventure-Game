@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Adventure_Game.src.model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -8,32 +9,16 @@ using System.Threading.Tasks;
 namespace Adventure_Game.src.ui {
     // Represents an application that allows users to play in a fantasy-based world through text.
     class AdventureGameApp {
-        private int x;
-        private int y;
-        private int gold;
-        private int weaponValue;
-        private int characterClassValue;
-        private int characterTypeValue;
-        private int maxHealth;
+        Player player;
         private int healthPotionStock;
         private int baseStrengthStock;
         private int maxHealthStock;
-        private int healthPotionsOwned;
-        private double baseStrength;
-        private double weaponStrength;
-        private double health;
         private double difficulty;
-        private uint rotation;
-        private uint age;
-        private uint ageLastShopped;
-        private string weapon;
-        private string characterName;
-        private string characterClass;
-        private string characterType;
-        private bool weaponPlural;
-        private bool firstHealthPotion;
+        private uint daysPlayed;
+        private uint dateLastShopped;
+        private bool everUsedHealthPotion;
         private bool tutorialSkipped;
-        Random randomNumber;
+        Random random;
 
         public AdventureGameApp() {
             while (true) {
@@ -52,32 +37,23 @@ namespace Adventure_Game.src.ui {
         }
 
         private void InitializeVariables() {
-            x = 0;
-            y = 0;
-            gold = 0;
-            weaponValue = 3;
-            maxHealth = 20;
+            player = new Player(3, 0, "fists", false, 20, "", "", "");
             healthPotionStock = 0;
             baseStrengthStock = 0;
             maxHealthStock = 0;
-            healthPotionsOwned = 0;
-            baseStrength = 1;
-            weaponStrength = 0;
-            health = 20;
-            rotation = 1; age = 0; ageLastShopped = 0;
-            weapon = "fists";
-            weaponPlural = false;
-            firstHealthPotion = true;
+            daysPlayed = 0;
+            dateLastShopped = 0;
+            everUsedHealthPotion = false;
             tutorialSkipped = false;
 
-            randomNumber = new Random();
+            random = new Random();
         }
 
         /// <summary>
-        /// Asks the user which difficulty they would like to play on and sets the value of <c>difficulty</c> accordingly.
+        /// Ask the user which difficulty they would like to play on and set the value of <c>difficulty</c> accordingly.
         /// </summary>
         /// <remarks>
-        /// Changes the value of <c>difficulty</c> from not-assigned to the value appropriate for the difficulty selected by the user. For easy, that is 0.5, normal is 0.75, and hard is 1.
+        /// Change the value of <c>difficulty</c> from not-assigned to the value appropriate for the difficulty selected by the user. For easy, that is 0.5, normal is 0.75, and hard is 1.
         /// </remarks>
         private void ChooseDifficulty() {
             while (true) {
@@ -109,162 +85,162 @@ namespace Adventure_Game.src.ui {
 
         private void CreateCharacter() {
             Console.WriteLine("Please input your character's name");
-            characterName = Console.ReadLine();
+            player.Name = Console.ReadLine();
             while (true) {
                 //Quick default character creator for testing purposes
-                if (characterName == "Me") {
-                    characterClass = "fighter";
-                    characterClassValue = 0;
-                    characterType = "barbarian";
-                    characterTypeValue = 0;
+                if (player.Name == "Me") {
+                    player.CharacterClass = "fighter";
+                    player.CharacterClassValue = 0;
+                    player.CharacterType = "barbarian";
+                    player.CharacterTypeValue = 0;
                     break;
                 }
-                Console.WriteLine("Is " + characterName + " going to be a fighter, magician, rogue, cleric, or ranger?");
-                characterClass = Console.ReadLine();
-                if (characterClass.ToLower().Contains("fighter") || characterClass.ToLower() == "f") {
+                Console.WriteLine("Is " + player.Name + " going to be a fighter, magician, rogue, cleric, or ranger?");
+                player.CharacterClass = Console.ReadLine();
+                if (player.CharacterClass.ToLower().Contains("fighter") || player.CharacterClass.ToLower() == "f") {
                     Console.WriteLine("You chose fighter");
-                    characterClass = "fighter";
-                    characterClassValue = 0;
-                    weapon = "stick";
+                    player.CharacterClass = "fighter";
+                    player.CharacterClassValue = 0;
+                    player.WeaponName = "stick";
                     while (true) {
-                        Console.WriteLine("Is " + characterName + " going to be a barbarian, knight, or samurai?");
-                        characterType = Console.ReadLine();
-                        if (characterType.ToLower().Contains("barb") || characterType.ToLower() == "b") {
-                            Console.WriteLine(characterName + " is now a barbarian");
-                            characterType = "barbarian";
-                            characterTypeValue = 0;
+                        Console.WriteLine("Is " + player.Name + " going to be a barbarian, knight, or samurai?");
+                        player.CharacterType = Console.ReadLine();
+                        if (player.CharacterType.ToLower().Contains("barb") || player.CharacterType.ToLower() == "b") {
+                            Console.WriteLine(player.Name + " is now a barbarian");
+                            player.CharacterType = "barbarian";
+                            player.CharacterTypeValue = 0;
                             break;
                         }
-                        else if (characterType.ToLower().Contains("knight") || characterType.ToLower() == "k") {
-                            Console.WriteLine(characterName + " is now a knight");
-                            characterType = "knight";
-                            characterTypeValue = 1;
+                        else if (player.CharacterType.ToLower().Contains("knight") || player.CharacterType.ToLower() == "k") {
+                            Console.WriteLine(player.Name + " is now a knight");
+                            player.CharacterType = "knight";
+                            player.CharacterTypeValue = 1;
                             break;
                         }
-                        else if (characterType.ToLower().Contains("samurai") || characterType.ToLower() == "s") {
-                            Console.WriteLine(characterName + " is now a samurai");
-                            characterType = "samurai";
-                            characterTypeValue = 2;
+                        else if (player.CharacterType.ToLower().Contains("samurai") || player.CharacterType.ToLower() == "s") {
+                            Console.WriteLine(player.Name + " is now a samurai");
+                            player.CharacterType = "samurai";
+                            player.CharacterTypeValue = 2;
                             break;
                         }
                         else Console.WriteLine("That is not an option, please choose an option from the list and try again");
                     }
                     break;
                 }
-                else if (characterClass.ToLower().Contains("magic") || characterClass.ToLower() == "m") {
+                else if (player.CharacterClass.ToLower().Contains("magic") || player.CharacterClass.ToLower() == "m") {
                     Console.WriteLine("You chose magician");
-                    characterClass = "magician";
-                    characterClassValue = 1;
-                    weapon = "slightly magical stick";
+                    player.CharacterClass = "magician";
+                    player.CharacterClassValue = 1;
+                    player.WeaponName = "slightly magical stick";
                     while (true) {
-                        Console.WriteLine("Is " + characterName + " going to be a nature, elemental, or illusionist magician?");
-                        characterType = Console.ReadLine();
-                        if (characterType.ToLower().Contains("nature") || characterType.ToLower() == "n") {
-                            Console.WriteLine(characterName + " is now a nature magician");
-                            characterType = "nature";
-                            characterTypeValue = 0;
+                        Console.WriteLine("Is " + player.Name + " going to be a nature, elemental, or illusionist magician?");
+                        player.CharacterType = Console.ReadLine();
+                        if (player.CharacterType.ToLower().Contains("nature") || player.CharacterType.ToLower() == "n") {
+                            Console.WriteLine(player.Name + " is now a nature magician");
+                            player.CharacterType = "nature";
+                            player.CharacterTypeValue = 0;
                             break;
                         }
-                        else if (characterType.ToLower().Contains("element") || characterType.ToLower() == "e") {
-                            Console.WriteLine(characterName + " is now an elemental magician");
-                            characterType = "elemental";
-                            characterTypeValue = 1;
+                        else if (player.CharacterType.ToLower().Contains("element") || player.CharacterType.ToLower() == "e") {
+                            Console.WriteLine(player.Name + " is now an elemental magician");
+                            player.CharacterType = "elemental";
+                            player.CharacterTypeValue = 1;
                             break;
                         }
-                        else if (characterType.ToLower().Contains("illusion") || characterType.ToLower() == "i") {
-                            Console.WriteLine(characterName + " is now an illusionist magician");
-                            characterType = "illusionist";
-                            characterTypeValue = 2;
+                        else if (player.CharacterType.ToLower().Contains("illusion") || player.CharacterType.ToLower() == "i") {
+                            Console.WriteLine(player.Name + " is now an illusionist magician");
+                            player.CharacterType = "illusionist";
+                            player.CharacterTypeValue = 2;
                             break;
                         }
                         else Console.WriteLine("That is not an option, please choose an option from the list and try again");
                     }
                     break;
                 }
-                else if (characterClass.ToLower().Contains("rog") || characterClass.ToLower() == "ro") {
+                else if (player.CharacterClass.ToLower().Contains("rog") || player.CharacterClass.ToLower() == "ro") {
                     Console.WriteLine("You chose rogue");
-                    characterClass = "rogue";
-                    characterClassValue = 2;
-                    weapon = "long stick";
+                    player.CharacterClass = "rogue";
+                    player.CharacterClassValue = 2;
+                    player.WeaponName = "long stick";
                     while (true) {
-                        Console.WriteLine("Is " + characterName + " going to be a thief, pirate, or ninja?");
-                        characterType = Console.ReadLine();
-                        if (characterType.ToLower().Contains("thief") || characterType.ToLower().Contains("theif") || characterType.ToLower().Contains("stealer") || characterType.ToLower() == "t") {
-                            Console.WriteLine(characterName + " is now a thief");
-                            characterType = "thief";
-                            characterTypeValue = 0;
+                        Console.WriteLine("Is " + player.Name + " going to be a thief, pirate, or ninja?");
+                        player.CharacterType = Console.ReadLine();
+                        if (player.CharacterType.ToLower().Contains("thief") || player.CharacterType.ToLower().Contains("theif") || player.CharacterType.ToLower().Contains("stealer") || player.CharacterType.ToLower() == "t") {
+                            Console.WriteLine(player.Name + " is now a thief");
+                            player.CharacterType = "thief";
+                            player.CharacterTypeValue = 0;
                             break;
                         }
-                        else if (characterType.ToLower().Contains("pirate") || characterType.ToLower() == "p") {
-                            Console.WriteLine(characterName + " is now a pirate");
-                            characterType = "pirate";
-                            characterTypeValue = 1;
+                        else if (player.CharacterType.ToLower().Contains("pirate") || player.CharacterType.ToLower() == "p") {
+                            Console.WriteLine(player.Name + " is now a pirate");
+                            player.CharacterType = "pirate";
+                            player.CharacterTypeValue = 1;
                             break;
                         }
-                        else if (characterType.ToLower().Contains("ninja") || characterType.ToLower() == "n") {
-                            Console.WriteLine(characterName + " is now a ninja");
-                            characterType = "ninja";
-                            characterTypeValue = 2;
+                        else if (player.CharacterType.ToLower().Contains("ninja") || player.CharacterType.ToLower() == "n") {
+                            Console.WriteLine(player.Name + " is now a ninja");
+                            player.CharacterType = "ninja";
+                            player.CharacterTypeValue = 2;
                             break;
                         }
                         else Console.WriteLine("That is not an option, please choose an option from the list and try again");
                     }
                     break;
                 }
-                else if (characterClass.ToLower().Contains("cleric") || characterClass.ToLower() == "c") {
+                else if (player.CharacterClass.ToLower().Contains("cleric") || player.CharacterClass.ToLower() == "c") {
                     Console.WriteLine("You chose cleric");
-                    characterClass = "cleric";
-                    characterClassValue = 3;
-                    weapon = "worn book";
+                    player.CharacterClass = "cleric";
+                    player.CharacterClassValue = 3;
+                    player.WeaponName = "worn book";
                     while (true) {
-                        Console.WriteLine("Is " + characterName + " going to be a priest, healer, or templar?");
-                        characterType = Console.ReadLine();
-                        if (characterType.ToLower().Contains("priest") || characterType.ToLower() == "p") {
-                            Console.WriteLine(characterName + " is now a preist");
-                            characterType = "priest";
-                            characterTypeValue = 0;
+                        Console.WriteLine("Is " + player.Name + " going to be a priest, healer, or templar?");
+                        player.CharacterType = Console.ReadLine();
+                        if (player.CharacterType.ToLower().Contains("priest") || player.CharacterType.ToLower() == "p") {
+                            Console.WriteLine(player.Name + " is now a preist");
+                            player.CharacterType = "priest";
+                            player.CharacterTypeValue = 0;
                             break;
                         }
-                        else if (characterType.ToLower().Contains("heal") || characterType.ToLower() == "h") {
-                            Console.WriteLine(characterName + " is now a healer");
-                            characterType = "healer";
-                            characterTypeValue = 1;
+                        else if (player.CharacterType.ToLower().Contains("heal") || player.CharacterType.ToLower() == "h") {
+                            Console.WriteLine(player.Name + " is now a healer");
+                            player.CharacterType = "healer";
+                            player.CharacterTypeValue = 1;
                             break;
                         }
-                        else if (characterType.ToLower().Contains("templ") || characterType.ToLower() == "t") {
-                            Console.WriteLine(characterName + " is now a templar");
-                            characterType = "templar";
-                            characterTypeValue = 2;
+                        else if (player.CharacterType.ToLower().Contains("templ") || player.CharacterType.ToLower() == "t") {
+                            Console.WriteLine(player.Name + " is now a templar");
+                            player.CharacterType = "templar";
+                            player.CharacterTypeValue = 2;
                             break;
                         }
                         else Console.WriteLine("That is not an option, please choose an option from the list and try again");
                     }
                     break;
                 }
-                else if (characterClass.ToLower().Contains("range") || characterClass.ToLower() == "ra") {
+                else if (player.CharacterClass.ToLower().Contains("range") || player.CharacterClass.ToLower() == "ra") {
                     Console.WriteLine("You chose ranger");
-                    characterClass = "ranger";
-                    characterClassValue = 4;
-                    weapon = "wooden knife";
+                    player.CharacterClass = "ranger";
+                    player.CharacterClassValue = 4;
+                    player.WeaponName = "wooden knife";
                     while (true) {
-                        Console.WriteLine("Is " + characterName + " going to be a sniper, scout, or forester?");
-                        characterType = Console.ReadLine();
-                        if (characterType.ToLower().Contains("snipe") || characterType.ToLower() == "sn") {
-                            Console.WriteLine(characterName + " is now a sniper");
-                            characterType = "sniper";
-                            characterTypeValue = 0;
+                        Console.WriteLine("Is " + player.Name + " going to be a sniper, scout, or forester?");
+                        player.CharacterType = Console.ReadLine();
+                        if (player.CharacterType.ToLower().Contains("snipe") || player.CharacterType.ToLower() == "sn") {
+                            Console.WriteLine(player.Name + " is now a sniper");
+                            player.CharacterType = "sniper";
+                            player.CharacterTypeValue = 0;
                             break;
                         }
-                        else if (characterType.ToLower().Contains("scout") || characterType.ToLower() == "sc") {
-                            Console.WriteLine(characterName + " is now a scout");
-                            characterType = "scout";
-                            characterTypeValue = 1;
+                        else if (player.CharacterType.ToLower().Contains("scout") || player.CharacterType.ToLower() == "sc") {
+                            Console.WriteLine(player.Name + " is now a scout");
+                            player.CharacterType = "scout";
+                            player.CharacterTypeValue = 1;
                             break;
                         }
-                        else if (characterType.ToLower().Contains("forest") || characterType.ToLower() == "f") {
-                            Console.WriteLine(characterName + " is now a forester");
-                            characterType = "forester";
-                            characterTypeValue = 2;
+                        else if (player.CharacterType.ToLower().Contains("forest") || player.CharacterType.ToLower() == "f") {
+                            Console.WriteLine(player.Name + " is now a forester");
+                            player.CharacterType = "forester";
+                            player.CharacterTypeValue = 2;
                             break;
                         }
                         else Console.WriteLine("That is not an option, please choose an option from the list and try again");
@@ -307,7 +283,7 @@ namespace Adventure_Game.src.ui {
                         break;
                     }
                     else if (input.ToLower() == "skip") {
-                        (baseStrength, weaponStrength, gold) = Skip(baseStrength, weaponStrength, gold);
+                        (player.BaseStrength, player.WeaponStrength, player.Gold) = Skip(player.BaseStrength, player.WeaponStrength, player.Gold);
                         break;
                     }
                     else Console.WriteLine("That is not an option please look at the options and try again");
@@ -316,7 +292,7 @@ namespace Adventure_Game.src.ui {
                 while (true) {
                     TextPrinter.CreateTwoMiddlesText("You come across a wolf. It has ", ConsoleColor.Red, "30 health", " and ", ConsoleColor.DarkRed, "3 strength");
                     Console.WriteLine("It is sleeping");
-                    TextPrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, health + " health", " and ", ConsoleColor.DarkRed, (weaponStrength + baseStrength) + " strength");
+                    TextPrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, player.Health + " health", " and ", ConsoleColor.DarkRed, (player.WeaponStrength + player.BaseStrength) + " strength");
                     TextPrinter.WriteLineColouredText(ConsoleColor.Cyan, "Since the wolf is significantly stronger than you, you probably will not win the fight. You should try to sneak past it to continue");
                     Console.WriteLine("Would you like to \"fight\" it or try to \"sneak\" past it?");
                     string input = Console.ReadLine();
@@ -330,7 +306,7 @@ namespace Adventure_Game.src.ui {
                         break;
                     }
                     else if (input.ToLower() == "skip") {
-                        (baseStrength, weaponStrength, gold) = Skip(baseStrength, weaponStrength, gold);
+                        (player.BaseStrength, player.WeaponStrength, player.Gold) = Skip(player.BaseStrength, player.WeaponStrength, player.Gold);
                         break;
                     }
                     else Console.WriteLine("That is not an option please look at the options and try again");
@@ -349,7 +325,7 @@ namespace Adventure_Game.src.ui {
                         break;
                     }
                     else if (input.ToLower() == "skip") {
-                        (baseStrength, weaponStrength, gold) = Skip(baseStrength, weaponStrength, gold);
+                        (player.BaseStrength, player.WeaponStrength, player.Gold) = Skip(player.BaseStrength, player.WeaponStrength, player.Gold);
                         break;
                     }
                     else {
@@ -358,9 +334,9 @@ namespace Adventure_Game.src.ui {
                     }
                 }
                 if (tutorialSkipped) break;
-                Console.WriteLine("You find a treasure chest with a " + weapon + " inside!");
-                weaponStrength = 2;
-                TextPrinter.CreateMiddleText("Your " + weapon + " has brought you up to ", ConsoleColor.DarkRed, (weaponStrength + baseStrength) + " strength");
+                Console.WriteLine("You find a treasure chest with a " + player.WeaponName + " inside!");
+                player.WeaponStrength = 2;
+                TextPrinter.CreateMiddleText("Your " + player.WeaponName + " has brought you up to ", ConsoleColor.DarkRed, (player.WeaponStrength + player.BaseStrength) + " strength");
                 while (true) {
                     Console.WriteLine("Would you like to go straight, right, or left?");
                     string input = Console.ReadLine();
@@ -374,7 +350,7 @@ namespace Adventure_Game.src.ui {
                         break;
                     }
                     else if (input.ToLower() == "skip") {
-                        (baseStrength, weaponStrength, gold) = Skip(baseStrength, weaponStrength, gold);
+                        (player.BaseStrength, player.WeaponStrength, player.Gold) = Skip(player.BaseStrength, player.WeaponStrength, player.Gold);
                         break;
                     }
                     else {
@@ -386,7 +362,7 @@ namespace Adventure_Game.src.ui {
                 while (true) {
                     TextPrinter.CreateTwoMiddlesText("You come across a stoneling. It has ", ConsoleColor.Red, "1 health", " and ", ConsoleColor.DarkRed, "1 strength");
                     Console.WriteLine("It is awake and has seen you");
-                    TextPrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, health + " health", " and ", ConsoleColor.DarkRed, (weaponStrength + baseStrength) + " strength");
+                    TextPrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, player.Health + " health", " and ", ConsoleColor.DarkRed, (player.WeaponStrength + player.BaseStrength) + " strength");
                     TextPrinter.WriteLineColouredText(ConsoleColor.Cyan, "Since you are significantly stronger than the stoneling, you will almost certainly win this fight and if you do, you will get loot. Additionally, you are unlikely to sneak past successfully since it has seen you");
                     Console.WriteLine("Would you like to \"fight\" the stoneling or try to \"sneak\" past it?");
                     string input = Console.ReadLine();
@@ -394,23 +370,23 @@ namespace Adventure_Game.src.ui {
                         Console.WriteLine("You try to sneak past, but the stoneling sees you");
                         TextPrinter.WriteLineColouredText(ConsoleColor.Cyan, "I told you that it would not work!");
                         TextPrinter.CreateMiddleText("The stoneling hit you for ", ConsoleColor.DarkRed, "1 damage", ", leaving you with 19 health", ConsoleColor.Red);
-                        health--;
+                        player.Health--;
                         break;
                     }
                     else if (input.ToLower().Contains("fight") || input.ToLower() == "f") {
                         break;
                     }
                     else if (input.ToLower().Contains("skip")) {
-                        (baseStrength, weaponStrength, gold) = Skip(baseStrength, weaponStrength, gold);
+                        (player.BaseStrength, player.WeaponStrength, player.Gold) = Skip(player.BaseStrength, player.WeaponStrength, player.Gold);
                         break;
                     }
                     else Console.WriteLine("That is not an option please look at the options and try again");
                 }
                 if (tutorialSkipped) break;
-                double damageDealt = (randomNumber.NextDouble() * ((weaponStrength + baseStrength) - ((weaponStrength + baseStrength) * 0.8))) + ((weaponStrength + baseStrength) * 0.8);
+                double damageDealt = (random.NextDouble() * ((player.WeaponStrength + player.BaseStrength) - ((player.WeaponStrength + player.BaseStrength) * 0.8))) + ((player.WeaponStrength + player.BaseStrength) * 0.8);
                 TextPrinter.CreateMiddleText("You hit the stoneling for ", ConsoleColor.DarkRed, Math.Round(damageDealt, 2) + " damage", " defeating it", ConsoleColor.Green);
-                gold++;
-                TextPrinter.CreateTwoMiddlesText("You got ", ConsoleColor.DarkYellow, "1 gold", ", bringing you up to ", ConsoleColor.DarkYellow, gold + " gold");
+                player.Gold++;
+                TextPrinter.CreateTwoMiddlesText("You got ", ConsoleColor.DarkYellow, "1 gold", ", bringing you up to ", ConsoleColor.DarkYellow, player.Gold + " gold");
                 TextPrinter.WriteLineColouredText(ConsoleColor.White, "Congratulations on completing the tutorial! Good luck on your adventures");
                 break;
             }
@@ -419,7 +395,7 @@ namespace Adventure_Game.src.ui {
         }
 
         private void IntroduceForest() {
-            int forestType = randomNumber.Next(10); // 0-9
+            int forestType = random.Next(10); // 0-9
             switch (forestType) {
                 case 0:
                     Console.WriteLine("You begin your adventure in the middle of a pine forest");
@@ -461,7 +437,7 @@ namespace Adventure_Game.src.ui {
             while (true) {
                 Move();
 
-                age++;
+                daysPlayed++;
 
                 //Map
                 string monster; //monster is the name of the monster, newWeapon is the weapon that the user just found
@@ -469,7 +445,7 @@ namespace Adventure_Game.src.ui {
                 double monsterStrength, monsterHealth;
                 bool seen = false, awake = true, playerFirstHit = true;
                 void Monsters() {
-                    monsterPowerLevel = randomNumber.Next(Convert.ToInt32((baseStrength + weaponStrength) * maxHealth * difficulty));
+                    monsterPowerLevel = random.Next(Convert.ToInt32((player.BaseStrength + player.WeaponStrength) * player.MaxHealth * difficulty));
                     if (monsterPowerLevel > 1250000) {
                         monster = "queen dragon";
                         monsterHealth = 5000;
@@ -548,8 +524,8 @@ namespace Adventure_Game.src.ui {
                         monsterStrength = 1;
                         monsterType = 0;
                     }
-                    if (randomNumber.Next(0, 4) == 0) awake = false;
-                    else if (randomNumber.Next(0, 4) == 0) seen = true;
+                    if (random.Next(0, 4) == 0) awake = false;
+                    else if (random.Next(0, 4) == 0) seen = true;
                     while (true) {
                         if (monsterType == 2) //The monster is bandits
                         {
@@ -559,7 +535,7 @@ namespace Adventure_Game.src.ui {
                             }
                             else if (awake) Console.WriteLine("They are awake but have not seen you");
                             else Console.WriteLine("They are sleeping");
-                            TextPrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, Math.Round(health, 2) + " health", " and ", ConsoleColor.DarkRed, (weaponStrength + baseStrength) + " strength");
+                            TextPrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, Math.Round(player.Health, 2) + " health", " and ", ConsoleColor.DarkRed, (player.WeaponStrength + player.BaseStrength) + " strength");
                             Console.WriteLine("Would you like to \"fight\" the " + monster + " or try to \"sneak\" past them?");
                         }
                         else if (monsterType == 1 || monsterType == 6) //Monster is an imp or an orc
@@ -570,7 +546,7 @@ namespace Adventure_Game.src.ui {
                             }
                             else if (awake) Console.WriteLine("It is awake but has not seen you");
                             else Console.WriteLine("It is sleeping");
-                            TextPrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, Math.Round(health, 2) + " health", " and ", ConsoleColor.DarkRed, (weaponStrength + baseStrength) + " strength");
+                            TextPrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, Math.Round(player.Health, 2) + " health", " and ", ConsoleColor.DarkRed, (player.WeaponStrength + player.BaseStrength) + " strength");
                             Console.WriteLine("Would you like to \"fight\" the " + monster + " or try to \"sneak\" past it?");
                         }
                         else //Monster name is singular and does not start with a vowel
@@ -581,7 +557,7 @@ namespace Adventure_Game.src.ui {
                             }
                             else if (awake) Console.WriteLine("It is awake but has not seen you");
                             else Console.WriteLine("It is sleeping");
-                            TextPrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, Math.Round(health, 2) + " health", " and ", ConsoleColor.DarkRed, (weaponStrength + baseStrength) + " strength");
+                            TextPrinter.CreateTwoMiddlesText("You have ", ConsoleColor.Red, Math.Round(player.Health, 2) + " health", " and ", ConsoleColor.DarkRed, (player.WeaponStrength + player.BaseStrength) + " strength");
                             Console.WriteLine("Would you like to \"fight\" the " + monster + " or try to \"sneak\" past it?");
                         }
                         string input = Console.ReadLine();
@@ -589,21 +565,21 @@ namespace Adventure_Game.src.ui {
                         {
                             if (awake && seen) //Monster is awake and has seen player - 25% chance to sneak past
                             {
-                                if (randomNumber.Next(0, 100) > 74) {
+                                if (random.Next(0, 100) > 74) {
                                     Console.WriteLine("You successfully snuck past the " + monster);
                                     break;
                                 }
                             }
                             else if (awake) //Monster is awake and has not seen player - 85% chance to sneak past
                               {
-                                if (randomNumber.Next(0, 100) > 14) {
+                                if (random.Next(0, 100) > 14) {
                                     Console.WriteLine("You successfully snuck past the " + monster);
                                     break;
                                 }
                             }
                             else //Monster is sleeping - 99.9% chance to sneak past
                               {
-                                if (randomNumber.Next(0, 1000) > 0) {
+                                if (random.Next(0, 1000) > 0) {
                                     Console.WriteLine("You successfully snuck past the " + monster);
                                     break;
                                 }
@@ -613,23 +589,23 @@ namespace Adventure_Game.src.ui {
                             }
                             else Console.WriteLine("You try to sneak past, but the " + monster + " sees you");
                             if (awake && seen) {
-                                if (randomNumber.Next(0, 100) < 95) playerFirstHit = false; //False == player gets first hit
+                                if (random.Next(0, 100) < 95) playerFirstHit = false; //False == player gets first hit
                             }
                             else if (awake) {
-                                if (randomNumber.Next(0, 100) < 75) playerFirstHit = false; //True == player gets first hit
+                                if (random.Next(0, 100) < 75) playerFirstHit = false; //True == player gets first hit
                             }
                             else playerFirstHit = false; //Monster was woken up by the player trying to sneak away (0.1% chance) and is angry so gets the first hit
                         }
                         else if (input.ToLower().Contains("fight") || input.ToLower() == "f") //Fighting System
                           {
                             if (awake && seen) {
-                                if (randomNumber.Next(0, 100) < 50) playerFirstHit = false; //True == player gets first hit
+                                if (random.Next(0, 100) < 50) playerFirstHit = false; //True == player gets first hit
                             }
                             else if (awake) {
-                                if (randomNumber.Next(0, 100) < 25) playerFirstHit = false; //True == player gets first hit}
+                                if (random.Next(0, 100) < 25) playerFirstHit = false; //True == player gets first hit}
                             }
                             else {
-                                if (randomNumber.Next(0, 100) < 1) playerFirstHit = false; //True == player gets first hit
+                                if (random.Next(0, 100) < 1) playerFirstHit = false; //True == player gets first hit
                             }
                         }
                         else {
@@ -637,10 +613,10 @@ namespace Adventure_Game.src.ui {
                             continue;
                         }
                         if (!playerFirstHit) {
-                            double damageDealtToPlayer = (randomNumber.NextDouble() * (monsterStrength - (monsterStrength * 0.8))) + (monsterStrength * 0.8);
-                            health -= damageDealtToPlayer;
-                            if (health > 0) {
-                                TextPrinter.CreateTwoMiddlesText("The " + monster + " hit you for ", ConsoleColor.DarkRed, Math.Round(damageDealtToPlayer, 2) + " damage", ", leaving you with ", ConsoleColor.Red, Math.Round(health, 2) + " health", defaultColour: ConsoleColor.Red);
+                            double damageDealtToPlayer = (random.NextDouble() * (monsterStrength - (monsterStrength * 0.8))) + (monsterStrength * 0.8);
+                            player.Health -= damageDealtToPlayer;
+                            if (player.Health > 0) {
+                                TextPrinter.CreateTwoMiddlesText("The " + monster + " hit you for ", ConsoleColor.DarkRed, Math.Round(damageDealtToPlayer, 2) + " damage", ", leaving you with ", ConsoleColor.Red, Math.Round(player.Health, 2) + " health", defaultColour: ConsoleColor.Red);
                             }
                             else {
                                 TextPrinter.CreateMiddleText("The " + monster + " hit you for ", ConsoleColor.DarkRed, Math.Round(damageDealtToPlayer, 2) + " damage", ", defeating you", ConsoleColor.Red);
@@ -648,8 +624,8 @@ namespace Adventure_Game.src.ui {
                                 break;
                             }
                         }
-                        while (monsterHealth > 0 && health > 0) {
-                            double damageDealtByPlayer = (randomNumber.NextDouble() * ((weaponStrength + baseStrength) - ((weaponStrength + baseStrength) * 0.8))) + ((weaponStrength + baseStrength) * 0.8);
+                        while (monsterHealth > 0 && player.Health > 0) {
+                            double damageDealtByPlayer = (random.NextDouble() * ((player.WeaponStrength + player.BaseStrength) - ((player.WeaponStrength + player.BaseStrength) * 0.8))) + ((player.WeaponStrength + player.BaseStrength) * 0.8);
                             damageDealtByPlayer += 0.01; //This is added in order to make it possible for the player to deal the maximum damage and gives the player a slight advantage over the monsters
                             monsterHealth -= damageDealtByPlayer;
                             if (monsterHealth > 0) {
@@ -662,33 +638,33 @@ namespace Adventure_Game.src.ui {
                             else if (monsterType == 2) //If the monster is bandits
                               {
                                 TextPrinter.CreateMiddleText("You hit the " + monster + " for ", ConsoleColor.DarkRed, Math.Round(damageDealtByPlayer, 2) + " damage", ", defeating them", ConsoleColor.Green);
-                                if (randomNumber.Next(0, 2) == 0) {
-                                    gold += monsterType * monsterType + 2;
-                                    TextPrinter.CreateTwoMiddlesText("You got ", ConsoleColor.DarkYellow, "6 gold", ", bringing you up to ", ConsoleColor.DarkYellow, gold + " gold");
+                                if (random.Next(0, 2) == 0) {
+                                    player.Gold += monsterType * monsterType + 2;
+                                    TextPrinter.CreateTwoMiddlesText("You got ", ConsoleColor.DarkYellow, "6 gold", ", bringing you up to ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                 }
                                 else {
-                                    gold += monsterType * monsterType + 1;
-                                    TextPrinter.CreateTwoMiddlesText("You got ", ConsoleColor.DarkYellow, (monsterType * monsterType + 1) + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, gold + " gold");
+                                    player.Gold += monsterType * monsterType + 1;
+                                    TextPrinter.CreateTwoMiddlesText("You got ", ConsoleColor.DarkYellow, (monsterType * monsterType + 1) + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                 }
                                 break;
                             }
                             else {
                                 TextPrinter.CreateMiddleText("You hit the " + monster + " for ", ConsoleColor.DarkRed, Math.Round(damageDealtByPlayer, 2) + " damage", ", defeating it", ConsoleColor.Green);
-                                if (randomNumber.Next(0, 2) == 0) {
-                                    gold += monsterType * monsterType + 2;
-                                    TextPrinter.CreateTwoMiddlesText("You got ", ConsoleColor.DarkYellow, (monsterType * monsterType + 2) + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, gold + " gold");
+                                if (random.Next(0, 2) == 0) {
+                                    player.Gold += monsterType * monsterType + 2;
+                                    TextPrinter.CreateTwoMiddlesText("You got ", ConsoleColor.DarkYellow, (monsterType * monsterType + 2) + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                 }
                                 else {
-                                    gold += monsterType * monsterType + 1;
-                                    TextPrinter.CreateTwoMiddlesText("You got ", ConsoleColor.DarkYellow, (monsterType * monsterType + 1) + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, gold + " gold");
+                                    player.Gold += monsterType * monsterType + 1;
+                                    TextPrinter.CreateTwoMiddlesText("You got ", ConsoleColor.DarkYellow, (monsterType * monsterType + 1) + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                 }
                                 break;
                             }
                             Thread.Sleep(600);
-                            double damageDealtToPlayer = (randomNumber.NextDouble() * (monsterStrength - (monsterStrength * 0.8))) + (monsterStrength * 0.8);
-                            health -= damageDealtToPlayer;
-                            if (health > 0) {
-                                TextPrinter.CreateTwoMiddlesText("The " + monster + " hit you for ", ConsoleColor.DarkRed, Math.Round(damageDealtToPlayer, 2) + " damage", ", leaving you with ", ConsoleColor.Red, Math.Round(health, 2) + " health", defaultColour: ConsoleColor.Red);
+                            double damageDealtToPlayer = (random.NextDouble() * (monsterStrength - (monsterStrength * 0.8))) + (monsterStrength * 0.8);
+                            player.Health -= damageDealtToPlayer;
+                            if (player.Health > 0) {
+                                TextPrinter.CreateTwoMiddlesText("The " + monster + " hit you for ", ConsoleColor.DarkRed, Math.Round(damageDealtToPlayer, 2) + " damage", ", leaving you with ", ConsoleColor.Red, Math.Round(player.Health, 2) + " health", defaultColour: ConsoleColor.Red);
                             }
                             else {
                                 TextPrinter.CreateMiddleText("The " + monster + " hit you for ", ConsoleColor.Red, Math.Round(damageDealtToPlayer, 2) + " damage", ", defeating you", ConsoleColor.Red);
@@ -705,16 +681,16 @@ namespace Adventure_Game.src.ui {
                     int newWeaponClass; //newWeaponClass is the class of the weapon, from 0-4. 0 = fighter, 1 = magician, 2 = rogue, 3 = cleric, and 4 = ranger
                     bool newWeaponStartsVowel = false;
                     bool newWeaponPlural = false;
-                    if (weaponStrength < 10) //If the weapon is less than the maximum level use it to randomize which weapon is received
+                    if (player.WeaponStrength < 10) //If the weapon is less than the maximum level use it to randomize which weapon is received
                     {
-                        newWeaponLevel = randomNumber.Next(0, Convert.ToInt32(weaponStrength + 2)); //0-10
+                        newWeaponLevel = random.Next(0, Convert.ToInt32(player.WeaponStrength + 2)); //0-10
                     }
-                    else newWeaponLevel = randomNumber.Next(6, 11); //6-10
-                    if (randomNumber.Next(0, 100) < 35) //35% chance for the weapon to be of the player's class
+                    else newWeaponLevel = random.Next(6, 11); //6-10
+                    if (random.Next(0, 100) < 35) //35% chance for the weapon to be of the player's class
                     {
-                        newWeaponClass = characterClassValue;
+                        newWeaponClass = player.CharacterClassValue;
                     }
-                    else newWeaponClass = randomNumber.Next(0, 5);
+                    else newWeaponClass = random.Next(0, 5);
                     if (newWeaponClass == 0) //Player is a Fighter. 0 = None, 1 = Barbarian, 2 = Knight, 3 = Samurai
                     {
                         switch (newWeaponLevel) {
@@ -992,11 +968,11 @@ namespace Adventure_Game.src.ui {
                     }
                     else Environment.Exit(2);
                     double newWeaponDamage = (newWeaponLevel + 2); //Creates the base damage of the weapon before adding class and type buffs or debuffs
-                    if ((newWeaponClass == characterClassValue) && (newWeaponType == (characterTypeValue + 1))) //Check if both the class and type match (effectively just checking the type matches)
+                    if ((newWeaponClass == player.CharacterClassValue) && (newWeaponType == (player.CharacterTypeValue + 1))) //Check if both the class and type match (effectively just checking the type matches)
                     {
                         newWeaponDamage *= 1.5;
                     }
-                    else if (newWeaponClass != characterClassValue) //Check if the class doesn't match and if it doesn't put it at 75% of the damage
+                    else if (newWeaponClass != player.CharacterClassValue) //Check if the class doesn't match and if it doesn't put it at 75% of the damage
                       {
                         newWeaponDamage *= 0.75;
                     }
@@ -1009,136 +985,136 @@ namespace Adventure_Game.src.ui {
                     }
                     else Console.WriteLine("You find a treasure chest with a " + newWeapon + " inside!");
                     bool inputWorks = false;
-                    if (newWeapon != weapon) {
-                        if (newWeaponPlural && weaponPlural) //Asks the user whether they would like to swap the old weapon for the new weapon or sell the new weapon and checks for plurality
+                    if (newWeapon != player.WeaponName) {
+                        if (newWeaponPlural && player.WeaponPlural) //Asks the user whether they would like to swap the old weapon for the new weapon or sell the new weapon and checks for plurality
                         {
-                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + weapon + ", which deal ", ConsoleColor.DarkRed, weaponStrength + " damage", ", for the " + newWeapon + ", which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
+                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.WeaponName + ", which deal ", ConsoleColor.DarkRed, player.WeaponStrength + " damage", ", for the " + newWeapon + ", which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
                         }
                         else if (newWeaponPlural) {
-                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + weapon + ", which deals ", ConsoleColor.DarkRed, weaponStrength + " damage", ", for the " + newWeapon + ", which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
+                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.WeaponName + ", which deals ", ConsoleColor.DarkRed, player.WeaponStrength + " damage", ", for the " + newWeapon + ", which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
                         }
-                        else if (weaponPlural) {
-                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + weapon + ", which deal ", ConsoleColor.DarkRed, weaponStrength + " damage", ", for the " + newWeapon + ", which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
+                        else if (player.WeaponPlural) {
+                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.WeaponName + ", which deal ", ConsoleColor.DarkRed, player.WeaponStrength + " damage", ", for the " + newWeapon + ", which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
                         }
                         else {
-                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + weapon + ", which deals ", ConsoleColor.DarkRed, weaponStrength + " damage", ", for the " + newWeapon + ", which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
+                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.WeaponName + ", which deals ", ConsoleColor.DarkRed, player.WeaponStrength + " damage", ", for the " + newWeapon + ", which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
                         }
                         int newWeaponValue = newWeaponLevel * newWeaponLevel + 3; //the value (in gold) of the weapon the user just found
                         while (inputWorks == false) {
                             string input = Console.ReadLine();
-                            if (input.ToLower().Contains("swap") || input.ToLower() == "sw" && newWeaponDamage >= weaponStrength) //The user says swap and the new weapon deals more (or equal) damage than the old weapon
+                            if (input.ToLower().Contains("swap") || input.ToLower() == "sw" && newWeaponDamage >= player.WeaponStrength) //The user says swap and the new weapon deals more (or equal) damage than the old weapon
                             {
-                                gold += weaponValue;
-                                weaponStrength = newWeaponDamage;
-                                TextPrinter.CreateMiddleText("You successfully swapped your " + weapon + " for your " + newWeapon + ", bringing you to ", ConsoleColor.DarkRed, (baseStrength + weaponStrength) + " strength");
-                                TextPrinter.CreateTwoMiddlesText("You sold your " + weapon + " for ", ConsoleColor.DarkYellow, weaponValue + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, gold + " gold");
-                                weaponValue = newWeaponValue;
-                                weapon = newWeapon;
-                                weaponPlural = newWeaponPlural;
+                                player.Gold += player.WeaponValue;
+                                player.WeaponStrength = newWeaponDamage;
+                                TextPrinter.CreateMiddleText("You successfully swapped your " + player.WeaponName + " for your " + newWeapon + ", bringing you to ", ConsoleColor.DarkRed, (player.BaseStrength + player.WeaponStrength) + " strength");
+                                TextPrinter.CreateTwoMiddlesText("You sold your " + player.WeaponName + " for ", ConsoleColor.DarkYellow, player.WeaponValue + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, player.Gold + " gold");
+                                player.WeaponValue = newWeaponValue;
+                                player.WeaponName = newWeapon;
+                                player.WeaponPlural = newWeaponPlural;
                                 inputWorks = true;
                             }
-                            else if (input.ToLower().Contains("swap") || input.ToLower() == "sw" && newWeaponDamage < weaponStrength) //The user says swap and the new weapon deals *less* damage than the old weapon
+                            else if (input.ToLower().Contains("swap") || input.ToLower() == "sw" && newWeaponDamage < player.WeaponStrength) //The user says swap and the new weapon deals *less* damage than the old weapon
                               {
                                 while (inputWorks == false) {
-                                    if (weaponPlural && newWeaponPlural) //Asks the user to confirm they would like to swap the old weapon for the new weapon checks for plurality
+                                    if (player.WeaponPlural && newWeaponPlural) //Asks the user to confirm they would like to swap the old weapon for the new weapon checks for plurality
                                     {
-                                        TextPrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + weapon + ", which deal ", ConsoleColor.DarkRed, weaponStrength + "damage", ", for the " + newWeapon + ", which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", "? Say \"Yes\" or \"No\" or \"Back\"");
+                                        TextPrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.WeaponName + ", which deal ", ConsoleColor.DarkRed, player.WeaponStrength + "damage", ", for the " + newWeapon + ", which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", "? Say \"Yes\" or \"No\" or \"Back\"");
                                     }
                                     else if (newWeaponPlural) {
-                                        TextPrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + weapon + ", which deals ", ConsoleColor.DarkRed, weaponStrength + "damage", ", for the " + newWeapon + ", which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", "? Say \"Yes\" or \"No\" or \"Back\"");
+                                        TextPrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.WeaponName + ", which deals ", ConsoleColor.DarkRed, player.WeaponStrength + "damage", ", for the " + newWeapon + ", which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", "? Say \"Yes\" or \"No\" or \"Back\"");
                                     }
-                                    else if (weaponPlural) {
-                                        TextPrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + weapon + ", which deal ", ConsoleColor.DarkRed, weaponStrength + "damage", ", for the " + newWeapon + ", which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", "? Say \"Yes\" or \"No\" or \"Back\"");
+                                    else if (player.WeaponPlural) {
+                                        TextPrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.WeaponName + ", which deal ", ConsoleColor.DarkRed, player.WeaponStrength + "damage", ", for the " + newWeapon + ", which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", "? Say \"Yes\" or \"No\" or \"Back\"");
                                     }
                                     else {
-                                        TextPrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + weapon + ", which deals ", ConsoleColor.DarkRed, weaponStrength + "damage", ", for the " + newWeapon + ", which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", "? Say \"Yes\" or \"No\" or \"Back\"");
+                                        TextPrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.WeaponName + ", which deals ", ConsoleColor.DarkRed, player.WeaponStrength + "damage", ", for the " + newWeapon + ", which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", "? Say \"Yes\" or \"No\" or \"Back\"");
                                     }
                                     string secondInput = Console.ReadLine();
                                     if (secondInput.ToLower().Contains("yes") || secondInput.ToLower() == "y") {
-                                        gold += weaponValue;
-                                        weaponStrength = newWeaponDamage;
-                                        TextPrinter.CreateMiddleText("You successfully swapped your " + weapon + " for your " + newWeapon + ", bringing you to ", ConsoleColor.DarkRed, (weaponStrength + baseStrength) + " strength");
-                                        TextPrinter.CreateTwoMiddlesText("You sold your " + weapon + " for ", ConsoleColor.DarkYellow, weaponValue + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, gold + " gold");
-                                        weaponValue = newWeaponValue;
-                                        weapon = newWeapon;
-                                        weaponPlural = newWeaponPlural;
+                                        player.Gold += player.WeaponValue;
+                                        player.WeaponStrength = newWeaponDamage;
+                                        TextPrinter.CreateMiddleText("You successfully swapped your " + player.WeaponName + " for your " + newWeapon + ", bringing you to ", ConsoleColor.DarkRed, (player.WeaponStrength + player.BaseStrength) + " strength");
+                                        TextPrinter.CreateTwoMiddlesText("You sold your " + player.WeaponName + " for ", ConsoleColor.DarkYellow, player.WeaponValue + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, player.Gold + " gold");
+                                        player.WeaponValue = newWeaponValue;
+                                        player.WeaponName = newWeapon;
+                                        player.WeaponPlural = newWeaponPlural;
                                         inputWorks = true;
                                     }
                                     else if (secondInput.ToLower().Contains("no") || secondInput.ToLower() == "n") {
-                                        gold += newWeaponValue;
-                                        TextPrinter.CreateTwoMiddlesText("You successfully sold the " + newWeapon + " you found for ", ConsoleColor.DarkYellow, newWeaponValue + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, gold + " gold");
+                                        player.Gold += newWeaponValue;
+                                        TextPrinter.CreateTwoMiddlesText("You successfully sold the " + newWeapon + " you found for ", ConsoleColor.DarkYellow, newWeaponValue + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                         inputWorks = true;
                                     }
                                     else if (secondInput.ToLower().Contains("back") || secondInput.ToLower() == "b") {
-                                        if (newWeaponPlural && weaponPlural) //Asks the user whether they would like to swap the old weapon for the new weapon or sell the new weapon and checks for plurality
+                                        if (newWeaponPlural && player.WeaponPlural) //Asks the user whether they would like to swap the old weapon for the new weapon or sell the new weapon and checks for plurality
                                         {
-                                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + weapon + ", which deal ", ConsoleColor.DarkRed, weaponStrength + " damage", ", for the " + newWeapon + ", which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
+                                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.WeaponName + ", which deal ", ConsoleColor.DarkRed, player.WeaponStrength + " damage", ", for the " + newWeapon + ", which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
                                         }
                                         else if (newWeaponPlural) {
-                                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + weapon + ", which deals ", ConsoleColor.DarkRed, weaponStrength + " damage", ", for the " + newWeapon + ", which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
+                                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.WeaponName + ", which deals ", ConsoleColor.DarkRed, player.WeaponStrength + " damage", ", for the " + newWeapon + ", which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
                                         }
-                                        else if (weaponPlural) {
-                                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + weapon + ", which deal ", ConsoleColor.DarkRed, weaponStrength + " damage", ", for the " + newWeapon + ", which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
+                                        else if (player.WeaponPlural) {
+                                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.WeaponName + ", which deal ", ConsoleColor.DarkRed, player.WeaponStrength + " damage", ", for the " + newWeapon + ", which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
                                         }
                                         else {
-                                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + weapon + ", which deals ", ConsoleColor.DarkRed, weaponStrength + " damage", ", for the " + newWeapon + ", which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
+                                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.WeaponName + ", which deals ", ConsoleColor.DarkRed, player.WeaponStrength + " damage", ", for the " + newWeapon + ", which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
                                         }
                                         break;
                                     }
                                     else Console.WriteLine("That was not an option, please state \"Yes\", \"No\", or \"Back\"");
                                 }
                             }
-                            else if (input.ToLower().Contains("sell") || input.ToLower() == "se" && weaponStrength >= newWeaponDamage) //The user says sell and the old weapon deals more damage than the new weapon
+                            else if (input.ToLower().Contains("sell") || input.ToLower() == "se" && player.WeaponStrength >= newWeaponDamage) //The user says sell and the old weapon deals more damage than the new weapon
                               {
-                                gold += newWeaponValue;
-                                TextPrinter.CreateTwoMiddlesText("You successfully sold the " + newWeapon + " you found for ", ConsoleColor.DarkYellow, newWeaponValue + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, gold + " gold");
+                                player.Gold += newWeaponValue;
+                                TextPrinter.CreateTwoMiddlesText("You successfully sold the " + newWeapon + " you found for ", ConsoleColor.DarkYellow, newWeaponValue + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                 inputWorks = true;
                             }
-                            else if (input.ToLower().Contains("sell") || input.ToLower() == "se" && weaponStrength < newWeaponDamage) //The user says sell and the old weapon deals *less* damage than the new weapon
+                            else if (input.ToLower().Contains("sell") || input.ToLower() == "se" && player.WeaponStrength < newWeaponDamage) //The user says sell and the old weapon deals *less* damage than the new weapon
                               {
                                 while (inputWorks == false) {
-                                    if (newWeaponPlural && weaponPlural) //Asks the user to confirm they would like sell the new weapon and checks for plurality
+                                    if (newWeaponPlural && player.WeaponPlural) //Asks the user to confirm they would like sell the new weapon and checks for plurality
                                     {
-                                        TextPrinter.CreateTwoMiddlesText("Are you sure you want to sell the " + newWeapon + " you found, which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", and keep your " + weapon + ", which deal ", ConsoleColor.DarkRed, weaponStrength + " damage", "? Say \"Yes\" or \"No\" or \"Back\"");
+                                        TextPrinter.CreateTwoMiddlesText("Are you sure you want to sell the " + newWeapon + " you found, which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", and keep your " + player.WeaponName + ", which deal ", ConsoleColor.DarkRed, player.WeaponStrength + " damage", "? Say \"Yes\" or \"No\" or \"Back\"");
                                     }
                                     else if (newWeaponPlural) {
-                                        TextPrinter.CreateTwoMiddlesText("Are you sure you want to sell the " + newWeapon + " you found, which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", and keep your " + weapon + ", which deals ", ConsoleColor.DarkRed, weaponStrength + " damage", "? Say \"Yes\" or \"No\" or \"Back\"");
+                                        TextPrinter.CreateTwoMiddlesText("Are you sure you want to sell the " + newWeapon + " you found, which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", and keep your " + player.WeaponName + ", which deals ", ConsoleColor.DarkRed, player.WeaponStrength + " damage", "? Say \"Yes\" or \"No\" or \"Back\"");
                                     }
-                                    else if (weaponPlural) {
-                                        TextPrinter.CreateTwoMiddlesText("Are you sure you want to sell the " + newWeapon + " you found, which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", and keep your " + weapon + ", which deal ", ConsoleColor.DarkRed, weaponStrength + " damage", "? Say \"Yes\" or \"No\" or \"Back\"");
+                                    else if (player.WeaponPlural) {
+                                        TextPrinter.CreateTwoMiddlesText("Are you sure you want to sell the " + newWeapon + " you found, which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", and keep your " + player.WeaponName + ", which deal ", ConsoleColor.DarkRed, player.WeaponStrength + " damage", "? Say \"Yes\" or \"No\" or \"Back\"");
                                     }
                                     else {
-                                        TextPrinter.CreateTwoMiddlesText("Are you sure you want to sell the " + newWeapon + " you found, which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", and keep your " + weapon + ", which deals ", ConsoleColor.DarkRed, weaponStrength + " damage", "? Say \"Yes\" or \"No\" or \"Back\"");
+                                        TextPrinter.CreateTwoMiddlesText("Are you sure you want to sell the " + newWeapon + " you found, which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", and keep your " + player.WeaponName + ", which deals ", ConsoleColor.DarkRed, player.WeaponStrength + " damage", "? Say \"Yes\" or \"No\" or \"Back\"");
                                     }
                                     string secondInput = Console.ReadLine();
                                     if (secondInput.ToLower().Contains("yes") || secondInput.ToLower() == "y") {
-                                        gold += newWeaponValue;
-                                        TextPrinter.CreateTwoMiddlesText("You successfully sold the " + newWeapon + " you found for ", ConsoleColor.DarkYellow, newWeaponValue + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, gold + " gold");
+                                        player.Gold += newWeaponValue;
+                                        TextPrinter.CreateTwoMiddlesText("You successfully sold the " + newWeapon + " you found for ", ConsoleColor.DarkYellow, newWeaponValue + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                         inputWorks = true;
                                     }
                                     else if (secondInput.ToLower().Contains("no") || secondInput.ToLower() == "n") {
-                                        gold += weaponValue;
-                                        weaponStrength = newWeaponDamage;
-                                        TextPrinter.CreateMiddleText("You successfully swapped your " + weapon + " for your " + newWeapon + ", bringing you to ", ConsoleColor.DarkRed, (baseStrength + weaponStrength) + " strength");
-                                        TextPrinter.CreateTwoMiddlesText("You sold your " + weapon + " for ", ConsoleColor.DarkYellow, weaponValue + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, gold + " gold");
-                                        weaponValue = newWeaponValue;
-                                        weapon = newWeapon;
-                                        weaponPlural = newWeaponPlural;
+                                        player.Gold += player.WeaponValue;
+                                        player.WeaponStrength = newWeaponDamage;
+                                        TextPrinter.CreateMiddleText("You successfully swapped your " + player.WeaponName + " for your " + newWeapon + ", bringing you to ", ConsoleColor.DarkRed, (player.BaseStrength + player.WeaponStrength) + " strength");
+                                        TextPrinter.CreateTwoMiddlesText("You sold your " + player.WeaponName + " for ", ConsoleColor.DarkYellow, player.WeaponValue + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, player.Gold + " gold");
+                                        player.WeaponValue = newWeaponValue;
+                                        player.WeaponName = newWeapon;
+                                        player.WeaponPlural = newWeaponPlural;
                                         inputWorks = true;
                                     }
                                     else if (secondInput.ToLower().Contains("back") || secondInput.ToLower() == "b") {
-                                        if (newWeaponPlural && weaponPlural) //Asks the user whether they would like to swap the old weapon for the new weapon or sell the new weapon and checks for plurality
+                                        if (newWeaponPlural && player.WeaponPlural) //Asks the user whether they would like to swap the old weapon for the new weapon or sell the new weapon and checks for plurality
                                         {
-                                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + weapon + ", which deal ", ConsoleColor.DarkRed, weaponStrength + " damage", ", for the " + newWeapon + ", which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
+                                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.WeaponName + ", which deal ", ConsoleColor.DarkRed, player.WeaponStrength + " damage", ", for the " + newWeapon + ", which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
                                         }
                                         else if (newWeaponPlural) {
-                                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + weapon + ", which deals ", ConsoleColor.DarkRed, weaponStrength + " damage", ", for the " + newWeapon + ", which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
+                                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.WeaponName + ", which deals ", ConsoleColor.DarkRed, player.WeaponStrength + " damage", ", for the " + newWeapon + ", which deal ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
                                         }
-                                        else if (weaponPlural) {
-                                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + weapon + ", which deal ", ConsoleColor.DarkRed, weaponStrength + " damage", ", for the " + newWeapon + ", which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
+                                        else if (player.WeaponPlural) {
+                                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.WeaponName + ", which deal ", ConsoleColor.DarkRed, player.WeaponStrength + " damage", ", for the " + newWeapon + ", which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
                                         }
                                         else {
-                                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + weapon + ", which deals ", ConsoleColor.DarkRed, weaponStrength + " damage", ", for the " + newWeapon + ", which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
+                                            TextPrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.WeaponName + ", which deals ", ConsoleColor.DarkRed, player.WeaponStrength + " damage", ", for the " + newWeapon + ", which deals ", ConsoleColor.DarkRed, newWeaponDamage + " damage", ", or \"sell\" the " + newWeapon + "?");
                                         }
                                         break;
                                     }
@@ -1149,17 +1125,17 @@ namespace Adventure_Game.src.ui {
                         }
                     }
                     else {
-                        gold += weaponValue;
-                        TextPrinter.CreateTwoMiddlesText("You sold the " + weapon + " you found for ", ConsoleColor.DarkYellow, weaponValue + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, gold + " gold");
+                        player.Gold += player.WeaponValue;
+                        TextPrinter.CreateTwoMiddlesText("You sold the " + player.WeaponName + " you found for ", ConsoleColor.DarkYellow, player.WeaponValue + " gold", ", bringing you up to ", ConsoleColor.DarkYellow, player.Gold + " gold");
                     }
                 }
                 void Villages(double healthDecimalPerHour, int goldPerHour, string villageName) {
                     Console.WriteLine("You enter the village of " + villageName);
                     bool hasSlept = false;
-                    if (gold < goldPerHour) {
+                    if (player.Gold < goldPerHour) {
                         Console.WriteLine("You do not have enough money to purchase anything in " + villageName + " so you continue on your journey");
                     }
-                    else if (maxHealth == health) {
+                    else if (player.MaxHealth == player.Health) {
                         Console.WriteLine("You would not benefit from staying in the inn, so you continue on your journey");
                     }
                     else {
@@ -1171,7 +1147,7 @@ namespace Adventure_Game.src.ui {
                                 while (inInn) {
                                     int maxHours;
                                     for (maxHours = 0; maxHours < 100000; maxHours++) {
-                                        if (maxHours * healthDecimalPerHour * maxHealth + health > maxHealth) {
+                                        if (maxHours * healthDecimalPerHour * player.MaxHealth + player.Health > player.MaxHealth) {
                                             break;
                                         }
                                     }
@@ -1194,35 +1170,35 @@ namespace Adventure_Game.src.ui {
                                         else if (hours < 0) {
                                             Console.WriteLine("You may not sleep for a negative amount of hours");
                                         }
-                                        else if (gold < hours * goldPerHour) {
+                                        else if (player.Gold < hours * goldPerHour) {
                                             Console.WriteLine("You do not have enough money to sleep for that long");
                                         }
                                         else {
                                             while (true) {
                                                 if (hours == 1) {
-                                                    TextPrinter.CreateFourMiddlesText("Sleeping for ", ConsoleColor.Blue, hours + " hour", " would cost ", ConsoleColor.DarkYellow, (hours * goldPerHour) + " gold", " and restore ", ConsoleColor.Red, Math.Round(hours * healthDecimalPerHour * maxHealth, 2) + " health");
+                                                    TextPrinter.CreateFourMiddlesText("Sleeping for ", ConsoleColor.Blue, hours + " hour", " would cost ", ConsoleColor.DarkYellow, (hours * goldPerHour) + " gold", " and restore ", ConsoleColor.Red, Math.Round(hours * healthDecimalPerHour * player.MaxHealth, 2) + " health");
                                                 }
-                                                else TextPrinter.CreateFourMiddlesText("Sleeping for ", ConsoleColor.Blue, hours + " hours", " would cost ", ConsoleColor.DarkYellow, (hours * goldPerHour) + " gold", " and restore ", ConsoleColor.Red, Math.Round(hours * healthDecimalPerHour * maxHealth, 2) + " health");
-                                                if (health + hours * healthDecimalPerHour * maxHealth > maxHealth) {
-                                                    TextPrinter.CreateTwoMiddlesText("This would bring you up to ", ConsoleColor.Red, maxHealth + " health", ", your maximum health, and leave you with ", ConsoleColor.DarkYellow, gold - hours * goldPerHour + " gold", ". Would you like to sleep for that long \"yes\", change how many hours \"no\", or exit the inn \"exit\"");
+                                                else TextPrinter.CreateFourMiddlesText("Sleeping for ", ConsoleColor.Blue, hours + " hours", " would cost ", ConsoleColor.DarkYellow, (hours * goldPerHour) + " gold", " and restore ", ConsoleColor.Red, Math.Round(hours * healthDecimalPerHour * player.MaxHealth, 2) + " health");
+                                                if (player.Health + hours * healthDecimalPerHour * player.MaxHealth > player.MaxHealth) {
+                                                    TextPrinter.CreateTwoMiddlesText("This would bring you up to ", ConsoleColor.Red, player.MaxHealth + " health", ", your maximum health, and leave you with ", ConsoleColor.DarkYellow, player.Gold - hours * goldPerHour + " gold", ". Would you like to sleep for that long \"yes\", change how many hours \"no\", or exit the inn \"exit\"");
                                                 }
-                                                else TextPrinter.CreateTwoMiddlesText("This would bring you up to ", ConsoleColor.Red, Math.Round(health + hours * healthDecimalPerHour * maxHealth, 2) + " health", ", your maximum health, and leave you with ", ConsoleColor.DarkYellow, gold - hours * goldPerHour + " gold", ". Would you like to sleep for that long \"yes\", change how many hours \"no\", or exit the inn \"exit\"");
+                                                else TextPrinter.CreateTwoMiddlesText("This would bring you up to ", ConsoleColor.Red, Math.Round(player.Health + hours * healthDecimalPerHour * player.MaxHealth, 2) + " health", ", your maximum health, and leave you with ", ConsoleColor.DarkYellow, player.Gold - hours * goldPerHour + " gold", ". Would you like to sleep for that long \"yes\", change how many hours \"no\", or exit the inn \"exit\"");
                                                 string input3 = Console.ReadLine();
                                                 if (input3.ToLower().Contains("yes") || input3.ToLower() == "y") {
-                                                    gold -= hours * goldPerHour;
-                                                    if ((health + (hours * healthDecimalPerHour * maxHealth)) < maxHealth) {
-                                                        health += (hours * healthDecimalPerHour * maxHealth);
+                                                    player.Gold -= hours * goldPerHour;
+                                                    if ((player.Health + (hours * healthDecimalPerHour * player.MaxHealth)) < player.MaxHealth) {
+                                                        player.Health += (hours * healthDecimalPerHour * player.MaxHealth);
                                                         if (hours == 1) {
-                                                            TextPrinter.CreateFourMiddlesText("You slept for ", ConsoleColor.Blue, hours + " hour", ", leaving you with ", ConsoleColor.DarkYellow, gold + " gold", " and bringing you up to ", ConsoleColor.Red, Math.Round(health, 2) + " health");
+                                                            TextPrinter.CreateFourMiddlesText("You slept for ", ConsoleColor.Blue, hours + " hour", ", leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold", " and bringing you up to ", ConsoleColor.Red, Math.Round(player.Health, 2) + " health");
                                                         }
-                                                        else TextPrinter.CreateFourMiddlesText("You slept for ", ConsoleColor.Blue, hours + " hours", ", leaving you with ", ConsoleColor.DarkYellow, gold + " gold", " and bringing you up to ", ConsoleColor.Red, Math.Round(health, 2) + " health");
+                                                        else TextPrinter.CreateFourMiddlesText("You slept for ", ConsoleColor.Blue, hours + " hours", ", leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold", " and bringing you up to ", ConsoleColor.Red, Math.Round(player.Health, 2) + " health");
                                                     }
                                                     else {
-                                                        health = maxHealth;
+                                                        player.Health = player.MaxHealth;
                                                         if (hours == 1) {
-                                                            TextPrinter.CreateFourMiddlesText("You slept for ", ConsoleColor.Blue, hours + " hour", ", leaving you with ", ConsoleColor.DarkYellow, gold + " gold", " and bringing you up to full ", ConsoleColor.Red, "health (" + Math.Round(health, 2) + ")");
+                                                            TextPrinter.CreateFourMiddlesText("You slept for ", ConsoleColor.Blue, hours + " hour", ", leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold", " and bringing you up to full ", ConsoleColor.Red, "health (" + Math.Round(player.Health, 2) + ")");
                                                         }
-                                                        else TextPrinter.CreateFourMiddlesText("You slept for ", ConsoleColor.Blue, hours + " hours", ", leaving you with ", ConsoleColor.DarkYellow, gold + " gold", " and bringing you up to full ", ConsoleColor.Red, "health (" + Math.Round(health, 2) + ")");
+                                                        else TextPrinter.CreateFourMiddlesText("You slept for ", ConsoleColor.Blue, hours + " hours", ", leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold", " and bringing you up to full ", ConsoleColor.Red, "health (" + Math.Round(player.Health, 2) + ")");
                                                     }
                                                     hasSlept = true;
                                                     inInn = false;
@@ -1241,13 +1217,13 @@ namespace Adventure_Game.src.ui {
                                     }
                                     else if (input2.ToLower().Contains("yes") || input2.ToLower() == "y") {
                                         while (true) {
-                                            TextPrinter.CreateFourMiddlesText("Sleeping for ", ConsoleColor.Blue, "1 hour", " would cost ", ConsoleColor.DarkYellow, (1 * goldPerHour) + " gold", " and restore ", ConsoleColor.Red, Math.Round(1 * healthDecimalPerHour * maxHealth, 2) + " health");
-                                            TextPrinter.CreateTwoMiddlesText("This would bring you up to ", ConsoleColor.Red, maxHealth + " health", ", your maximum health, and leave you with ", ConsoleColor.DarkYellow, gold - 1 * goldPerHour + " gold", ". Would you like to sleep for that long \"yes\", change how many hours \"no\", or exit the inn \"exit\"");
+                                            TextPrinter.CreateFourMiddlesText("Sleeping for ", ConsoleColor.Blue, "1 hour", " would cost ", ConsoleColor.DarkYellow, (1 * goldPerHour) + " gold", " and restore ", ConsoleColor.Red, Math.Round(1 * healthDecimalPerHour * player.MaxHealth, 2) + " health");
+                                            TextPrinter.CreateTwoMiddlesText("This would bring you up to ", ConsoleColor.Red, player.MaxHealth + " health", ", your maximum health, and leave you with ", ConsoleColor.DarkYellow, player.Gold - 1 * goldPerHour + " gold", ". Would you like to sleep for that long \"yes\", change how many hours \"no\", or exit the inn \"exit\"");
                                             string input3 = Console.ReadLine();
                                             if (input3.ToLower().Contains("yes") || input3.ToLower() == "y") {
-                                                health = maxHealth;
-                                                gold -= 1 * goldPerHour;
-                                                TextPrinter.CreateFourMiddlesText("You slept for ", ConsoleColor.Blue, "1 hour", ", leaving you with ", ConsoleColor.DarkYellow, gold + " gold", " and bringing you up to full ", ConsoleColor.Red, "health (" + health + ")");
+                                                player.Health = player.MaxHealth;
+                                                player.Gold -= 1 * goldPerHour;
+                                                TextPrinter.CreateFourMiddlesText("You slept for ", ConsoleColor.Blue, "1 hour", ", leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold", " and bringing you up to full ", ConsoleColor.Red, "health (" + player.Health + ")");
                                                 hasSlept = true;
                                                 inInn = false;
                                                 break;
@@ -1274,13 +1250,13 @@ namespace Adventure_Game.src.ui {
                     }
                 }
                 void Shops(string shopkeeperName, double costMultiplier) {
-                    TextPrinter.CreateMiddleText("You enter " + shopkeeperName + "\'s shop with ", ConsoleColor.DarkYellow, gold + " gold");
-                    if (age < 5) //The player found the shop near the spawn and wouldn't have enough money to buy anything anyway, this is here in order to minimize confusion and have less elements at the beginning
+                    TextPrinter.CreateMiddleText("You enter " + shopkeeperName + "\'s shop with ", ConsoleColor.DarkYellow, player.Gold + " gold");
+                    if (daysPlayed < 5) // The player found the shop near the spawn and wouldn't have enough money to buy anything anyway, this is here in order to minimize confusion and have fewer elements at the beginning
                     {
-                        TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "We don't accept noobs at our shop", "\""); //If the player went straight to a shop
+                        TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "We don't accept noobs at our shop", "\""); // If the player went straight to a shop
                         Console.WriteLine("You exit " + shopkeeperName + "'s shop");
                     }
-                    else if (ageLastShopped + 5 > age && healthPotionStock + baseStrengthStock + maxHealthStock == 0) //If it has been less than 5 days since shopped and there is still no stock
+                    else if (dateLastShopped + 5 > daysPlayed && healthPotionStock + baseStrengthStock + maxHealthStock == 0) //If it has been less than 5 days since shopped and there is still no stock
                       {
                         TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "We are out of stock", "\"");
                         Console.WriteLine("You exit " + shopkeeperName + "'s shop");
@@ -1288,9 +1264,9 @@ namespace Adventure_Game.src.ui {
                     else //There is either stock or it is time to restock
                       {
                         bool purchasedSomething = false;
-                        if (!(ageLastShopped + 5 > age)) //It has been more than 4 days since the player shopped and the stock has to reroll
+                        if (!(dateLastShopped + 5 > daysPlayed)) //It has been more than 4 days since the player shopped and the stock has to reroll
                         {
-                            int healthPotionRNG = randomNumber.Next(0, 10); //Health potion stock
+                            int healthPotionRNG = random.Next(0, 10); //Health potion stock
                             if (healthPotionRNG < 5) //0-4
                             {
                                 healthPotionStock = 5;
@@ -1304,7 +1280,7 @@ namespace Adventure_Game.src.ui {
                                 healthPotionStock = 3;
                             }
                             else healthPotionStock = 2;
-                            int maxHealthRNG = randomNumber.Next(0, 10); //Max health stock
+                            int maxHealthRNG = random.Next(0, 10); //Max health stock
                             if (maxHealthRNG < 5) //0-4
                             {
                                 maxHealthStock = 2;
@@ -1314,58 +1290,58 @@ namespace Adventure_Game.src.ui {
                                 maxHealthStock = 3;
                             }
                             else maxHealthStock = 1; //7-9
-                            int damageRNG = randomNumber.Next(0, 10); //Base strength stock
-                            if (randomNumber.Next(0, 10) == 5) //5
+                            int damageRNG = random.Next(0, 10); //Base strength stock
+                            if (random.Next(0, 10) == 5) //5
                             {
                                 baseStrengthStock = 2;
                             }
                             else baseStrengthStock = 1; //0-4, 6-9
                         }
                         while (true) {
-                            if (gold > 49 * costMultiplier && healthPotionStock > 0 && maxHealthStock > 0 && baseStrengthStock > 0) {
+                            if (player.Gold > 49 * costMultiplier && healthPotionStock > 0 && maxHealthStock > 0 && baseStrengthStock > 0) {
                                 TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Would you like to buy 5 more \"max health\", 1 more \"base strength\", a health \"potion\", or \"exit\"?", "\"");
                             }
-                            else if (gold > 49 * costMultiplier && healthPotionStock > 0 && maxHealthStock > 0) {
+                            else if (player.Gold > 49 * costMultiplier && healthPotionStock > 0 && maxHealthStock > 0) {
                                 TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Would you like to buy 5 more \"max health\", a health \"potion\", or \"exit\"?", "\"");
                             }
-                            else if (gold > 49 * costMultiplier && healthPotionStock > 0 && baseStrengthStock > 0) {
+                            else if (player.Gold > 49 * costMultiplier && healthPotionStock > 0 && baseStrengthStock > 0) {
                                 TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Would you like to buy 1 more \"base strength\", a health \"potion\", or \"exit\"?", "\"");
                             }
-                            else if (gold > 49 * costMultiplier && maxHealthStock > 0 && baseStrengthStock > 0) {
+                            else if (player.Gold > 49 * costMultiplier && maxHealthStock > 0 && baseStrengthStock > 0) {
                                 TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Would you like to buy 1 more \"base strength\", 5 more \"max health\", or \"exit\"?", "\"");
                             }
-                            else if (gold > 49 * costMultiplier && maxHealthStock > 0) {
+                            else if (player.Gold > 49 * costMultiplier && maxHealthStock > 0) {
                                 TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Would you like to buy 5 more \"max health\", or \"exit\"?", "\"");
                             }
-                            else if (gold > 49 * costMultiplier && baseStrengthStock > 0) {
+                            else if (player.Gold > 49 * costMultiplier && baseStrengthStock > 0) {
                                 TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Would you like to buy 1 more \"base strength\", or \"exit\"?", "\"");
                             }
-                            else if (gold > 14 * costMultiplier && healthPotionStock > 0) {
+                            else if (player.Gold > 14 * costMultiplier && healthPotionStock > 0) {
                                 TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Would you like to buy a health \"potion\", or \"exit\"?", "\"");
                             }
                             else if (purchasedSomething && healthPotionStock + maxHealthStock + baseStrengthStock == 0) {
                                 TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "You sold me out! Come back again in a couple of days and I should have more stock", "\"");
                                 Console.WriteLine("You exit " + shopkeeperName + "'s shop");
-                                if (firstHealthPotion) {
+                                if (!everUsedHealthPotion) {
                                     Console.WriteLine();
-                                    if (healthPotionsOwned == 1) {
+                                    if (player.HealthPotionsOwned == 1) {
                                         TextPrinter.CreateFourMiddlesText("To use your ", ConsoleColor.Red, "health potion", ", type \"potion\", \"p\", or \"use potion\". ", ConsoleColor.Red, "Health potions", " will heal ", ConsoleColor.Red, "50%", " of your ", ConsoleColor.Red, "maximum health", " and can only be used when you are asked in which direction you wish to travel", ConsoleColor.Cyan);
                                     }
                                     else TextPrinter.CreateFourMiddlesText("To use your ", ConsoleColor.Red, "health potions", ", type \"potion\", \"p\", or \"use potion\". ", ConsoleColor.Red, "Health potions", " will heal ", ConsoleColor.Red, "50%", " of your ", ConsoleColor.Red, "maximum health", " and can only be used when you are asked in which direction you wish to travel", ConsoleColor.Cyan);
-                                    firstHealthPotion = false;
+                                    everUsedHealthPotion = true;
                                 }
                                 break;
                             }
                             else if (purchasedSomething) {
                                 TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Thank you for purchasing from my store. Feel free to come back when you get more gold", "\"");
                                 Console.WriteLine("You exit " + shopkeeperName + "'s shop");
-                                if (firstHealthPotion) {
+                                if (!everUsedHealthPotion) {
                                     Console.WriteLine();
-                                    if (healthPotionsOwned == 1) {
+                                    if (player.HealthPotionsOwned == 1) {
                                         TextPrinter.CreateFourMiddlesText("To use your ", ConsoleColor.Red, "health potion", ", type \"potion\", \"p\", or \"use potion\". ", ConsoleColor.Red, "Health potions", " will heal ", ConsoleColor.Red, "50%", " of your ", ConsoleColor.Red, "maximum health", " and can only be used when you are asked in which direction you wish to travel", ConsoleColor.Cyan);
                                     }
                                     else TextPrinter.CreateFourMiddlesText("To use your ", ConsoleColor.Red, "health potions", ", type \"potion\", \"p\", or \"use potion\". ", ConsoleColor.Red, "Health potions", " will heal ", ConsoleColor.Red, "50%", " of your ", ConsoleColor.Red, "maximum health", " and can only be used when you are asked in which direction you wish to travel", ConsoleColor.Cyan);
-                                    firstHealthPotion = false;
+                                    everUsedHealthPotion = true;
                                 }
                                 break;
                             }
@@ -1375,7 +1351,7 @@ namespace Adventure_Game.src.ui {
                                 break;
                             }
                             string input = Console.ReadLine();
-                            if (maxHealthStock > 0 && input.ToLower().Contains("health") || input.ToLower().Contains("max") || input.ToLower() == "m" || input.ToLower() == "h" && gold > 49 * costMultiplier && input.ToLower() != "health potion") {
+                            if (maxHealthStock > 0 && input.ToLower().Contains("health") || input.ToLower().Contains("max") || input.ToLower() == "m" || input.ToLower() == "h" && player.Gold > 49 * costMultiplier && input.ToLower() != "health potion") {
                                 while (true) {
                                     if (maxHealthStock == 1) {
                                         TextPrinter.CreateFourMiddlesText("", ConsoleColor.Gray, shopkeeperName + " says \"", "I currently have ", ConsoleColor.Red, maxHealthStock + " set of 5 extra max health", " in stock. How many would you like to buy at ", ConsoleColor.DarkYellow, 50 * costMultiplier + " gold", " each?", ConsoleColor.Gray, "\" (Say none if you do not want any)", "", ConsoleColor.Magenta);
@@ -1389,15 +1365,15 @@ namespace Adventure_Game.src.ui {
                                         else if (amount > maxHealthStock) {
                                             TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "I do not have that many in stock", "\"");
                                         }
-                                        else if (amount * 50 * costMultiplier > gold) {
+                                        else if (amount * 50 * costMultiplier > player.Gold) {
                                             TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Are you trying to scam me? You don't have that much money", "\"");
                                         }
                                         else {
-                                            maxHealth += Convert.ToInt32(amount) * 5;
-                                            health += amount * 5;
+                                            player.MaxHealth += Convert.ToInt32(amount) * 5;
+                                            player.Health += amount * 5;
                                             maxHealthStock -= Convert.ToInt32(amount);
-                                            gold -= Convert.ToInt32(50 * costMultiplier * amount);
-                                            TextPrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.Red, amount * 5 + " max health", ", bringing you up to ", ConsoleColor.Red, maxHealth + " max health", " and leaving you with ", ConsoleColor.DarkYellow, gold + " gold");
+                                            player.Gold -= Convert.ToInt32(50 * costMultiplier * amount);
+                                            TextPrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.Red, amount * 5 + " max health", ", bringing you up to ", ConsoleColor.Red, player.MaxHealth + " max health", " and leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                             purchasedSomething = true;
                                             break;
                                         }
@@ -1409,7 +1385,7 @@ namespace Adventure_Game.src.ui {
                                 }
 
                             }
-                            else if (baseStrengthStock > 0 && input.ToLower().Contains("strength") || input.ToLower().Contains("base") || input.ToLower() == "s" || input.ToLower() == "b" && gold > 49 * costMultiplier) {
+                            else if (baseStrengthStock > 0 && input.ToLower().Contains("strength") || input.ToLower().Contains("base") || input.ToLower() == "s" || input.ToLower() == "b" && player.Gold > 49 * costMultiplier) {
                                 while (true) {
                                     TextPrinter.CreateFourMiddlesText("", ConsoleColor.Gray, shopkeeperName + " says \"", "I currently have ", ConsoleColor.DarkRed, baseStrengthStock + " base strength", " in stock. How much would you like to buy at ", ConsoleColor.DarkYellow, 50 * costMultiplier + " gold", " each?", ConsoleColor.Gray, "\" (Say none if you do not want any)", "", ConsoleColor.Magenta);
                                     string secondInput = Console.ReadLine();
@@ -1420,14 +1396,14 @@ namespace Adventure_Game.src.ui {
                                         else if (amount > baseStrengthStock) {
                                             TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "I do not have that much in stock", "\"");
                                         }
-                                        else if (amount * 50 * costMultiplier > gold) {
+                                        else if (amount * 50 * costMultiplier > player.Gold) {
                                             TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Are you trying to scam me? You don't have that much money", "\"");
                                         }
                                         else {
-                                            baseStrength += amount;
+                                            player.BaseStrength += amount;
                                             baseStrengthStock -= Convert.ToInt32(amount);
-                                            gold -= Convert.ToInt32(50 * costMultiplier * amount);
-                                            TextPrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.DarkRed, amount + " base strength", ", bringing you up to ", ConsoleColor.DarkRed, (baseStrength + weaponStrength) + " total strength", " and leaving you with ", ConsoleColor.DarkYellow, gold + " gold");
+                                            player.Gold -= Convert.ToInt32(50 * costMultiplier * amount);
+                                            TextPrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.DarkRed, amount + " base strength", ", bringing you up to ", ConsoleColor.DarkRed, (player.BaseStrength + player.WeaponStrength) + " total strength", " and leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                             purchasedSomething = true;
                                             break;
                                         }
@@ -1438,7 +1414,7 @@ namespace Adventure_Game.src.ui {
                                     else TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "That is not a number", "\"");
                                 }
                             }
-                            else if (healthPotionStock > 0 && input.ToLower().Contains("potion") || input.ToLower() == "p" || input.ToLower() == "h p" && gold > 14 * costMultiplier) //Potion heals 25% of max health
+                            else if (healthPotionStock > 0 && input.ToLower().Contains("potion") || input.ToLower() == "p" || input.ToLower() == "h p" && player.Gold > 14 * costMultiplier) //Potion heals 50% of max health
                               {
                                 while (true) {
                                     TextPrinter.CreateFourMiddlesText("", ConsoleColor.Gray, shopkeeperName + " says \"", "I currently have ", ConsoleColor.Red, healthPotionStock + " health potions", " in stock. How many would you like to buy at ", ConsoleColor.DarkYellow, 15 * costMultiplier + " gold", " each?", ConsoleColor.Gray, "\" (Say none if you do not want any)", "", ConsoleColor.Magenta);
@@ -1450,24 +1426,24 @@ namespace Adventure_Game.src.ui {
                                         else if (amount > healthPotionStock) {
                                             TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "I do not have that many in stock", "\"");
                                         }
-                                        else if (amount * 15 * costMultiplier > gold) {
+                                        else if (amount * 15 * costMultiplier > player.Gold) {
                                             TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Are you trying to scam me? You don't have that much money", "\"");
                                         }
                                         else {
-                                            healthPotionsOwned += Convert.ToInt32(amount);
+                                            player.HealthPotionsOwned += Convert.ToInt32(amount);
                                             healthPotionStock -= Convert.ToInt32(amount);
-                                            gold -= Convert.ToInt32(15 * costMultiplier * amount);
-                                            if (healthPotionsOwned == 1) {
+                                            player.Gold -= Convert.ToInt32(15 * costMultiplier * amount);
+                                            if (player.HealthPotionsOwned == 1) {
                                                 if (amount == 1) {
-                                                    TextPrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.Red, amount + " health potion", ", bringing you up to ", ConsoleColor.Red, healthPotionsOwned + " health potion", " and leaving you with ", ConsoleColor.DarkYellow, gold + " gold");
+                                                    TextPrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.Red, amount + " health potion", ", bringing you up to ", ConsoleColor.Red, player.HealthPotionsOwned + " health potion", " and leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                                 }
-                                                else TextPrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.Red, amount + " health potions", ", bringing you up to ", ConsoleColor.Red, healthPotionsOwned + " health potion", " and leaving you with ", ConsoleColor.DarkYellow, gold + " gold");
+                                                else TextPrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.Red, amount + " health potions", ", bringing you up to ", ConsoleColor.Red, player.HealthPotionsOwned + " health potion", " and leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                             }
                                             else {
                                                 if (amount == 1) {
-                                                    TextPrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.Red, amount + " health potion", ", bringing you up to ", ConsoleColor.Red, healthPotionsOwned + " health potions", " and leaving you with ", ConsoleColor.DarkYellow, gold + " gold");
+                                                    TextPrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.Red, amount + " health potion", ", bringing you up to ", ConsoleColor.Red, player.HealthPotionsOwned + " health potions", " and leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                                 }
-                                                else TextPrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.Red, amount + " health potions", ", bringing you up to ", ConsoleColor.Red, healthPotionsOwned + " health potions", " and leaving you with ", ConsoleColor.DarkYellow, gold + " gold");
+                                                else TextPrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.Red, amount + " health potions", ", bringing you up to ", ConsoleColor.Red, player.HealthPotionsOwned + " health potions", " and leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                             }
                                             purchasedSomething = true;
                                             break;
@@ -1485,13 +1461,13 @@ namespace Adventure_Game.src.ui {
                             else if (input.ToLower().Contains("exit") || input.ToLower() == "e" && purchasedSomething) {
                                 TextPrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "See you again later", "\"");
                                 Console.WriteLine("You exit " + shopkeeperName + "'s shop");
-                                if (firstHealthPotion) {
+                                if (!everUsedHealthPotion) {
                                     Console.WriteLine();
-                                    if (healthPotionsOwned == 1) {
+                                    if (player.HealthPotionsOwned == 1) {
                                         TextPrinter.CreateFourMiddlesText("To use your ", ConsoleColor.Red, "health potion", ", type \"potion\", \"p\", or \"use potion\". ", ConsoleColor.Red, "Health potions", " will heal ", ConsoleColor.Red, "50%", " of your ", ConsoleColor.Red, "maximum health", " and can only be used when you are asked in which direction you wish to travel", ConsoleColor.Cyan);
                                     }
                                     else TextPrinter.CreateFourMiddlesText("To use your ", ConsoleColor.Red, "health potions", ", type \"potion\", \"p\", or \"use potion\". ", ConsoleColor.Red, "Health potions", " will heal ", ConsoleColor.Red, "50%", " of your ", ConsoleColor.Red, "maximum health", " and can only be used when you are asked in which direction you wish to travel", ConsoleColor.Cyan);
-                                    firstHealthPotion = false;
+                                    everUsedHealthPotion = true;
                                 }
                                 break;
                             }
@@ -1507,9 +1483,9 @@ namespace Adventure_Game.src.ui {
                         }
                     }
                 }
-                switch (x) {
+                switch (player.XPos) {
                     case 0:
-                        switch (y) {
+                        switch (player.YPos) {
                             case 0: //Monster
                                 Monsters();
                                 break;
@@ -1534,7 +1510,7 @@ namespace Adventure_Game.src.ui {
                         }
                         break;
                     case -1:
-                        switch (y) {
+                        switch (player.YPos) {
                             case 0: //Loot
                                 Loot();
                                 break;
@@ -1559,7 +1535,7 @@ namespace Adventure_Game.src.ui {
                         }
                         break;
                     case 1:
-                        switch (y) {
+                        switch (player.YPos) {
                             case 0: //Loot
                                 Loot();
                                 break;
@@ -1584,7 +1560,7 @@ namespace Adventure_Game.src.ui {
                         }
                         break;
                     case 2:
-                        switch (y) {
+                        switch (player.YPos) {
                             case 0: //Village
                                 Villages(0.25, 10, "Strathmore");
                                 break;
@@ -1609,7 +1585,7 @@ namespace Adventure_Game.src.ui {
                         }
                         break;
                     case -2:
-                        switch (y) {
+                        switch (player.YPos) {
                             case 0: //Monster
                                 Monsters();
                                 break;
@@ -1634,7 +1610,7 @@ namespace Adventure_Game.src.ui {
                         }
                         break;
                     case 3:
-                        switch (y) {
+                        switch (player.YPos) {
                             case 0: //Monster
                                 Monsters();
                                 break;
@@ -1659,7 +1635,7 @@ namespace Adventure_Game.src.ui {
                         }
                         break;
                     case -3:
-                        switch (y) {
+                        switch (player.YPos) {
                             case 0: //Monster
                                 Monsters();
                                 break;
@@ -1686,7 +1662,7 @@ namespace Adventure_Game.src.ui {
                 }
                 //Map End
 
-                if (health <= 0) {
+                if (player.Health <= 0) {
                     Console.WriteLine();
                     Console.WriteLine("Do you wish to exit the game? (y or n)");
                     if (Console.ReadKey().Key == ConsoleKey.Y) {
@@ -1705,15 +1681,15 @@ namespace Adventure_Game.src.ui {
 
         private void Move() {
             bool straight, right, left;
-            if ((rotation == 1 && y > 2) || (rotation == 2 && x > 2) || (rotation == 3 && y < -2) || (rotation == 4 && x < -2)) {
+            if ((player.Rotation == 1 && player.YPos > 2) || (player.Rotation == 2 && player.XPos > 2) || (player.Rotation == 3 && player.YPos < -2) || (player.Rotation == 4 && player.XPos < -2)) {
                 straight = false;
             }
             else straight = true;
-            if ((rotation == 1 && x < -2) || (rotation == 2 && y > 2) || (rotation == 3 && x > 2) || (rotation == 4 && y < -2)) {
+            if ((player.Rotation == 1 && player.XPos < -2) || (player.Rotation == 2 && player.YPos > 2) || (player.Rotation == 3 && player.XPos > 2) || (player.Rotation == 4 && player.YPos < -2)) {
                 left = false;
             }
             else left = true;
-            if ((rotation == 1 && x > 2) || (rotation == 2 && y < -2) || (rotation == 3 && x < -2) || (rotation == 4 && y > 2)) {
+            if ((player.Rotation == 1 && player.XPos > 2) || (player.Rotation == 2 && player.YPos < -2) || (player.Rotation == 3 && player.XPos < -2) || (player.Rotation == 4 && player.YPos > 2)) {
                 right = false;
             }
             else right = true;
@@ -1733,18 +1709,18 @@ namespace Adventure_Game.src.ui {
                 string input = Console.ReadLine();
                 if (input.ToLower().Contains("straight") || input.ToLower() == "s") {
                     if (straight == true) {
-                        switch (rotation) {
+                        switch (player.Rotation) {
                             case 1: //North
-                                y++;
+                                player.YPos++;
                                 break;
                             case 2: //East
-                                x++;
+                                player.XPos++;
                                 break;
                             case 3: //South
-                                y--;
+                                player.YPos--;
                                 break;
                             case 4: //West
-                                x--;
+                                player.XPos--;
                                 break;
                             default:
                                 System.Environment.Exit(1);
@@ -1758,22 +1734,22 @@ namespace Adventure_Game.src.ui {
                 }
                 else if (input.ToLower().Contains("left") || input.ToLower() == "l") {
                     if (left == true) {
-                        switch (rotation) {
+                        switch (player.Rotation) {
                             case 1: //North
-                                x--;
-                                rotation = 4;
+                                player.XPos--;
+                                player.Rotation = 4;
                                 break;
                             case 2: //East
-                                y++;
-                                rotation = 1;
+                                player.YPos++;
+                                player.Rotation = 1;
                                 break;
                             case 3: //South
-                                x++;
-                                rotation = 2;
+                                player.XPos++;
+                                player.Rotation = 2;
                                 break;
                             case 4: //West
-                                y--;
-                                rotation = 3;
+                                player.YPos--;
+                                player.Rotation = 3;
                                 break;
                             default:
                                 System.Environment.Exit(1);
@@ -1787,22 +1763,22 @@ namespace Adventure_Game.src.ui {
                 }
                 else if (input.ToLower().Contains("right") || input.ToLower() == "r") {
                     if (right == true) {
-                        switch (rotation) {
+                        switch (player.Rotation) {
                             case 1: //North
-                                x++;
-                                rotation = 2;
+                                player.XPos++;
+                                player.Rotation = 2;
                                 break;
                             case 2: //East
-                                y--;
-                                rotation = 3;
+                                player.YPos--;
+                                player.Rotation = 3;
                                 break;
                             case 3: //South
-                                x--;
-                                rotation = 4;
+                                player.XPos--;
+                                player.Rotation = 4;
                                 break;
                             case 4: //West
-                                y++;
-                                rotation = 1;
+                                player.YPos++;
+                                player.Rotation = 1;
                                 break;
                             default:
                                 System.Environment.Exit(1);
@@ -1816,28 +1792,28 @@ namespace Adventure_Game.src.ui {
                 }
                 else if (input.ToLower().Contains("potion") || input.ToLower() == "p") //Using potion
                   {
-                    if (healthPotionsOwned > 0) {
-                        if (health == maxHealth && healthPotionsOwned > 1) {
-                            TextPrinter.CreateFourMiddlesText("You are already at your ", ConsoleColor.Red, "maximum health", ", ", ConsoleColor.Red, health + " health", ". You are still at ", ConsoleColor.Red, healthPotionsOwned + " health potions", ".");
+                    if (player.HealthPotionsOwned > 0) {
+                        if (player.Health == player.MaxHealth && player.HealthPotionsOwned > 1) {
+                            TextPrinter.CreateFourMiddlesText("You are already at your ", ConsoleColor.Red, "maximum health", ", ", ConsoleColor.Red, player.Health + " health", ". You are still at ", ConsoleColor.Red, player.HealthPotionsOwned + " health potions", ".");
                         }
-                        else if (health == maxHealth) {
-                            TextPrinter.CreateFourMiddlesText("You are already at your ", ConsoleColor.Red, "maximum health", ", ", ConsoleColor.Red, health + " health", ". You are still at ", ConsoleColor.Red, "1 health potion", ".");
+                        else if (player.Health == player.MaxHealth) {
+                            TextPrinter.CreateFourMiddlesText("You are already at your ", ConsoleColor.Red, "maximum health", ", ", ConsoleColor.Red, player.Health + " health", ". You are still at ", ConsoleColor.Red, "1 health potion", ".");
                         }
                         else {
-                            healthPotionsOwned--;
-                            if (health + (maxHealth / 2.0) >= maxHealth) {
-                                health = maxHealth;
-                                if (healthPotionsOwned == 1) {
-                                    TextPrinter.CreateFourMiddlesText("You succesfully used a ", ConsoleColor.Red, "health potion", ", bringing you up to ", ConsoleColor.Red, health + " health", " (your maximum health) and leaving you with ", ConsoleColor.Red, healthPotionsOwned + " health potion");
+                            player.HealthPotionsOwned--;
+                            if (player.Health + (player.MaxHealth / 2.0) >= player.MaxHealth) {
+                                player.Health = player.MaxHealth;
+                                if (player.HealthPotionsOwned == 1) {
+                                    TextPrinter.CreateFourMiddlesText("You succesfully used a ", ConsoleColor.Red, "health potion", ", bringing you up to ", ConsoleColor.Red, player.Health + " health", " (your maximum health) and leaving you with ", ConsoleColor.Red, player.HealthPotionsOwned + " health potion");
                                 }
-                                else TextPrinter.CreateFourMiddlesText("You succesfully used a ", ConsoleColor.Red, "health potion", ", bringing you up to ", ConsoleColor.Red, health + " health", " (your maximum health) and leaving you with ", ConsoleColor.Red, healthPotionsOwned + " health potions");
+                                else TextPrinter.CreateFourMiddlesText("You succesfully used a ", ConsoleColor.Red, "health potion", ", bringing you up to ", ConsoleColor.Red, player.Health + " health", " (your maximum health) and leaving you with ", ConsoleColor.Red, player.HealthPotionsOwned + " health potions");
                             }
                             else {
-                                health += (maxHealth / 2.0);
-                                if (healthPotionsOwned == 1) {
-                                    TextPrinter.CreateFourMiddlesText("You succesfully used a ", ConsoleColor.Red, "health potion", ", bringing you up to ", ConsoleColor.Red, Math.Round(health, 2) + " health", " and leaving you with ", ConsoleColor.Red, healthPotionsOwned + " health potion");
+                                player.Health += (player.MaxHealth / 2.0);
+                                if (player.HealthPotionsOwned == 1) {
+                                    TextPrinter.CreateFourMiddlesText("You succesfully used a ", ConsoleColor.Red, "health potion", ", bringing you up to ", ConsoleColor.Red, Math.Round(player.Health, 2) + " health", " and leaving you with ", ConsoleColor.Red, player.HealthPotionsOwned + " health potion");
                                 }
-                                else TextPrinter.CreateFourMiddlesText("You succesfully used a ", ConsoleColor.Red, "health potion", ", bringing you up to ", ConsoleColor.Red, Math.Round(health, 2) + " health", " and leaving you with ", ConsoleColor.Red, healthPotionsOwned + " health potions");
+                                else TextPrinter.CreateFourMiddlesText("You succesfully used a ", ConsoleColor.Red, "health potion", ", bringing you up to ", ConsoleColor.Red, Math.Round(player.Health, 2) + " health", " and leaving you with ", ConsoleColor.Red, player.HealthPotionsOwned + " health potions");
                             }
 
                         }
