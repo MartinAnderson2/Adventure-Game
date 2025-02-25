@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Adventure_Game.src.ui {
     static class TextPrinter {
         /// <summary>
-        /// Writes <paramref name="text"/> to the current line in the specified colour.
+        /// Write <paramref name="text"/> to the current line in the specified colour.
         /// </summary>
         /// <param name="colour">The <c>ConsoleColor</c> in which to write.</param>
         /// <param name="text">The text to write on the current line.</param>
@@ -18,7 +18,7 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Writes <paramref name="text"/> to the current line in the specified colour then inserts a new line.
+        /// Write <paramref name="text"/> to the current line in the specified colour then insert a new line.
         /// </summary>
         /// <param name="colour">The <c>ConsoleColor</c> in which to write.</param>
         /// <param name="text">The text to write on the current line.</param>
@@ -29,7 +29,8 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Writes <paramref name="firstText"/> in <paramref name="defaultColour"/> then <paramref name="colouredText"/> in <paramref name="colour"/> then <paramref name="finalText"/> (if specified) in <paramref name="defaultColour"/> then inserts a new line.
+        /// Write <paramref name="firstText"/> in <paramref name="defaultColour"/> then <paramref name="colouredText"/> in <paramref name="colour"/>
+        ///  then <paramref name="finalText"/> (if specified) in <paramref name="defaultColour"/> then insert a new line.
         /// </summary>
         /// <param name="firstText">Text to write before coloured text.</param>
         /// <param name="colour">Colour to write coloured text in.</param>
@@ -44,9 +45,9 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Writes <paramref name="firstText"/>  in <paramref name="defaultColour"/> then <paramref name="firstColouredText"/> in <paramref name="colourOne"/>
+        /// Write <paramref name="firstText"/>  in <paramref name="defaultColour"/> then <paramref name="firstColouredText"/> in <paramref name="colourOne"/>
         ///   then <paramref name="middleText"/> in <paramref name="defaultColour"/> then <paramref name="secondColouredText"/> in <paramref name="colourTwo"/>
-        ///   then <paramref name="finalText"/>  in <paramref name="defaultColour"/> and inserts a new line.
+        ///   then <paramref name="finalText"/>  in <paramref name="defaultColour"/> and insert a new line.
         /// </summary>
         /// <param name="firstText">Text to write before coloured text.</param>
         /// <param name="colourOne">Colour to write first coloured text in.</param>
@@ -68,11 +69,11 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Writes <paramref name="firstText"/>  then <paramref name="firstColouredText"/>  in <paramref name="colourOne"/>
+        /// Write <paramref name="firstText"/>  then <paramref name="firstColouredText"/>  in <paramref name="colourOne"/>
         ///   then <paramref name="secondText"/> then <paramref name="secondColouredText"/> in <paramref name="colourTwo"/>
         ///   then <paramref name="thirdText"/>  then <paramref name="thirdColouredText"/>  in <paramref name="colourThree"/>
         ///   then <paramref name="fourthText"/> then <paramref name="fourthColouredText"/> in <paramref name="colourFour"/>
-        ///   then <paramref name="finalText"/>. Non-coloured text is in <paramref name="defaultColour"/> and inserts a new line.
+        ///   then <paramref name="finalText"/>. Non-coloured text is in <paramref name="defaultColour"/> and insert a new line.
         /// </summary>
         /// <param name="firstText">Text to write before coloured text.</param>
         /// <param name="colourOne">Colour to write first coloured text in.</param>
