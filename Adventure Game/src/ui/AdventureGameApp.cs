@@ -16,9 +16,9 @@ namespace Adventure_Game.src.ui {
         private double difficulty;
         private uint daysPlayed;
         private uint dateLastShopped;
-        private int healthPotionStock;
-        private int baseStrengthStock;
-        private int maxHealthStock;
+        private uint healthPotionStock;
+        private uint baseStrengthStock;
+        private uint maxHealthStock;
         private bool everUsedHealthPotion;
         Random random;
 
@@ -1380,9 +1380,9 @@ namespace Adventure_Game.src.ui {
                                             ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Are you trying to scam me? You don't have that much money", "\"");
                                         }
                                         else {
-                                            player.MaxHealth += Convert.ToInt32(amount) * 5;
+                                            player.MaxHealth += amount * 5;
                                             player.Health += amount * 5;
-                                            maxHealthStock -= Convert.ToInt32(amount);
+                                            maxHealthStock -= Convert.ToUInt32(amount);
                                             player.Gold -= Convert.ToInt32(50 * costMultiplier * amount);
                                             ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.Red, amount * 5 + " max health", ", bringing you up to ", ConsoleColor.Red, player.MaxHealth + " max health", " and leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                             purchasedSomething = true;
@@ -1412,7 +1412,7 @@ namespace Adventure_Game.src.ui {
                                         }
                                         else {
                                             player.BaseStrength += amount;
-                                            baseStrengthStock -= Convert.ToInt32(amount);
+                                            baseStrengthStock -= Convert.ToUInt32(amount);
                                             player.Gold -= Convert.ToInt32(50 * costMultiplier * amount);
                                             ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", ConsoleColor.DarkRed, amount + " base strength", ", bringing you up to ", ConsoleColor.DarkRed, (player.BaseStrength + player.HeldWeapon.Strength) + " total strength", " and leaving you with ", ConsoleColor.DarkYellow, player.Gold + " gold");
                                             purchasedSomething = true;
@@ -1441,8 +1441,8 @@ namespace Adventure_Game.src.ui {
                                             ConsolePrinter.CreateMiddleText(shopkeeperName + " says \"", ConsoleColor.Magenta, "Are you trying to scam me? You don't have that much money", "\"");
                                         }
                                         else {
-                                            player.NumHealthPotions += Convert.ToInt32(amount);
-                                            healthPotionStock -= Convert.ToInt32(amount);
+                                            player.NumHealthPotions += amount;
+                                            healthPotionStock -= amount;
                                             player.Gold -= Convert.ToInt32(15 * costMultiplier * amount);
                                             if (player.NumHealthPotions == 1) {
                                                 if (amount == 1) {

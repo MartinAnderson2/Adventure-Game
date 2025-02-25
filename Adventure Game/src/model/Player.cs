@@ -17,8 +17,8 @@ namespace Adventure_Game.src.model {
         public string Subclass { get; set; }
         public int SubclassValue { get; set; }
         public double Health { get; set; }
-        public int MaxHealth { get; set; }
-        public int NumHealthPotions { get; set; }
+        public uint MaxHealth { get; set; }
+        public uint NumHealthPotions { get; set; }
         public double BaseStrength { get; set; }
         public Weapon HeldWeapon { get; set; }
         public int Gold { get; set; }
