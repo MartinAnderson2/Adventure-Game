@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -81,6 +83,65 @@ namespace Adventure_Game.src.model {
         /// <returns>The player's total strength</returns>
         public double GetTotalStrength() {
             return BaseStrength + HeldWeapon.Strength;
+        }
+
+        /// <summary>
+        /// Rotates the player clockwise:
+        ///     If they were facing North, they face East
+        ///     If they were facing East, they face South
+        ///     If they were facing South, they face West
+        ///     If they were facing West, they face North
+        /// </summary>
+        public void TurnClockwise() {
+            switch (Facing) {
+                case Direction.North:
+                    Facing = Direction.East;
+                    break;
+                case Direction.East:
+                    Facing = Direction.South;
+                    break;
+                case Direction.South:
+                    Facing = Direction.West;
+                    break;
+                case Direction.West:
+                    Facing = Direction.North;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Rotates the player counterclockwise:
+        ///     If they were facing North, they face West
+        ///     If they were facing East, they face North
+        ///     If they were facing South, they face East
+        ///     If they were facing West, they face South
+        /// </summary>
+        public void TurnCounterclockwise() {
+            switch (Facing) {
+                case Direction.North:
+                    Facing = Direction.West;
+                    break;
+                case Direction.East:
+                    Facing = Direction.North;
+                    break;
+                case Direction.South:
+                    Facing = Direction.East;
+                    break;
+                case Direction.West:
+                    Facing = Direction.South;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Rotates the player counterclockwise:
+        ///     If they were facing North, they face West
+        ///     If they were facing East, they face North
+        ///     If they were facing South, they face East
+        ///     If they were facing West, they face South
+        /// </summary>
+        public void TurnAnticlockwise() {
+            TurnCounterclockwise();
         }
     }
 }

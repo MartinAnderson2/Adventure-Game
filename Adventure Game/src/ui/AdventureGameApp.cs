@@ -1841,24 +1841,21 @@ namespace Adventure_Game.src.ui {
                         switch (player.Facing) {
                             case Player.Direction.North:
                                 player.XPos--;
-                                player.Facing = Player.Direction.West;
                                 break;
                             case Player.Direction.East:
                                 player.YPos++;
-                                player.Facing = Player.Direction.North;
                                 break;
                             case Player.Direction.South:
                                 player.XPos++;
-                                player.Facing = Player.Direction.East;
                                 break;
                             case Player.Direction.West:
                                 player.YPos--;
-                                player.Facing = Player.Direction.South;
                                 break;
                             default:
                                 Debug.Fail("Direction was not one of 1, 2, 3, or 4");
                                 break;
                         }
+                        player.TurnCounterclockwise();
                         break;
                     }
                     else {
@@ -1870,24 +1867,21 @@ namespace Adventure_Game.src.ui {
                         switch (player.Facing) {
                             case Player.Direction.North:
                                 player.XPos++;
-                                player.Facing = Player.Direction.East;
                                 break;
                             case Player.Direction.East:
                                 player.YPos--;
-                                player.Facing = Player.Direction.South;
                                 break;
                             case Player.Direction.South:
                                 player.XPos--;
-                                player.Facing = Player.Direction.West;
                                 break;
                             case Player.Direction.West:
                                 player.YPos++;
-                                player.Facing = Player.Direction.North;
                                 break;
                             default:
                                 Debug.Fail("Direction was not one of 1, 2, 3, or 4");
                                 break;
                         }
+                        player.TurnClockwise();
                         break;
                     }
                     else {
