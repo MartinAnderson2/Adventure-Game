@@ -1776,15 +1776,24 @@ namespace Adventure_Game.src.ui {
         /// </summary>
         private void Move() {
             bool straight, right, left;
-            if ((player.Rotation == 1 && player.YPos > 2) || (player.Rotation == 2 && player.XPos > 2) || (player.Rotation == 3 && player.YPos < -2) || (player.Rotation == 4 && player.XPos < -2)) {
+            if ((player.Facing == Player.Direction.North && player.YPos > 2)
+                || (player.Facing == Player.Direction.East && player.XPos > 2)
+                || (player.Facing == Player.Direction.South && player.YPos < -2)
+                || (player.Facing == Player.Direction.West && player.XPos < -2)) {
                 straight = false;
             }
             else straight = true;
-            if ((player.Rotation == 1 && player.XPos < -2) || (player.Rotation == 2 && player.YPos > 2) || (player.Rotation == 3 && player.XPos > 2) || (player.Rotation == 4 && player.YPos < -2)) {
+            if ((player.Facing == Player.Direction.North && player.XPos < -2)
+                || (player.Facing == Player.Direction.East && player.YPos > 2)
+                || (player.Facing == Player.Direction.South && player.XPos > 2)
+                || (player.Facing == Player.Direction.West && player.YPos < -2)) {
                 left = false;
             }
             else left = true;
-            if ((player.Rotation == 1 && player.XPos > 2) || (player.Rotation == 2 && player.YPos < -2) || (player.Rotation == 3 && player.XPos < -2) || (player.Rotation == 4 && player.YPos > 2)) {
+            if ((player.Facing == Player.Direction.North && player.XPos > 2)
+                || (player.Facing == Player.Direction.East && player.YPos < -2)
+                || (player.Facing == Player.Direction.South && player.XPos < -2)
+                || (player.Facing == Player.Direction.West && player.YPos > 2)) {
                 right = false;
             }
             else right = true;
@@ -1804,17 +1813,17 @@ namespace Adventure_Game.src.ui {
                 string input = Console.ReadLine();
                 if (input.ToLower() == "straight" || input.ToLower() == "s") {
                     if (straight == true) {
-                        switch (player.Rotation) {
-                            case 1: //North
+                        switch (player.Facing) {
+                            case Player.Direction.North:
                                 player.YPos++;
                                 break;
-                            case 2: //East
+                            case Player.Direction.East:
                                 player.XPos++;
                                 break;
-                            case 3: //South
+                            case Player.Direction.South:
                                 player.YPos--;
                                 break;
-                            case 4: //West
+                            case Player.Direction.West:
                                 player.XPos--;
                                 break;
                             default:
@@ -1829,22 +1838,22 @@ namespace Adventure_Game.src.ui {
                 }
                 else if (input.ToLower() == "left" || input.ToLower() == "l") {
                     if (left == true) {
-                        switch (player.Rotation) {
-                            case 1: //North
+                        switch (player.Facing) {
+                            case Player.Direction.North:
                                 player.XPos--;
-                                player.Rotation = 4;
+                                player.Facing = Player.Direction.West;
                                 break;
-                            case 2: //East
+                            case Player.Direction.East:
                                 player.YPos++;
-                                player.Rotation = 1;
+                                player.Facing = Player.Direction.North;
                                 break;
-                            case 3: //South
+                            case Player.Direction.South:
                                 player.XPos++;
-                                player.Rotation = 2;
+                                player.Facing = Player.Direction.East;
                                 break;
-                            case 4: //West
+                            case Player.Direction.West:
                                 player.YPos--;
-                                player.Rotation = 3;
+                                player.Facing = Player.Direction.South;
                                 break;
                             default:
                                 Debug.Fail("Direction was not one of 1, 2, 3, or 4");
@@ -1858,22 +1867,22 @@ namespace Adventure_Game.src.ui {
                 }
                 else if (input.ToLower() == "right" || input.ToLower() == "r") {
                     if (right == true) {
-                        switch (player.Rotation) {
-                            case 1: //North
+                        switch (player.Facing) {
+                            case Player.Direction.North:
                                 player.XPos++;
-                                player.Rotation = 2;
+                                player.Facing = Player.Direction.East;
                                 break;
-                            case 2: //East
+                            case Player.Direction.East:
                                 player.YPos--;
-                                player.Rotation = 3;
+                                player.Facing = Player.Direction.South;
                                 break;
-                            case 3: //South
+                            case Player.Direction.South:
                                 player.XPos--;
-                                player.Rotation = 4;
+                                player.Facing = Player.Direction.West;
                                 break;
-                            case 4: //West
+                            case Player.Direction.West:
                                 player.YPos++;
-                                player.Rotation = 1;
+                                player.Facing = Player.Direction.North;
                                 break;
                             default:
                                 Debug.Fail("Direction was not one of 1, 2, 3, or 4");

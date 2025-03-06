@@ -24,7 +24,14 @@ namespace Adventure_Game.src.model {
         public int Gold { get; set; }
         public int XPos { get; set; }
         public int YPos { get; set; }
-        public uint Rotation { get; set; }
+        
+        public enum Direction {
+            North,
+            East,
+            South,
+            West
+        }
+        public Direction Facing { get; set; }
 
         /// <summary>
         /// Create a new Player with a name, class, and subclass, with full health and maximum health set to the
@@ -49,7 +56,7 @@ namespace Adventure_Game.src.model {
             this.Gold = 0;
             this.XPos = 0;
             this.YPos = 0;
-            this.Rotation = 1;
+            this.Facing = Direction.North;
         }
 
         /// <summary>
@@ -65,7 +72,7 @@ namespace Adventure_Game.src.model {
             this.Gold = 0;
             this.XPos = 0;
             this.YPos = 0;
-            this.Rotation = 1;
+            this.Facing = Direction.North;
         }
 
         /// <summary>
