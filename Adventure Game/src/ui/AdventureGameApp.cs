@@ -1813,23 +1813,7 @@ namespace Adventure_Game.src.ui {
                 string input = Console.ReadLine();
                 if (input.ToLower() == "straight" || input.ToLower() == "s") {
                     if (straight == true) {
-                        switch (player.Facing) {
-                            case Player.Direction.North:
-                                player.YPos++;
-                                break;
-                            case Player.Direction.East:
-                                player.XPos++;
-                                break;
-                            case Player.Direction.South:
-                                player.YPos--;
-                                break;
-                            case Player.Direction.West:
-                                player.XPos--;
-                                break;
-                            default:
-                                Debug.Fail("Direction was not one of 1, 2, 3, or 4");
-                                break;
-                        }
+                        player.MoveForward();
                         break;
                     }
                     else {
@@ -1838,24 +1822,8 @@ namespace Adventure_Game.src.ui {
                 }
                 else if (input.ToLower() == "left" || input.ToLower() == "l") {
                     if (left == true) {
-                        switch (player.Facing) {
-                            case Player.Direction.North:
-                                player.XPos--;
-                                break;
-                            case Player.Direction.East:
-                                player.YPos++;
-                                break;
-                            case Player.Direction.South:
-                                player.XPos++;
-                                break;
-                            case Player.Direction.West:
-                                player.YPos--;
-                                break;
-                            default:
-                                Debug.Fail("Direction was not one of 1, 2, 3, or 4");
-                                break;
-                        }
                         player.TurnCounterclockwise();
+                        player.MoveForward();
                         break;
                     }
                     else {
@@ -1864,31 +1832,15 @@ namespace Adventure_Game.src.ui {
                 }
                 else if (input.ToLower() == "right" || input.ToLower() == "r") {
                     if (right == true) {
-                        switch (player.Facing) {
-                            case Player.Direction.North:
-                                player.XPos++;
-                                break;
-                            case Player.Direction.East:
-                                player.YPos--;
-                                break;
-                            case Player.Direction.South:
-                                player.XPos--;
-                                break;
-                            case Player.Direction.West:
-                                player.YPos++;
-                                break;
-                            default:
-                                Debug.Fail("Direction was not one of 1, 2, 3, or 4");
-                                break;
-                        }
                         player.TurnClockwise();
+                        player.MoveForward();
                         break;
                     }
                     else {
                         Console.WriteLine("That is not an option, please look at the options and try again");
                     }
                 }
-                else if (input.ToLower() == "potion" || input.ToLower() == "p") //Using potion
+                else if (input.ToLower() == "potion" || input.ToLower() == "p")
                   {
                     if (player.NumHealthPotions > 0) {
                         if (player.Health == player.MaxHealth && player.NumHealthPotions > 1) {

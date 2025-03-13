@@ -143,5 +143,29 @@ namespace Adventure_Game.src.model {
         public void TurnAnticlockwise() {
             TurnCounterclockwise();
         }
+
+        /// <summary>
+        /// Moves the player one coordinate forward, in the direction they are facing:
+        ///     If they are at (x, y) facing North, they move to (x, y + 1)
+        ///     If they are at (x, y) facing East , they move to (x + 1, y)
+        ///     If they are at (x, y) facing South, they move to (x, y - 1)
+        ///     If they are at (x, y) facing West , they move to (x - 1, y)
+        /// </summary>
+        public void MoveForward() {
+            switch (Facing) {
+                case Direction.North:
+                    YPos++;
+                    break;
+                case Direction.East:
+                    XPos++;
+                    break;
+                case Direction.South:
+                    YPos--;
+                    break;
+                case Direction.West:
+                    XPos--;
+                    break;
+            }
+        }
     }
 }
