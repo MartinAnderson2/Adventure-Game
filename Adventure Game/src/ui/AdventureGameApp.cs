@@ -1775,10 +1775,9 @@ namespace Adventure_Game.src.ui {
         /// in the direction of their choice.
         /// </summary>
         private void Move() {
-            bool straight, right, left;
-            straight = game.PlayerCanMoveStraight();
-            right = game.PlayerCanMoveRight();
-            left = game.PlayerCanMoveLeft();
+            bool straight = game.PlayerCanMoveStraight();
+            bool right = game.PlayerCanMoveRight();
+            bool left = game.PlayerCanMoveLeft();
             while (true) {
                 if (!straight && !right && !left) {
                     Console.WriteLine("You don't seem to be able to move. Please restart the program and try again");
