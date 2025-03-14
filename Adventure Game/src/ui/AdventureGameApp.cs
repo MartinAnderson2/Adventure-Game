@@ -1776,27 +1776,9 @@ namespace Adventure_Game.src.ui {
         /// </summary>
         private void Move() {
             bool straight, right, left;
-            if ((player.Facing == Player.Direction.North && player.YPos > 2)
-                || (player.Facing == Player.Direction.East && player.XPos > 2)
-                || (player.Facing == Player.Direction.South && player.YPos < -2)
-                || (player.Facing == Player.Direction.West && player.XPos < -2)) {
-                straight = false;
-            }
-            else straight = true;
-            if ((player.Facing == Player.Direction.North && player.XPos < -2)
-                || (player.Facing == Player.Direction.East && player.YPos > 2)
-                || (player.Facing == Player.Direction.South && player.XPos > 2)
-                || (player.Facing == Player.Direction.West && player.YPos < -2)) {
-                left = false;
-            }
-            else left = true;
-            if ((player.Facing == Player.Direction.North && player.XPos > 2)
-                || (player.Facing == Player.Direction.East && player.YPos < -2)
-                || (player.Facing == Player.Direction.South && player.XPos < -2)
-                || (player.Facing == Player.Direction.West && player.YPos > 2)) {
-                right = false;
-            }
-            else right = true;
+            straight = game.PlayerCanMoveStraight();
+            right = game.PlayerCanMoveRight();
+            left = game.PlayerCanMoveLeft();
             while (true) {
                 if (!straight && !right && !left) {
                     Console.WriteLine("You don't seem to be able to move. Please restart the program and try again");

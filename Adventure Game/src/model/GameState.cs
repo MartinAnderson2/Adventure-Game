@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Formats.Asn1;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -90,6 +91,63 @@ namespace Adventure_Game.src.model {
                 default:
                     Debug.Fail("GameDifficulty was not a Difficulty value, its integer value is: " + (int) GameDifficulty);
                     return 0.75;
+            }
+        }
+
+        /// <summary>
+        /// Return true if the player can move straight without moving off the map
+        /// </summary>
+        /// <returns></returns>
+        public bool PlayerCanMoveStraight() {
+            switch (GamePlayer.Facing) {
+                case Player.Direction.North:
+                    return GamePlayer.YPos <= 2;
+                case Player.Direction.East:
+                    return GamePlayer.XPos <= 2;
+                case Player.Direction.South:
+                    return GamePlayer.YPos >= -2;
+                case Player.Direction.West:
+                    return GamePlayer.XPos >= -2;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Return true if the player can move right without moving off the map
+        /// </summary>
+        /// <returns></returns>
+        public bool PlayerCanMoveRight() {
+            switch (GamePlayer.Facing) {
+                case Player.Direction.North:
+                    return GamePlayer.XPos <= 2;
+                case Player.Direction.East:
+                    return GamePlayer.YPos >= -2;
+                case Player.Direction.South:
+                    return GamePlayer.XPos >= -2;
+                case Player.Direction.West:
+                    return GamePlayer.YPos <= 2;
+                default:
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// Return true if the player can move left without moving off the map
+        /// </summary>
+        /// <returns></returns>
+        public bool PlayerCanMoveLeft() {
+            switch (GamePlayer.Facing) {
+                case Player.Direction.North:
+                    return GamePlayer.XPos >= -2;
+                case Player.Direction.East:
+                    return GamePlayer.YPos <= 2;
+                case Player.Direction.South:
+                    return GamePlayer.XPos <= 2;
+                case Player.Direction.West:
+                    return GamePlayer.YPos >= -2;
+                default:
+                    return false;
             }
         }
     }
