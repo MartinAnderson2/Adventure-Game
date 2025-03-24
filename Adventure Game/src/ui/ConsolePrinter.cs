@@ -7,8 +7,24 @@ using System.Threading.Tasks;
 namespace Adventure_Game.src.ui {
     /// <summary>
     /// Contains various static methods to make common console printing tasks easier.
+    /// Also has constants for naming colours.
     /// </summary>
     static class ConsolePrinter {
+        public const ConsoleColor DefaultColour = ConsoleColor.Gray;
+
+        public const ConsoleColor EmphasisColour = ConsoleColor.White;
+        public const ConsoleColor NoteColour = ConsoleColor.Cyan;
+
+        public const ConsoleColor TakingDamageColour = ConsoleColor.Red;
+        public const ConsoleColor DealingDamageColour = ConsoleColor.Green;
+        public const ConsoleColor DialogueColour = ConsoleColor.Magenta;
+        public const ConsoleColor SleepTimeColour = ConsoleColor.Blue;
+
+        public const ConsoleColor HealthColour = ConsoleColor.Red;
+        public const ConsoleColor DamageColour = ConsoleColor.DarkRed;
+        public const ConsoleColor StrengthColour = ConsoleColor.DarkRed;
+        public const ConsoleColor GoldColour = ConsoleColor.DarkYellow;
+
         /// <summary>
         /// Write <paramref name="text"/> to the current line in the specified colour.
         /// </summary>
