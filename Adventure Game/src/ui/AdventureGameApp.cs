@@ -29,10 +29,13 @@ namespace Adventure_Game.src.ui {
 
                 CreateCharacter();
 
-                // TODO: Remove when project is done
+                #if DEBUG
                 if (player is not null && player.Name != "Me") {
                     Tutorial();
                 }
+                #else
+                Tutorial();
+                #endif
 
                 ConsolePrinter.PrintBlankLines(2);
 
@@ -99,7 +102,7 @@ namespace Adventure_Game.src.ui {
             
             while (true) {
                 // Quick default character creator for testing purposes
-                // TODO: Remove when done
+                #if DEBUG
                 if (player.Name == "Me") {
                     player.Class = "fighter";
                     player.ClassValue = 0;
@@ -107,6 +110,7 @@ namespace Adventure_Game.src.ui {
                     player.SubclassValue = 0;
                     break;
                 }
+                #endif
                 Console.WriteLine("Is " + player.Name + " going to be a fighter, magician, rogue, cleric, or ranger?");
                 string? secondInput = Console.ReadLine();
                 if (secondInput is null) {
@@ -1854,18 +1858,27 @@ namespace Adventure_Game.src.ui {
                 else if (input.ToLower() == "exit" || input.ToLower() == "e") {
                     GiveOptionToExitGame();
                 }
-                /*else if (input.Length > 7 && input.Substring(0, 8).ToLower() == "gold add")
-                {
-                    if (int.TryParse(input.Substring(8), out int goldToAdd))
-                    {
-                        gold += goldToAdd;
-                        TextPrinter.CreateTwoMiddlesText("", ConsoleColor.DarkYellow, goldToAdd + " gold", " has succesfully been added, bringing you up to ", ConsoleColor.DarkYellow, gold + " gold");
+                // Debug code:
+                #if DEBUG
+                else if (input.Length > 7 && input.Substring(0, 8).ToLower() == "gold add") {
+                    if (int.TryParse(input.Substring(8), out int goldToAdd)) {
+                        player.Gold += goldToAdd;
+                        ConsolePrinter.CreateTwoMiddlesText("", ConsoleColor.DarkYellow, goldToAdd + " gold", " has succesfully been added, bringing you up to ", ConsoleColor.DarkYellow, player.Gold + " gold");
                     }
-                    else
-                    {
+                    else {
                         Console.WriteLine("That was not a valid number");
                     }
-                }*/
+                }
+                else if (input.Length > 9 && input.Substring(0, 10).ToLower() == "health add") {
+                    if (int.TryParse(input.Substring(10), out int healthToAdd)) {
+                        player.Health += healthToAdd;
+                        ConsolePrinter.CreateTwoMiddlesText("", ConsoleColor.Red, healthToAdd + " health", " has succesfully been added, bringing you up to ", ConsoleColor.Red, player.Health + " health");
+                    }
+                    else {
+                        Console.WriteLine("That was not a valid number");
+                    }
+                }
+                #endif
                 else Console.WriteLine("That is not an option, please look at the options and try again");
             }
         }
