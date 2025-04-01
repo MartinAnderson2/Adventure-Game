@@ -18,7 +18,6 @@ namespace Adventure_Game.src.model {
     /// </summary>
     class GameState {
         public const uint STARTING_MAX_HEALTH = 20;
-        public const double NORMAL_DIFFICULTY = 0.75;
         public static Weapon FISTS = new Weapon("fists", 0, 0, true);
 
 
