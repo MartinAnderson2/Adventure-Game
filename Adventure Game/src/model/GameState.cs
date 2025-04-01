@@ -7,6 +7,8 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
+using Adventure_Game.src.model.Tiles;
+
 namespace Adventure_Game.src.model {
     /// <summary>
     /// Represents the current state of the game with the game's difficulty, the number of days that have been played
@@ -21,6 +23,12 @@ namespace Adventure_Game.src.model {
 
 
         public Player GamePlayer { get; set; }
+
+        public String? CurrentShopkeeperName { get; private set; }
+        public int? CurrentShopMultiplier { get; private set; }
+        public String? CurrentVillageName { get; private set; }
+        public int? CurrentInnCost { get; private set; }
+        public double? CurrentInnHealing { get; private set; }
 
         /// <summary>
         /// Represents the three different difficulties the game can be played at.
@@ -39,12 +47,13 @@ namespace Adventure_Game.src.model {
         public bool EverUsedHealthPotion { get; set; }
 
         /// <summary>
-        /// Creates a new game with a player with no name or class and subclass set to normal difficulty no health
-        /// potion, base strength, and max health stock, 0 days played 0 days since last shopping trip, and no health
-        /// potions ever used.
+        /// Creates a new game with a player with no name or class and subclass with no current shopkeeper name or
+        /// multiplier set to normal difficulty with no health potion, base strength, or max health stock, 0 days
+        /// played, 0 days since the last shopping trip, and no health potions ever used.
         /// </summary>
         public GameState() {
             this.GamePlayer = new Player("", "", 0, "", 0);
+            InitializeCurrentsNull();
             this.GameDifficulty = Difficulty.Normal;
             this.HealthPotionStock = 0;
             this.BaseStrengthStock = 0;
@@ -67,6 +76,7 @@ namespace Adventure_Game.src.model {
         /// <param name="subclassValue">An integer representign the player's subclass.</param>
         public GameState(Difficulty difficulty, string playerName, string className, int classValue, string subclassName, int subclassValue) {
             this.GamePlayer = new Player(playerName, className, classValue, subclassName, subclassValue);
+            InitializeCurrentsNull();
             this.GameDifficulty = difficulty;
             this.HealthPotionStock = 0;
             this.BaseStrengthStock = 0;
@@ -74,6 +84,17 @@ namespace Adventure_Game.src.model {
             this.DaysPlayed = 0;
             this.DateLastShopped = 0;
             this.EverUsedHealthPotion = false;
+        }
+
+        /// <summary>
+        /// Sets all of the fields which store the current tile's data to null.
+        /// </summary>
+        private void InitializeCurrentsNull() {
+            this.CurrentShopkeeperName = null;
+            this.CurrentShopMultiplier = null;
+            this.CurrentVillageName = null;
+            this.CurrentInnCost = null;
+            this.CurrentInnHealing = null;
         }
 
         /// <summary>
@@ -149,6 +170,143 @@ namespace Adventure_Game.src.model {
                 default:
                     return false;
             }
+        }
+
+        /// <summary>
+        /// Returns the tile the player is currently on.
+        /// </summary>
+        /// <returns></returns>
+        public Tile PlayerCurrentTile() {
+            switch (GamePlayer.XPos) {
+                case 0:
+                    switch (GamePlayer.YPos) {
+                        case 0:
+                            return new MonsterTile();
+                        case -1:
+                            return new VillageTile("Arkala", 2, 0.1);
+                        case 1:
+                            return new MonsterTile();
+                        case 2:
+                            return new LootTile();
+                        case -2:
+                            return new MonsterTile();
+                        case 3:
+                            return new MonsterTile();
+                        case -3:
+                            return new MonsterTile();
+                    }
+                    break;
+                case -1:
+                    switch (GamePlayer.YPos) {
+                        case 0:
+                            return new LootTile();
+                        case -1:
+                            return new MonsterTile(); 
+                        case 1:
+                            return new VillageTile("Mirfield", 1, 0.05);
+                        case 2:
+                            return new MonsterTile();
+                        case -2:
+                            return new LootTile();
+                        case 3:
+                            return new LootTile();
+                        case -3:
+                            return new ShopTile("Grimoald", 1);
+                    }
+                    break;
+                case 1:
+                    switch (GamePlayer.YPos) {
+                        case 0:
+                            return new LootTile();
+                        case -1:
+                            return new MonsterTile();
+                        case 1:
+                            return new ShopTile("Arcidamus", 1.25);
+                        case 2:
+                            return new MonsterTile();
+                        case -2:
+                            return new MonsterTile();
+                        case 3:
+                            return new MonsterTile();
+                        case -3:
+                            return new LootTile();
+                    }
+                    break;
+                case 2:
+                    switch (GamePlayer.YPos) {
+                        case 0:
+                            return new VillageTile("Strathmore", 10, 0.25);
+                        case -1:
+                            return new MonsterTile();
+                        case 1:
+                            return new MonsterTile();
+                        case 2:
+                            return new LootTile();
+                        case -2:
+                            return new VillageTile("Eldham", 2, 0.1);
+                        case 3:
+                            return new VillageTile("White Ridge", 1, 0.05);
+                        case -3:
+                            return new MonsterTile();
+                    }
+                    break;
+                case -2:
+                    switch (GamePlayer.YPos) {
+                        case 0:
+                            return new MonsterTile();
+                        case -1:
+                            return new ShopTile("Emmony", 0.75);
+                        case 1:
+                            return new MonsterTile();
+                        case 2:
+                            return new LootTile();
+                        case -2:
+                            return new MonsterTile();
+                        case 3:
+                            return new ShopTile("Kyrillos", 1);
+                        case -3:
+                            return new VillageTile("Tempus", 4, 0.15);
+                    }
+                    break;
+                case 3:
+                    switch (GamePlayer.YPos) {
+                        case 0:
+                            return new MonsterTile();
+                        case -1:
+                            return new LootTile();
+                        case 1:
+                            return new MonsterTile();
+                        case 2:
+                            return new MonsterTile();
+                        case -2:
+                            return new MonsterTile();
+                        case 3:
+                            return new MonsterTile();
+                        case -3:
+                            return new ShopTile("Iphinous", 1.5);
+                    }
+                    break;
+                case -3:
+                    switch (GamePlayer.YPos) {
+                        case 0:
+                            return new MonsterTile();
+                        case -1:
+                            return new MonsterTile();
+                        case 1:
+                            return new LootTile();
+                        case 2:
+                            return new VillageTile("Brie", 5, 0.2);
+                        case -2:
+                            return new MonsterTile();
+                        case 3:
+                            return new MonsterTile();
+                        case -3:
+                            return new MonsterTile();
+                    }
+                    break;
+            }
+            Debug.Fail("Player was outside playable area");
+            return new Tile();
         }
     }
 }

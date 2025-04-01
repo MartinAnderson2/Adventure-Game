@@ -9,6 +9,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
+using Adventure_Game.src.model.Tiles;
+
 namespace Adventure_Game.src.ui {
     /// <summary>
     /// Represents an application that allows users to play in a fantasy-based world through text.
@@ -1283,7 +1285,7 @@ namespace Adventure_Game.src.ui {
                         }
                     }
                 }
-                void Villages(double healthDecimalPerHour, int goldPerHour, string villageName) {
+                void Villages(string villageName, int goldPerHour, double healthDecimalPerHour) {
                     GamePrinter.WriteLine("You enter the village of " + villageName);
                     bool hasSlept = false;
                     if (player.Gold < goldPerHour) {
@@ -1698,181 +1700,24 @@ namespace Adventure_Game.src.ui {
                         }
                     }
                 }
-                switch (player.XPos) {
-                    case 0:
-                        switch (player.YPos) {
-                            case 0: //Monster
-                                Monsters();
-                                break;
-                            case -1: //Village
-                                Villages(0.1, 2, "Arkala");
-                                break;
-                            case 1: //Monster
-                                Monsters();
-                                break;
-                            case 2: //Loot
-                                Loot();
-                                break;
-                            case -2: //Monster
-                                Monsters();
-                                break;
-                            case 3: //Monster
-                                Monsters();
-                                break;
-                            case -3: //Monster
-                                Monsters();
-                                break;
-                        }
+                Tile currTile = game.PlayerCurrentTile();
+                switch (currTile.Type) {
+                    case Tile.TileType.TreasureChest:
+                        Loot();
                         break;
-                    case -1:
-                        switch (player.YPos) {
-                            case 0: //Loot
-                                Loot();
-                                break;
-                            case -1: //Monster
-                                Monsters();
-                                break;
-                            case 1: //Village
-                                Villages(0.05, 1, "Mirfield");
-                                break;
-                            case 2: //Monster
-                                Monsters();
-                                break;
-                            case -2: //Loot
-                                Loot();
-                                break;
-                            case 3: //Loot
-                                Loot();
-                                break;
-                            case -3: //Shop
-                                Shops("Grimoald", 1);
-                                break;
-                        }
+                    case Tile.TileType.Monster:
+                        Monsters();
                         break;
-                    case 1:
-                        switch (player.YPos) {
-                            case 0: //Loot
-                                Loot();
-                                break;
-                            case -1: //Monster
-                                Monsters();
-                                break;
-                            case 1: //Shop
-                                Shops("Arcidamus", 1.25);
-                                break;
-                            case 2: //Monster
-                                Monsters();
-                                break;
-                            case -2: //Monster
-                                Monsters();
-                                break;
-                            case 3: //Monster
-                                Monsters();
-                                break;
-                            case -3: //Loot
-                                Loot();
-                                break;
-                        }
+                    case Tile.TileType.Village:
+                        VillageTile village = (VillageTile) currTile;
+                        Villages(village.VillageName, village.CostPerHour, village.HealingPerHour);
                         break;
-                    case 2:
-                        switch (player.YPos) {
-                            case 0: //Village
-                                Villages(0.25, 10, "Strathmore");
-                                break;
-                            case -1: //Monster
-                                Monsters();
-                                break;
-                            case 1: //Monster
-                                Monsters();
-                                break;
-                            case 2: //Loot
-                                Loot();
-                                break;
-                            case -2: //Village
-                                Villages(0.1, 2, "Eldham");
-                                break;
-                            case 3: //Village
-                                Villages(0.05, 1, "White Ridge");
-                                break;
-                            case -3: //Monster
-                                Monsters();
-                                break;
-                        }
+                    case Tile.TileType.Shop:
+                        ShopTile shop = (ShopTile) currTile;
+                        Shops(shop.ShopkeeperName, shop.CostMultiplier);
                         break;
-                    case -2:
-                        switch (player.YPos) {
-                            case 0: //Monster
-                                Monsters();
-                                break;
-                            case -1: //Shop
-                                Shops("Emmony", 0.75);
-                                break;
-                            case 1: //Monster
-                                Monsters();
-                                break;
-                            case 2: //Loot
-                                Loot();
-                                break;
-                            case -2: //Monster
-                                Monsters();
-                                break;
-                            case 3: //Shop
-                                Shops("Kyrillos", 1);
-                                break;
-                            case -3: //Village
-                                Villages(0.15, 4, "Tempus");
-                                break;
-                        }
-                        break;
-                    case 3:
-                        switch (player.YPos) {
-                            case 0: //Monster
-                                Monsters();
-                                break;
-                            case -1: //Loot
-                                Loot();
-                                break;
-                            case 1: //Monster
-                                Monsters();
-                                break;
-                            case 2: //Monster
-                                Monsters();
-                                break;
-                            case -2: //Monster
-                                Monsters();
-                                break;
-                            case 3: //Monster
-                                Monsters();
-                                break;
-                            case -3: //Shop
-                                Shops("Iphinous", 1.5);
-                                break;
-                        }
-                        break;
-                    case -3:
-                        switch (player.YPos) {
-                            case 0: //Monster
-                                Monsters();
-                                break;
-                            case -1: //Monster
-                                Monsters();
-                                break;
-                            case 1: //Loot
-                                Loot();
-                                break;
-                            case 2: //Village
-                                Villages(0.2, 5, "Brie");
-                                break;
-                            case -2: //Monster
-                                Monsters();
-                                break;
-                            case 3: //Monster
-                                Monsters();
-                                break;
-                            case -3: //Monster
-                                Monsters();
-                                break;
-                        }
+                    default:
+                        Debug.Fail("Tile Type was outside valid enum values");
                         break;
                 }
                 //Map End
@@ -1926,7 +1771,7 @@ namespace Adventure_Game.src.ui {
                 }
                 // Debugging code:
                 #if DEBUG
-                else if (input.Length > 7 && input.Substring(0, 8) == "gold add") {
+                else if (input.Length >= 8 && input.Substring(0, 8) == "gold add") {
                     if (int.TryParse(input.Substring(8), out int goldToAdd)) {
                         player.Gold += goldToAdd;
                         ConsolePrinter.CreateTwoMiddlesText("", GamePrinter.GoldColour, goldToAdd + " gold", " has succesfully been added, bringing you up to ", GamePrinter.GoldColour, player.Gold + " gold");
@@ -1935,7 +1780,7 @@ namespace Adventure_Game.src.ui {
                         GamePrinter.WriteLine("That was not a valid number");
                     }
                 }
-                else if (input.Length > 9 && input.Substring(0, 10) == "health add") {
+                else if (input.Length >= 10 && input.Substring(0, 10) == "health add") {
                     if (int.TryParse(input.Substring(10), out int healthToAdd)) {
                         player.Health += healthToAdd;
                         ConsolePrinter.CreateTwoMiddlesText("", GamePrinter.HealthColour, healthToAdd + " health", " has succesfully been added, bringing you up to ", GamePrinter.HealthColour, player.Health + " health");
