@@ -61,5 +61,23 @@ namespace Adventure_Game.src.ui {
         public static void WriteLineEmphasis(string text) {
             ConsolePrinter.WriteLineColouredText(GamePrinter.EmphasisColour, text);
         }
+
+        /// <summary>
+        /// Ask the user which of the available directions they would like to travel in.
+        /// </summary>
+        /// <param name="straight">If straight is available.</param>
+        /// <param name="right">If right is available.</param>
+        /// <param name="left">If left is available.</param>
+        public static void PrintDirectionOptions(bool straight, bool right, bool left) {
+            GamePrinter.Write("Would you like to go ");
+            if      ( straight && right &&  left) GamePrinter.WriteLine("straight, right, or left?");
+            else if ( straight &&  right && !left) GamePrinter.WriteLine("straight or right?");
+            else if ( straight && !right &&  left) GamePrinter.WriteLine("straight or left?");
+            else if (!straight &&  right &&  left) GamePrinter.WriteLine("right or left?");
+            else if ( straight && !right && !left) GamePrinter.WriteLine("straight?");
+            else if (!straight &&  right && !left) GamePrinter.WriteLine("right?");
+            else if (!straight && !right &&  left) GamePrinter.WriteLine("left?");
+            else GamePrinter.WriteLine("You don't seem to be able to move. Please restart the program and try again");
+        }
     }
 }

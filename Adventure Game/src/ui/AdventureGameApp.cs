@@ -1895,17 +1895,7 @@ namespace Adventure_Game.src.ui {
             bool right = game.PlayerCanMoveRight();
             bool left = game.PlayerCanMoveLeft();
             while (true) {
-                if (!straight && !right && !left) {
-                    GamePrinter.WriteLine("You don't seem to be able to move. Please restart the program and try again");
-                }
-                GamePrinter.Write("Would you like to go ");
-                if (straight && right && left) GamePrinter.WriteLine("straight, right, or left?");
-                else if (!straight && right && left) GamePrinter.WriteLine("right or left?");
-                else if (straight && !right && left) GamePrinter.WriteLine("straight or left?");
-                else if (straight && right && !left) GamePrinter.WriteLine("straight or right?");
-                else if (!straight && right && !left) GamePrinter.WriteLine("right?");
-                else if (!straight && !right && left) GamePrinter.WriteLine("left?");
-                else if (straight && !right && !left) GamePrinter.WriteLine("straight?");
+                GamePrinter.PrintDirectionOptions(straight, right, left);
 
                 string? input = Console.ReadLine();
                 if (input is null) {
