@@ -86,6 +86,14 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
+        /// Return the amount of health that a health potion heals.
+        /// </summary>
+        /// <returns>The amount of health consuming a health potion would heal</returns>
+        public double GetHealthPotionHealing() {
+            return ((double) MaxHealth) / 2;
+        }
+
+        /// <summary>
         /// Rotates the player clockwise:
         ///     If they were facing North, they face East
         ///     If they were facing East, they face South

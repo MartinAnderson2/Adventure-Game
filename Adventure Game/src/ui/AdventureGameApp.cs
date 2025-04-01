@@ -1904,69 +1904,26 @@ namespace Adventure_Game.src.ui {
                 }
                 input = input.ToLower();
 
-                if (input == "straight" || input == "s") {
-                    if (straight == true) {
-                        player.MoveForward();
-                        break;
-                    }
-                    else {
-                        GamePrinter.WriteLine("That is not an option, please look at the options and try again");
-                    }
+                if (straight && (input == "straight" || input == "s")) {
+                    player.MoveForward();
+                    break;
                 }
-                else if (input == "left" || input == "l") {
-                    if (left == true) {
-                        player.TurnCounterclockwise();
-                        player.MoveForward();
-                        break;
-                    }
-                    else {
-                        GamePrinter.WriteLine("That is not an option, please look at the options and try again");
-                    }
+                else if (right && (input == "right" || input == "r")) {
+                    player.TurnClockwise();
+                    player.MoveForward();
+                    break;
                 }
-                else if (input == "right" || input == "r") {
-                    if (right == true) {
-                        player.TurnClockwise();
-                        player.MoveForward();
-                        break;
-                    }
-                    else {
-                        GamePrinter.WriteLine("That is not an option, please look at the options and try again");
-                    }
+                else if (left && (input == "left" || input == "l")) {
+                    player.TurnCounterclockwise();
+                    player.MoveForward();
+                    break;
                 }
-                else if (input == "potion" || input == "p")
-                  {
-                    if (player.NumHealthPotions > 0) {
-                        if (player.Health == player.MaxHealth && player.NumHealthPotions > 1) {
-                            ConsolePrinter.CreateFourMiddlesText("You are already at your ", GamePrinter.HealthColour, "maximum health", ", ", GamePrinter.HealthColour, player.Health + " health", ". You are still at ", GamePrinter.HealthColour, player.NumHealthPotions + " health potions", ".");
-                        }
-                        else if (player.Health == player.MaxHealth) {
-                            ConsolePrinter.CreateFourMiddlesText("You are already at your ", GamePrinter.HealthColour, "maximum health", ", ", GamePrinter.HealthColour, player.Health + " health", ". You are still at ", GamePrinter.HealthColour, "1 health potion", ".");
-                        }
-                        else {
-                            player.NumHealthPotions--;
-                            if (player.Health + (player.MaxHealth / 2.0) >= player.MaxHealth) {
-                                player.Health = player.MaxHealth;
-                                if (player.NumHealthPotions == 1) {
-                                    ConsolePrinter.CreateFourMiddlesText("You succesfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, player.Health + " health", " (your maximum health) and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potion");
-                                }
-                                else ConsolePrinter.CreateFourMiddlesText("You succesfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, player.Health + " health", " (your maximum health) and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potions");
-                            }
-                            else {
-                                player.Health += (player.MaxHealth / 2.0);
-                                if (player.NumHealthPotions == 1) {
-                                    ConsolePrinter.CreateFourMiddlesText("You succesfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, Math.Round(player.Health, 2) + " health", " and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potion");
-                                }
-                                else ConsolePrinter.CreateFourMiddlesText("You succesfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, Math.Round(player.Health, 2) + " health", " and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potions");
-                            }
-
-                        }
-                    }
-                    else ConsolePrinter.CreateMiddleText("You do not currently own any ", GamePrinter.HealthColour, "health potions", ". Go to a store to purchase some");
+                else if (input == "potion" || input == "p") {
+                    UseHealthPotion();
                 }
                 else if (input == "exit" || input == "e") {
                     GiveOptionToExitGame();
                 }
-
                 // Debugging code:
                 #if DEBUG
                 else if (input.Length > 7 && input.Substring(0, 8) == "gold add") {
@@ -1989,11 +1946,47 @@ namespace Adventure_Game.src.ui {
                 }
                 #endif
                 // End Debugging Code
-
                 else GamePrinter.WriteLine("That is not an option, please look at the options and try again");
             }
         }
 
+        /// <summary>
+        /// Attempt to use a health potion. If the player is already at the maximum health, inform them. If they are
+        /// not then heal them the appropriate amount, up to their maximum health.
+        /// </summary>
+        private void UseHealthPotion() {
+            if (player.NumHealthPotions > 0) {
+                if (player.Health == player.MaxHealth && player.NumHealthPotions > 1) {
+                    ConsolePrinter.CreateFourMiddlesText("You are already at your ", GamePrinter.HealthColour, "maximum health", ", ", GamePrinter.HealthColour, player.Health + " health", ". You are still at ", GamePrinter.HealthColour, player.NumHealthPotions + " health potions", ".");
+                }
+                else if (player.Health == player.MaxHealth) {
+                    ConsolePrinter.CreateFourMiddlesText("You are already at your ", GamePrinter.HealthColour, "maximum health", ", ", GamePrinter.HealthColour, player.Health + " health", ". You are still at ", GamePrinter.HealthColour, "1 health potion", ".");
+                }
+                else {
+                    player.NumHealthPotions--;
+                    if (player.Health + player.GetHealthPotionHealing() >= player.MaxHealth) {
+                        player.Health = player.MaxHealth;
+                        if (player.NumHealthPotions == 1) {
+                            ConsolePrinter.CreateFourMiddlesText("You succesfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, player.Health + " health", " (your maximum health) and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potion");
+                        }
+                        else ConsolePrinter.CreateFourMiddlesText("You succesfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, player.Health + " health", " (your maximum health) and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potions");
+                    }
+                    else {
+                        player.Health += player.GetHealthPotionHealing();
+                        if (player.NumHealthPotions == 1) {
+                            ConsolePrinter.CreateFourMiddlesText("You succesfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, Math.Round(player.Health, 2) + " health", " and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potion");
+                        }
+                        else ConsolePrinter.CreateFourMiddlesText("You succesfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, Math.Round(player.Health, 2) + " health", " and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potions");
+                    }
+
+                }
+            }
+            else ConsolePrinter.CreateMiddleText("You do not currently own any ", GamePrinter.HealthColour, "health potions", ". Go to a store to purchase some");
+        }
+
+        /// <summary>
+        /// Asks the user if they want to exit the game or not. If yes, exits normally. If no, continues the program.
+        /// </summary>
         private void GiveOptionToExitGame() {
             while (true) {
                 GamePrinter.WriteLine();

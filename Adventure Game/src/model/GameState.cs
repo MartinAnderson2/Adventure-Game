@@ -95,7 +95,7 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
-        /// Return true if the player can move straight without moving off the map
+        /// Return true if the player can move straight without moving off the map.
         /// </summary>
         /// <returns></returns>
         public bool PlayerCanMoveStraight() {
@@ -114,7 +114,7 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
-        /// Return true if the player can move right without moving off the map
+        /// Return true if the player can move right without moving off the map.
         /// </summary>
         /// <returns></returns>
         public bool PlayerCanMoveRight() {
@@ -133,7 +133,7 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
-        /// Return true if the player can move left without moving off the map
+        /// Return true if the player can move left without moving off the map.
         /// </summary>
         /// <returns></returns>
         public bool PlayerCanMoveLeft() {
