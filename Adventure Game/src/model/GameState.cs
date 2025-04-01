@@ -17,6 +17,10 @@ namespace Adventure_Game.src.model {
     /// increases that are in stock in the world, and whether or not the player has ever used a health potion.
     /// </summary>
     class GameState {
+        public const uint MAP_WIDTH = 7;
+        public const uint MAP_HEIGHT = 7;
+        public const int OFFSET = 3;
+
         public const uint STARTING_MAX_HEALTH = 20;
         public static Weapon FISTS = new Weapon("fists", 0, 0, true);
 
@@ -41,6 +45,30 @@ namespace Adventure_Game.src.model {
         public uint BaseStrengthStock { get; set; }
         public uint MaxHealthStock { get; set; }
         public bool EverUsedHealthPotion { get; set; }
+
+
+        // Map in actual coordinates (i.e. x is horizontal and y is vertical)
+        //public Tile[,] map = {
+        //    { new MonsterTile(),               new VillageTile("Tempus", 4, 0.15), new ShopTile("Grimoald", 1),          new MonsterTile(),                 new LootTile(),                  new MonsterTile(),                       new ShopTile("Iphinous", 1.5) },
+        //    { new MonsterTile(),               new MonsterTile(),                  new LootTile(),                       new MonsterTile(),                 new MonsterTile(),               new VillageTile("Eldham", 2, 0.1),       new MonsterTile() },
+        //    { new MonsterTile(),               new ShopTile("Emmony", 0.75),       new MonsterTile(),                    new VillageTile("Arkala", 2, 0.1), new MonsterTile(),               new MonsterTile(),                       new LootTile() },
+        //    { new MonsterTile(),               new MonsterTile(),                  new LootTile(),                       new MonsterTile(),                 new LootTile(),                  new VillageTile("Strathmore", 10, 0.25), new MonsterTile() },
+        //    { new LootTile(),                  new MonsterTile(),                  new VillageTile("Mirfield", 1, 0.05), new MonsterTile(),                 new ShopTile("Arcidamus", 1.25), new MonsterTile(),                       new MonsterTile() },
+        //    { new VillageTile("Brie", 5, 0.2), new LootTile(),                     new MonsterTile(),                    new LootTile(),                    new MonsterTile(),               new LootTile(),                          new MonsterTile() },
+        //    { new MonsterTile(),               new ShopTile("Kyrillos", 1),        new LootTile(),                       new MonsterTile(),                 new MonsterTile(),               new VillageTile("White Ridge", 1, 0.05), new MonsterTile() }
+        //};
+
+        // Transposed (each column is a y)
+        public Tile[,] Map { get; } = {
+            { new MonsterTile(),                  new MonsterTile(),                 new MonsterTile(),                 new MonsterTile(),                       new LootTile(),                       new VillageTile("Brie", 5, 0.2), new MonsterTile()                       },
+            { new VillageTile("Tempus", 4, 0.15), new MonsterTile(),                 new ShopTile("Emmony", 0.75),      new MonsterTile(),                       new MonsterTile(),                    new LootTile(),                  new ShopTile("Kyrillos", 1)             },
+            { new ShopTile("Grimoald", 1),        new LootTile(),                    new MonsterTile(),                 new LootTile(),                          new VillageTile("Mirfield", 1, 0.05), new MonsterTile(),               new LootTile()                          },
+            { new MonsterTile(),                  new MonsterTile(),                 new VillageTile("Arkala", 2, 0.1), new MonsterTile(),                       new MonsterTile(),                    new LootTile(),                  new MonsterTile()                       },
+            { new LootTile(),                     new MonsterTile(),                 new MonsterTile(),                 new LootTile(),                          new ShopTile("Arcidamus", 1.25),      new MonsterTile(),               new MonsterTile()                       },
+            { new MonsterTile(),                  new VillageTile("Eldham", 2, 0.1), new MonsterTile(),                 new VillageTile("Strathmore", 10, 0.25), new MonsterTile(),                    new LootTile(),                  new VillageTile("White Ridge", 1, 0.05) },
+            { new ShopTile("Iphinous", 1.5),      new MonsterTile(),                 new LootTile(),                    new MonsterTile(),                       new MonsterTile(),                    new MonsterTile(),               new MonsterTile()                       }
+        };
+
 
         /// <summary>
         /// Creates a new game with a player with no name or class and subclass with no current shopkeeper name or
@@ -158,138 +186,17 @@ namespace Adventure_Game.src.model {
         /// <summary>
         /// Returns the tile the player is currently on.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Reference to the tile the player is currently standing on.</returns>
         public Tile PlayerCurrentTile() {
-            switch (GamePlayer.XPos) {
-                case 0:
-                    switch (GamePlayer.YPos) {
-                        case 0:
-                            return new MonsterTile();
-                        case -1:
-                            return new VillageTile("Arkala", 2, 0.1);
-                        case 1:
-                            return new MonsterTile();
-                        case 2:
-                            return new LootTile();
-                        case -2:
-                            return new MonsterTile();
-                        case 3:
-                            return new MonsterTile();
-                        case -3:
-                            return new MonsterTile();
-                    }
-                    break;
-                case -1:
-                    switch (GamePlayer.YPos) {
-                        case 0:
-                            return new LootTile();
-                        case -1:
-                            return new MonsterTile(); 
-                        case 1:
-                            return new VillageTile("Mirfield", 1, 0.05);
-                        case 2:
-                            return new MonsterTile();
-                        case -2:
-                            return new LootTile();
-                        case 3:
-                            return new LootTile();
-                        case -3:
-                            return new ShopTile("Grimoald", 1);
-                    }
-                    break;
-                case 1:
-                    switch (GamePlayer.YPos) {
-                        case 0:
-                            return new LootTile();
-                        case -1:
-                            return new MonsterTile();
-                        case 1:
-                            return new ShopTile("Arcidamus", 1.25);
-                        case 2:
-                            return new MonsterTile();
-                        case -2:
-                            return new MonsterTile();
-                        case 3:
-                            return new MonsterTile();
-                        case -3:
-                            return new LootTile();
-                    }
-                    break;
-                case 2:
-                    switch (GamePlayer.YPos) {
-                        case 0:
-                            return new VillageTile("Strathmore", 10, 0.25);
-                        case -1:
-                            return new MonsterTile();
-                        case 1:
-                            return new MonsterTile();
-                        case 2:
-                            return new LootTile();
-                        case -2:
-                            return new VillageTile("Eldham", 2, 0.1);
-                        case 3:
-                            return new VillageTile("White Ridge", 1, 0.05);
-                        case -3:
-                            return new MonsterTile();
-                    }
-                    break;
-                case -2:
-                    switch (GamePlayer.YPos) {
-                        case 0:
-                            return new MonsterTile();
-                        case -1:
-                            return new ShopTile("Emmony", 0.75);
-                        case 1:
-                            return new MonsterTile();
-                        case 2:
-                            return new LootTile();
-                        case -2:
-                            return new MonsterTile();
-                        case 3:
-                            return new ShopTile("Kyrillos", 1);
-                        case -3:
-                            return new VillageTile("Tempus", 4, 0.15);
-                    }
-                    break;
-                case 3:
-                    switch (GamePlayer.YPos) {
-                        case 0:
-                            return new MonsterTile();
-                        case -1:
-                            return new LootTile();
-                        case 1:
-                            return new MonsterTile();
-                        case 2:
-                            return new MonsterTile();
-                        case -2:
-                            return new MonsterTile();
-                        case 3:
-                            return new MonsterTile();
-                        case -3:
-                            return new ShopTile("Iphinous", 1.5);
-                    }
-                    break;
-                case -3:
-                    switch (GamePlayer.YPos) {
-                        case 0:
-                            return new MonsterTile();
-                        case -1:
-                            return new MonsterTile();
-                        case 1:
-                            return new LootTile();
-                        case 2:
-                            return new VillageTile("Brie", 5, 0.2);
-                        case -2:
-                            return new MonsterTile();
-                        case 3:
-                            return new MonsterTile();
-                        case -3:
-                            return new MonsterTile();
-                    }
-                    break;
+            int x = GamePlayer.XPos + OFFSET;
+            int y = GamePlayer.YPos + OFFSET;
+
+            if (x >= MAP_WIDTH || x < 0 || y >= MAP_HEIGHT || y < 0) {
+                Debug.Fail("Player was outside playable area");
+                return new MonsterTile();
             }
-            Debug.Fail("Player was outside playable area");
-            return new Tile();
+
+            return Map[x, y];
         }
     }
 }
