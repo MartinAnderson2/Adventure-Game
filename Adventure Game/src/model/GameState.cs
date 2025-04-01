@@ -24,11 +24,8 @@ namespace Adventure_Game.src.model {
 
         public Player GamePlayer { get; set; }
 
-        public String? CurrentShopkeeperName { get; private set; }
-        public int? CurrentShopMultiplier { get; private set; }
-        public String? CurrentVillageName { get; private set; }
-        public int? CurrentInnCost { get; private set; }
-        public double? CurrentInnHealing { get; private set; }
+
+
 
         /// <summary>
         /// Represents the three different difficulties the game can be played at.
@@ -53,7 +50,6 @@ namespace Adventure_Game.src.model {
         /// </summary>
         public GameState() {
             this.GamePlayer = new Player("", "", 0, "", 0);
-            InitializeCurrentsNull();
             this.GameDifficulty = Difficulty.Normal;
             this.HealthPotionStock = 0;
             this.BaseStrengthStock = 0;
@@ -76,7 +72,6 @@ namespace Adventure_Game.src.model {
         /// <param name="subclassValue">An integer representign the player's subclass.</param>
         public GameState(Difficulty difficulty, string playerName, string className, int classValue, string subclassName, int subclassValue) {
             this.GamePlayer = new Player(playerName, className, classValue, subclassName, subclassValue);
-            InitializeCurrentsNull();
             this.GameDifficulty = difficulty;
             this.HealthPotionStock = 0;
             this.BaseStrengthStock = 0;
@@ -84,17 +79,6 @@ namespace Adventure_Game.src.model {
             this.DaysPlayed = 0;
             this.DateLastShopped = 0;
             this.EverUsedHealthPotion = false;
-        }
-
-        /// <summary>
-        /// Sets all of the fields which store the current tile's data to null.
-        /// </summary>
-        private void InitializeCurrentsNull() {
-            this.CurrentShopkeeperName = null;
-            this.CurrentShopMultiplier = null;
-            this.CurrentVillageName = null;
-            this.CurrentInnCost = null;
-            this.CurrentInnHealing = null;
         }
 
         /// <summary>
