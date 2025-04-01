@@ -19,7 +19,7 @@ namespace Adventure_Game.src.ui {
         Random random;
 
         /// <summary>
-        /// Begin running the Adventure Game and restart until the user decides to quit.
+        /// Begins running the Adventure Game and restarts it until the user decides to quit.
         /// </summary>
         public AdventureGameApp() {
             while (true) {
@@ -46,8 +46,8 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Set the fields' initial values. Specifically, set up the game state, store a reference to the player, and
-        /// prepare the random number generator.
+        /// Sets the fields' initial values. Specifically, sets up the game state, stores a reference to the player,
+        /// and prepares the random number generator.
         /// </summary>
         private void InitializeVariables() {
             game = new GameState();
@@ -57,7 +57,7 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Ask the user which difficulty they would like to play on and sets it accordingly.
+        /// Asks the user which difficulty they would like to play on and sets it accordingly.
         /// </summary>
         private void ChooseDifficulty() {
             while (true) {
@@ -92,7 +92,7 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Ask the user to name their character and to decide the character's class and subclass.
+        /// Asks the user to name their character and to decide the character's class and subclass.
         /// </summary>
         private void CreateCharacter() {
             GamePrinter.WriteLine("Please input your character's name");
@@ -322,7 +322,7 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// A tutorial that explains the game. Let the user skip the tutorial at any time, otherwise run them through
+        /// A tutorial that explains the game. Lets the user skip the tutorial at any time, otherwise runs them through
         /// sneaking away from enemies, finding new weapons, and fighting enemies.
         /// </summary>
         private void Tutorial() {
@@ -496,7 +496,7 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Randomly decide which type of forest the player is adventuring in. This has no impact on gameplay.
+        /// Randomly decides which type of forest the player is adventuring in. This has no impact on gameplay.
         /// </summary>
         private void IntroduceForest() {
             GamePrinter.Write("You begin your adventure in the middle of a ");
@@ -539,8 +539,8 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Run the actual game now that the player's name, class, and subclass are set. First move the player in the
-        /// direction of their choice then run the appropriate interaction. Repeat until the player dies.
+        /// Runs the actual game now that the player's name, class, and subclass are set. First moves the player in the
+        /// direction of their choice then runs the appropriate interaction. Repeats until the player dies.
         /// </summary>
         private void PlayGame() {
             while (true) {
@@ -1887,7 +1887,7 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Determine which directions the player is able to move in then provide them with those options and move them
+        /// Determines which directions the player is able to move in, provides them with those options, and moves them
         /// in the direction of their choice.
         /// </summary>
         private void Move() {
@@ -1951,8 +1951,8 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Attempt to use a health potion. If the player is already at the maximum health, inform them. If they are
-        /// not then heal them the appropriate amount, up to their maximum health.
+        /// Attempts to use a health potion. If the player is already at the maximum health, informs them. If they are
+        /// not then heals them the appropriate amount, up to their maximum health.
         /// </summary>
         private void UseHealthPotion() {
             if (player.NumHealthPotions > 0) {

@@ -24,7 +24,7 @@ namespace Adventure_Game.src.ui {
         public const ConsoleColor GoldColour = ConsoleColor.DarkYellow;
 
         /// <summary>
-        /// Write text to the console (exists in case changing formatting is ever desired).
+        /// Writes text to the console (exists in case changing formatting is ever desired).
         /// </summary>
         /// <param name="text">The text to write on the current line.</param>
         public static void Write(string text) {
@@ -32,7 +32,7 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Write text to the console then insert a new line (exists in case changing formatting is ever desired).
+        /// Writes text to the console then inserts a new line (exists in case changing formatting is ever desired).
         /// </summary>
         /// <param name="text">The text to write on the current line.</param>
         public static void WriteLine(string text) {
@@ -40,14 +40,14 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Insert a new line (exists in case changing formatting is ever desired).
+        /// Inserts a new line (exists in case changing formatting is ever desired).
         /// </summary>
         public static void WriteLine() {
             Console.WriteLine();
         }
 
         /// <summary>
-        /// Write text to the console in note colour then inserts a new line.
+        /// Writes text to the console in note colour then inserts a new line.
         /// </summary>
         /// <param name="text">The text to write on the current line.</param>
         public static void WriteLineNote(string text) {
@@ -55,7 +55,7 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Write text to the console in emphasis colour then inserts a new line.
+        /// Writes text to the console in emphasis colour then inserts a new line.
         /// </summary>
         /// <param name="text">The text to write on the current line.</param>
         public static void WriteLineEmphasis(string text) {
@@ -63,7 +63,7 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Ask the user which of the available directions they would like to travel in.
+        /// Asks the user which of the available directions they would like to travel in.
         /// </summary>
         /// <param name="straight">If straight is available.</param>
         /// <param name="right">If right is available.</param>

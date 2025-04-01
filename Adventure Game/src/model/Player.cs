@@ -36,7 +36,7 @@ namespace Adventure_Game.src.model {
         public Direction Facing { get; set; }
 
         /// <summary>
-        /// Create a new Player with a name, class, and subclass, with full health and maximum health set to the
+        /// Creates a new Player with a name, class, and subclass, with full health and maximum health set to the
         /// default, no health potions, 1 base strength, no weapon, no gold, and stood at (0, 0), facing North.
         /// </summary>
         /// <param name="name">The player's name.</param>
@@ -62,8 +62,8 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
-        /// Reset the player's health and maximum health to the starting maximum, number of health potions to 0, base
-        /// strength to 1, currently held weapon to nothing, gold to 0, position to (0, 0), and make them face North.
+        /// Resets the player's health and maximum health to the starting maximum, number of health potions to 0, base
+        /// strength to 1, currently held weapon to nothing, gold to 0, position to (0, 0), and makes them face North.
         /// </summary>
         public void ResetState() {
             this.Health = GameState.STARTING_MAX_HEALTH;
@@ -78,7 +78,7 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
-        /// Add the player's base strength and weapon strength to calculate their total strength.
+        /// Adds the player's base strength and weapon strength to calculate their total strength.
         /// </summary>
         /// <returns>The player's total strength</returns>
         public double GetTotalStrength() {
@@ -86,7 +86,7 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
-        /// Return the amount of health that a health potion heals.
+        /// Returns the amount of health that a health potion heals.
         /// </summary>
         /// <returns>The amount of health consuming a health potion would heal</returns>
         public double GetHealthPotionHealing() {

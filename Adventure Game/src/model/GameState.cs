@@ -39,7 +39,7 @@ namespace Adventure_Game.src.model {
         public bool EverUsedHealthPotion { get; set; }
 
         /// <summary>
-        /// Create a new game with a player with no name or class and subclass set to normal difficulty no health
+        /// Creates a new game with a player with no name or class and subclass set to normal difficulty no health
         /// potion, base strength, and max health stock, 0 days played 0 days since last shopping trip, and no health
         /// potions ever used.
         /// </summary>
@@ -55,7 +55,7 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
-        /// Create a new game with a player with given name, class, and subclass, given difficulty, no health potion,
+        /// Creates a new game with a player with given name, class, and subclass, given difficulty, no health potion,
         /// base strength, and max health stock, 0 days played 0 days since last shopping trip, and no health potions
         /// ever used.
         /// </summary>
@@ -77,7 +77,7 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
-        /// Return the difficulty multiplier appropriate for the selected difficulty.
+        /// Returns the difficulty multiplier correlated to the selected difficulty.
         /// </summary>
         /// <returns>0.5 if the difficulty is set to easy, 0.75 if it is set to normal, and 1 if it is set to hard.</returns>
         public double GetDifficultyMultiplier() {
@@ -95,7 +95,7 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
-        /// Return true if the player can move straight without moving off the map.
+        /// Returns true if the player can move straight without moving off the map.
         /// </summary>
         /// <returns></returns>
         public bool PlayerCanMoveStraight() {
@@ -114,7 +114,7 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
-        /// Return true if the player can move right without moving off the map.
+        /// Returns true if the player can move right without moving off the map.
         /// </summary>
         /// <returns></returns>
         public bool PlayerCanMoveRight() {
@@ -133,7 +133,7 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
-        /// Return true if the player can move left without moving off the map.
+        /// Returns true if the player can move left without moving off the map.
         /// </summary>
         /// <returns></returns>
         public bool PlayerCanMoveLeft() {
