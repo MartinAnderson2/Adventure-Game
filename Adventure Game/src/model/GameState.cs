@@ -47,18 +47,7 @@ namespace Adventure_Game.src.model {
         public bool EverUsedHealthPotion { get; set; }
 
 
-        // Map in actual coordinates (i.e. x is horizontal and y is vertical)
-        //public Tile[,] map = {
-        //    { new MonsterTile(),               new VillageTile("Tempus", 4, 0.15), new ShopTile("Grimoald", 1),          new MonsterTile(),                 new LootTile(),                  new MonsterTile(),                       new ShopTile("Iphinous", 1.5) },
-        //    { new MonsterTile(),               new MonsterTile(),                  new LootTile(),                       new MonsterTile(),                 new MonsterTile(),               new VillageTile("Eldham", 2, 0.1),       new MonsterTile() },
-        //    { new MonsterTile(),               new ShopTile("Emmony", 0.75),       new MonsterTile(),                    new VillageTile("Arkala", 2, 0.1), new MonsterTile(),               new MonsterTile(),                       new LootTile() },
-        //    { new MonsterTile(),               new MonsterTile(),                  new LootTile(),                       new MonsterTile(),                 new LootTile(),                  new VillageTile("Strathmore", 10, 0.25), new MonsterTile() },
-        //    { new LootTile(),                  new MonsterTile(),                  new VillageTile("Mirfield", 1, 0.05), new MonsterTile(),                 new ShopTile("Arcidamus", 1.25), new MonsterTile(),                       new MonsterTile() },
-        //    { new VillageTile("Brie", 5, 0.2), new LootTile(),                     new MonsterTile(),                    new LootTile(),                    new MonsterTile(),               new LootTile(),                          new MonsterTile() },
-        //    { new MonsterTile(),               new ShopTile("Kyrillos", 1),        new LootTile(),                       new MonsterTile(),                 new MonsterTile(),               new VillageTile("White Ridge", 1, 0.05), new MonsterTile() }
-        //};
-
-        // Transposed (each column is a y)
+        // Transposed (each column is y and row is x)
         public Tile[,] Map { get; } = {
             { new MonsterTile(),                  new MonsterTile(),                 new MonsterTile(),                 new MonsterTile(),                       new LootTile(),                       new VillageTile("Brie", 5, 0.2), new MonsterTile()                       },
             { new VillageTile("Tempus", 4, 0.15), new MonsterTile(),                 new ShopTile("Emmony", 0.75),      new MonsterTile(),                       new MonsterTile(),                    new LootTile(),                  new ShopTile("Kyrillos", 1)             },
