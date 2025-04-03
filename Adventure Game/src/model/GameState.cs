@@ -187,5 +187,25 @@ namespace Adventure_Game.src.model {
 
             return Map[x, y];
         }
+
+        /// <summary>
+        /// Returns a reference to the monster on the tile the player is currently on. It is randomized with the
+        /// hardest possible monster being limited by the player's strength and health. Game difficulty affects how
+        /// likely more difficult monsters are.
+        /// </summary>
+        /// <param name="random">A reference to an object of the random class for the randomization.</param>
+        /// <returns>A reference to a randomly-selected monster for the player to fight.</returns>
+        public Monster GetMonster(Random random) {
+            int monsterPowerLevel = random.Next(Convert.ToInt32(GamePlayer.GetTotalStrength() * GamePlayer.MaxHealth * GetDifficultyMultiplier()));
+            return Monster.GetAppropriateMonster(monsterPowerLevel);
+        }
+
+        /// <summary>
+        /// Returns true if the player has been defeated otherwise false.
+        /// </summary>
+        /// <returns>Returns true if the player has been defeated otherwise false.</returns>
+        public bool PlayerDefeated() {
+            return GamePlayer.Defeated();
+        }
     }
 }

@@ -94,6 +94,14 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
+        /// Returns true if the player has been defeated (they are out of health) otherwise returns false.
+        /// </summary>
+        /// <returns>True if the player has lost, false otherwise.</returns>
+        public bool Defeated() {
+            return Health <= 0;
+        }
+
+        /// <summary>
         /// Rotates the player clockwise:
         ///     If they were facing North, they face East
         ///     If they were facing East, they face South
