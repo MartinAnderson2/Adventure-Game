@@ -1163,34 +1163,34 @@ namespace Adventure_Game.src.ui {
             else if (random.Next(0, 4) == 0) seen = true;
             while (true) {
                 if (monster.Name.Plural) {
-                    ConsolePrinter.CreateTwoMiddlesText("You come across " + monster.Name + ". They have ", GamePrinter.HealthColour, monster.MaxHealth + " health", " and ", GamePrinter.StrengthColour, monster.Strength + " strength");
+                    ConsolePrinter.CreateTwoMiddlesText("You come across " + monster.Name.Name + ". They have ", GamePrinter.HealthColour, monster.MaxHealth + " health", " and ", GamePrinter.StrengthColour, monster.Strength + " strength");
                     if (awake && seen) {
                         GamePrinter.WriteLine("They are awake and have seen you");
                     }
                     else if (awake) GamePrinter.WriteLine("They are awake but have not seen you");
                     else GamePrinter.WriteLine("They are sleeping");
                     ConsolePrinter.CreateTwoMiddlesText("You have ", GamePrinter.HealthColour, Math.Round(player.Health, 2) + " health", " and ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
-                    GamePrinter.WriteLine("Would you like to \"fight\" the " + monster.Name + " or try to \"sneak\" past them?");
+                    GamePrinter.WriteLine("Would you like to \"fight\" the " + monster.Name.Name + " or try to \"sneak\" past them?");
                 }
                 else if (monster.Name.BeginsVowelSound) {
-                    ConsolePrinter.CreateTwoMiddlesText("You come across an " + monster.Name + ". It has ", GamePrinter.HealthColour, monster.MaxHealth + " health", " and ", GamePrinter.StrengthColour, monster.Strength + " strength");
+                    ConsolePrinter.CreateTwoMiddlesText("You come across an " + monster.Name.Name + ". It has ", GamePrinter.HealthColour, monster.MaxHealth + " health", " and ", GamePrinter.StrengthColour, monster.Strength + " strength");
                     if (awake && seen) {
                         GamePrinter.WriteLine("It is awake and has seen you");
                     }
                     else if (awake) GamePrinter.WriteLine("It is awake but has not seen you");
                     else GamePrinter.WriteLine("It is sleeping");
                     ConsolePrinter.CreateTwoMiddlesText("You have ", GamePrinter.HealthColour, Math.Round(player.Health, 2) + " health", " and ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
-                    GamePrinter.WriteLine("Would you like to \"fight\" the " + monster.Name + " or try to \"sneak\" past it?");
+                    GamePrinter.WriteLine("Would you like to \"fight\" the " + monster.Name.Name + " or try to \"sneak\" past it?");
                 }
                 else {
-                    ConsolePrinter.CreateTwoMiddlesText("You come across a " + monster.Name + ". It has ", GamePrinter.HealthColour, monster.MaxHealth + " health", " and ", GamePrinter.StrengthColour, monster.Strength + " strength");
+                    ConsolePrinter.CreateTwoMiddlesText("You come across a " + monster.Name.Name + ". It has ", GamePrinter.HealthColour, monster.MaxHealth + " health", " and ", GamePrinter.StrengthColour, monster.Strength + " strength");
                     if (awake && seen) {
                         GamePrinter.WriteLine("It is awake and has seen you");
                     }
                     else if (awake) GamePrinter.WriteLine("It is awake but has not seen you");
                     else GamePrinter.WriteLine("It is sleeping");
                     ConsolePrinter.CreateTwoMiddlesText("You have ", GamePrinter.HealthColour, Math.Round(player.Health, 2) + " health", " and ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
-                    GamePrinter.WriteLine("Would you like to \"fight\" the " + monster.Name + " or try to \"sneak\" past it?");
+                    GamePrinter.WriteLine("Would you like to \"fight\" the " + monster.Name.Name + " or try to \"sneak\" past it?");
                 }
 
                 string? input = Console.ReadLine();
@@ -1203,24 +1203,24 @@ namespace Adventure_Game.src.ui {
                 if (input == "sneak" || input == "s") { //Sneaking Away System
                     if (awake && seen) { //Monster is awake and has seen player - 25% chance to sneak past
                         if (random.Next(0, 100) >= 75) {
-                            GamePrinter.WriteLine("You successfully snuck past the " + monster.Name);
+                            GamePrinter.WriteLine("You successfully snuck past the " + monster.Name.Name);
                             break;
                         }
                     }
                     else if (awake) { //Monster is awake and has not seen player - 85% chance to sneak past
                         if (random.Next(0, 100) >= 15) {
-                            GamePrinter.WriteLine("You successfully snuck past the " + monster.Name);
+                            GamePrinter.WriteLine("You successfully snuck past the " + monster.Name.Name);
                             break;
                         }
                     }
                     else { //Monster is sleeping - 99.9% chance to sneak past
                         if (random.Next(0, 1000) != 0) {
-                            GamePrinter.WriteLine("You successfully snuck past the " + monster.Name);
+                            GamePrinter.WriteLine("You successfully snuck past the " + monster.Name.Name);
                             break;
                         }
                     }
 
-                    GamePrinter.Write("You try to sneak past, but the " + monster.Name + " see");
+                    GamePrinter.Write("You try to sneak past, but the " + monster.Name.Name + " see");
                     if (!monster.Name.Plural) GamePrinter.Write("s");
                     GamePrinter.WriteLine(" you");
 
@@ -1252,10 +1252,10 @@ namespace Adventure_Game.src.ui {
                     double damageDealtToPlayer = (random.NextDouble() * (monster.Strength - (monster.Strength * 0.8))) + (monster.Strength * 0.8);
                     player.Health -= damageDealtToPlayer;
                     if (player.Health > 0) {
-                        ConsolePrinter.CreateTwoMiddlesText("The " + monster.Name + " hit you for ", GamePrinter.DamageColour, Math.Round(damageDealtToPlayer, 2) + " damage", ", leaving you with ", GamePrinter.HealthColour, Math.Round(player.Health, 2) + " health", defaultColour: GamePrinter.TakingDamageColour);
+                        ConsolePrinter.CreateTwoMiddlesText("The " + monster.Name.Name + " hit you for ", GamePrinter.DamageColour, Math.Round(damageDealtToPlayer, 2) + " damage", ", leaving you with ", GamePrinter.HealthColour, Math.Round(player.Health, 2) + " health", defaultColour: GamePrinter.TakingDamageColour);
                     }
                     else {
-                        ConsolePrinter.CreateMiddleText("The " + monster.Name + " hit you for ", GamePrinter.DamageColour, Math.Round(damageDealtToPlayer, 2) + " damage", ", defeating you", GamePrinter.TakingDamageColour);
+                        ConsolePrinter.CreateMiddleText("The " + monster.Name.Name + " hit you for ", GamePrinter.DamageColour, Math.Round(damageDealtToPlayer, 2) + " damage", ", defeating you", GamePrinter.TakingDamageColour);
                         GamePrinter.WriteLine("Better luck next time");
                         break;
                     }
@@ -1268,13 +1268,13 @@ namespace Adventure_Game.src.ui {
                     if (monsterHealth > 0) {
                         if (monster.Name.Plural)
                         {
-                            ConsolePrinter.CreateTwoMiddlesText("You hit the " + monster.Name + " for ", GamePrinter.DamageColour, Math.Round(damageDealtByPlayer, 2) + " damage", ", leaving them with ", GamePrinter.HealthColour, Math.Round(monsterHealth, 2) + " health", defaultColour: GamePrinter.DealingDamageColour);
+                            ConsolePrinter.CreateTwoMiddlesText("You hit the " + monster.Name.Name + " for ", GamePrinter.DamageColour, Math.Round(damageDealtByPlayer, 2) + " damage", ", leaving them with ", GamePrinter.HealthColour, Math.Round(monsterHealth, 2) + " health", defaultColour: GamePrinter.DealingDamageColour);
                         }
-                        else ConsolePrinter.CreateTwoMiddlesText("You hit the " + monster.Name + " for ", GamePrinter.DamageColour, Math.Round(damageDealtByPlayer, 2) + " damage", ", leaving it with ", GamePrinter.HealthColour, Math.Round(monsterHealth, 2) + " health", defaultColour: GamePrinter.DealingDamageColour);
+                        else ConsolePrinter.CreateTwoMiddlesText("You hit the " + monster.Name.Name + " for ", GamePrinter.DamageColour, Math.Round(damageDealtByPlayer, 2) + " damage", ", leaving it with ", GamePrinter.HealthColour, Math.Round(monsterHealth, 2) + " health", defaultColour: GamePrinter.DealingDamageColour);
                     }
                     else if (monster.Name.Plural)
                       {
-                        ConsolePrinter.CreateMiddleText("You hit the " + monster.Name + " for ", GamePrinter.DamageColour, Math.Round(damageDealtByPlayer, 2) + " damage", ", defeating them", GamePrinter.DealingDamageColour);
+                        ConsolePrinter.CreateMiddleText("You hit the " + monster.Name.Name + " for ", GamePrinter.DamageColour, Math.Round(damageDealtByPlayer, 2) + " damage", ", defeating them", GamePrinter.DealingDamageColour);
                         if (random.Next(0, 2) == 0) {
                             player.Gold += monster.Gold + 1;
                             ConsolePrinter.CreateTwoMiddlesText("You got ", GamePrinter.GoldColour, (monster.Gold + 1) + " gold", ", bringing you up to ", GamePrinter.GoldColour, player.Gold + " gold");
@@ -1286,7 +1286,7 @@ namespace Adventure_Game.src.ui {
                         break;
                     }
                     else {
-                        ConsolePrinter.CreateMiddleText("You hit the " + monster.Name + " for ", GamePrinter.DamageColour, Math.Round(damageDealtByPlayer, 2) + " damage", ", defeating it", GamePrinter.DealingDamageColour);
+                        ConsolePrinter.CreateMiddleText("You hit the " + monster.Name.Name + " for ", GamePrinter.DamageColour, Math.Round(damageDealtByPlayer, 2) + " damage", ", defeating it", GamePrinter.DealingDamageColour);
                         if (random.Next(0, 2) == 0) {
                             player.Gold += monster.Gold + 1;
                             ConsolePrinter.CreateTwoMiddlesText("You got ", GamePrinter.GoldColour, (monster.Gold + 1) + " gold", ", bringing you up to ", GamePrinter.GoldColour, player.Gold + " gold");
@@ -1301,10 +1301,10 @@ namespace Adventure_Game.src.ui {
                     double damageDealtToPlayer = (random.NextDouble() * (monster.Strength - (monster.Strength * 0.8))) + (monster.Strength * 0.8);
                     player.Health -= damageDealtToPlayer;
                     if (player.Health > 0) {
-                        ConsolePrinter.CreateTwoMiddlesText("The " + monster.Name + " hit you for ", GamePrinter.DamageColour, Math.Round(damageDealtToPlayer, 2) + " damage", ", leaving you with ", GamePrinter.HealthColour, Math.Round(player.Health, 2) + " health", defaultColour: GamePrinter.TakingDamageColour);
+                        ConsolePrinter.CreateTwoMiddlesText("The " + monster.Name.Name + " hit you for ", GamePrinter.DamageColour, Math.Round(damageDealtToPlayer, 2) + " damage", ", leaving you with ", GamePrinter.HealthColour, Math.Round(player.Health, 2) + " health", defaultColour: GamePrinter.TakingDamageColour);
                     }
                     else {
-                        ConsolePrinter.CreateMiddleText("The " + monster.Name + " hit you for ", GamePrinter.DamageColour, Math.Round(damageDealtToPlayer, 2) + " damage", ", defeating you", GamePrinter.TakingDamageColour);
+                        ConsolePrinter.CreateMiddleText("The " + monster.Name.Name + " hit you for ", GamePrinter.DamageColour, Math.Round(damageDealtToPlayer, 2) + " damage", ", defeating you", GamePrinter.TakingDamageColour);
                         GamePrinter.WriteLine("Better luck next time");
                         break;
                     }
