@@ -150,7 +150,7 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
-        /// Rotates the player counterclockwise:
+        /// Rotates the player anticlockwise:
         ///     If they were facing North, they face West
         ///     If they were facing East, they face North
         ///     If they were facing South, they face East
