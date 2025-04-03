@@ -27,15 +27,20 @@ namespace Adventure_Game.src.ui {
             while (true) {
                 InitializeVariables();
 
+
+
+                #if DEBUG
+                CreateCharacter();
+                if (player is not null && player.Name != "Me") {
+                    ChooseDifficulty();
+
+                    Tutorial();
+                }
+                #else
                 ChooseDifficulty();
 
                 CreateCharacter();
 
-                #if DEBUG
-                if (player is not null && player.Name != "Me") {
-                    Tutorial();
-                }
-                #else
                 Tutorial();
                 #endif
 
