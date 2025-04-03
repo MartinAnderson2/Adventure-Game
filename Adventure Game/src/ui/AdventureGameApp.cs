@@ -637,7 +637,7 @@ namespace Adventure_Game.src.ui {
         ///     it is a village, or lets the user buy goods if it is a store.
         /// </summary>
         private void RunTile() {
-            Tile currTile = game.PlayerCurrentTile();
+            Tile currTile = game.CurrentTile;
             switch (currTile.Type) {
                 case Tile.TileType.TreasureChest:
                     TreasureChest();

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,6 +37,9 @@ namespace Adventure_Game.src.model {
         }
         public Direction Facing { get; set; }
 
+
+        private Action OnMovement;
+
         /// <summary>
         /// Creates a new Player with a name, class, and subclass, with full health and maximum health set to the
         /// default, no health potions, 1 base strength, no weapon, no gold, and stood at (0, 0), facing North.
@@ -44,7 +49,7 @@ namespace Adventure_Game.src.model {
         /// <param name="classValue">An integer representing the player's class.</param>
         /// <param name="subclass">The name of the player's subclass.</param>
         /// <param name="subclassValue">An integer representing the player's subclass.</param>
-        public Player(string name, string @class, int classValue, string subclass, int subclassValue) {
+        public Player(string name, string @class, int classValue, string subclass, int subclassValue, Action updateTile) {
             this.Name = name;
             this.Class = @class;
             this.ClassValue = classValue;
@@ -59,6 +64,8 @@ namespace Adventure_Game.src.model {
             this.XPos = 0;
             this.YPos = 0;
             this.Facing = Direction.North;
+
+            OnMovement = new Action(updateTile);
         }
 
         /// <summary>
@@ -166,6 +173,7 @@ namespace Adventure_Game.src.model {
         ///     If they are at (x, y) facing East , they move to (x + 1, y)
         ///     If they are at (x, y) facing South, they move to (x, y - 1)
         ///     If they are at (x, y) facing West , they move to (x - 1, y)
+        /// Invokes OnMovement
         /// </summary>
         public void MoveForward() {
             switch (Facing) {
@@ -182,6 +190,7 @@ namespace Adventure_Game.src.model {
                     XPos--;
                     break;
             }
+            OnMovement.Invoke();
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Adventure_Game.src.model {
 
         public Player GamePlayer { get; set; }
 
-
+        public Tile CurrentTile { get; private set; }
 
 
         /// <summary>
@@ -60,12 +60,13 @@ namespace Adventure_Game.src.model {
 
 
         /// <summary>
-        /// Creates a new game with a player with no name or class and subclass with no current shopkeeper name or
-        /// multiplier set to normal difficulty with no health potion, base strength, or max health stock, 0 days
+        /// Creates a new game with a player with no name or class and subclass at the origin tile set to normal
+        /// difficulty with no health potion, base strength, or max health stock, 0 days
         /// played, 0 days since the last shopping trip, and no health potions ever used.
         /// </summary>
         public GameState() {
-            this.GamePlayer = new Player("", "", 0, "", 0);
+            this.GamePlayer = new Player("", "", 0, "", 0, UpdateCurrentTile);
+            CurrentTile = GetCurrentTile();
             this.GameDifficulty = Difficulty.Normal;
             this.HealthPotionStock = 0;
             this.BaseStrengthStock = 0;
@@ -76,9 +77,9 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
-        /// Creates a new game with a player with given name, class, and subclass, given difficulty, no health potion,
-        /// base strength, and max health stock, 0 days played 0 days since last shopping trip, and no health potions
-        /// ever used.
+        /// Creates a new game with a player with given name, class, and subclass at the origin tile, given difficulty,
+        /// no health potion, base strength, and max health stock, 0 days played 0 days since last shopping trip, and
+        /// no health potions ever used.
         /// </summary>
         /// <param name="difficulty">The difficulty of the game.</param>
         /// <param name="playerName">The player's name.</param>
@@ -87,7 +88,8 @@ namespace Adventure_Game.src.model {
         /// <param name="subclassName">The name of the player's subclass.</param>
         /// <param name="subclassValue">An integer representign the player's subclass.</param>
         public GameState(Difficulty difficulty, string playerName, string className, int classValue, string subclassName, int subclassValue) {
-            this.GamePlayer = new Player(playerName, className, classValue, subclassName, subclassValue);
+            this.GamePlayer = new Player(playerName, className, classValue, subclassName, subclassValue, UpdateCurrentTile);
+            CurrentTile = GetCurrentTile();
             this.GameDifficulty = difficulty;
             this.HealthPotionStock = 0;
             this.BaseStrengthStock = 0;
@@ -173,22 +175,6 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
-        /// Returns the tile the player is currently on.
-        /// </summary>
-        /// <returns>Reference to the tile the player is currently standing on.</returns>
-        public Tile PlayerCurrentTile() {
-            int x = GamePlayer.XPos + OFFSET;
-            int y = GamePlayer.YPos + OFFSET;
-
-            if (x >= MAP_WIDTH || x < 0 || y >= MAP_HEIGHT || y < 0) {
-                Debug.Fail("Player was outside playable area");
-                return new MonsterTile();
-            }
-
-            return Map[x, y];
-        }
-
-        /// <summary>
         /// Returns a reference to the monster on the tile the player is currently on. It is randomized with the
         /// hardest possible monster being limited by the player's strength and health. Game difficulty affects how
         /// likely more difficult monsters are.
@@ -206,6 +192,33 @@ namespace Adventure_Game.src.model {
         /// <returns>Returns true if the player has been defeated otherwise false.</returns>
         public bool PlayerDefeated() {
             return GamePlayer.Defeated();
+        }
+
+
+
+        // Helper Methods:
+
+        /// <summary>
+        /// Returns the tile the player is currently on.
+        /// </summary>
+        /// <returns>Reference to the tile the player is currently standing on.</returns>
+        private Tile GetCurrentTile() {
+            int x = GamePlayer.XPos + OFFSET;
+            int y = GamePlayer.YPos + OFFSET;
+
+            if (x >= MAP_WIDTH || x < 0 || y >= MAP_HEIGHT || y < 0) {
+                Debug.Fail("Player was outside playable area");
+                return new MonsterTile();
+            }
+
+            return Map[x, y];
+        }
+
+        /// <summary>
+        /// Updates CurrentTile to the tile the player is currently on.
+        /// </summary>
+        private void UpdateCurrentTile() {
+            CurrentTile = GetCurrentTile();
         }
     }
 }
