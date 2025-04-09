@@ -27,21 +27,23 @@ namespace Adventure_Game.src.ui {
             while (true) {
                 InitializeVariables();
 
-
-
                 #if DEBUG
                 CreateCharacter();
                 if (player is not null && player.Name != "Me") {
+                    ConsolePrinter.PrintBlankLines(1);
+
                     ChooseDifficulty();
 
-                    Tutorial();
+                    Tutorial.RunTutorial(player);
                 }
                 #else
                 ChooseDifficulty();
 
+                ConsolePrinter.PrintBlankLines(1);
+
                 CreateCharacter();
 
-                Tutorial();
+                Tutorial.RunTutorial(player);
                 #endif
 
                 ConsolePrinter.PrintBlankLines(2);
@@ -138,8 +140,6 @@ namespace Adventure_Game.src.ui {
                     GamePrinter.WriteLine("You chose fighter");
                     player.Class = "fighter";
                     player.ClassValue = 0;
-                    Weapon stick = new Weapon("stick", 2, 3);
-                    player.HeldWeapon = stick;
                     while (true) {
                         GamePrinter.WriteLine("Is " + player.Name + " going to be a barbarian, knight, or samurai?");
 
@@ -176,8 +176,6 @@ namespace Adventure_Game.src.ui {
                     GamePrinter.WriteLine("You chose magician");
                     player.Class = "magician";
                     player.ClassValue = 1;
-                    Weapon slightlyMagicalStick = new Weapon("slightly magical stick", 2, 3);
-                    player.HeldWeapon = slightlyMagicalStick;
                     while (true) {
                         GamePrinter.WriteLine("Is " + player.Name + " going to be a nature, elemental, or illusionist magician?");
                         
@@ -214,8 +212,6 @@ namespace Adventure_Game.src.ui {
                     GamePrinter.WriteLine("You chose rogue");
                     player.Class = "rogue";
                     player.ClassValue = 2;
-                    Weapon longStick = new Weapon("long stick", 2, 3);
-                    player.HeldWeapon = longStick;
                     while (true) {
                         GamePrinter.WriteLine("Is " + player.Name + " going to be a thief, pirate, or ninja?");
 
@@ -252,8 +248,6 @@ namespace Adventure_Game.src.ui {
                     GamePrinter.WriteLine("You chose cleric");
                     player.Class = "cleric";
                     player.ClassValue = 3;
-                    Weapon wornBook = new Weapon("worn book", 2, 3);
-                    player.HeldWeapon = wornBook;
                     while (true) {
                         GamePrinter.WriteLine("Is " + player.Name + " going to be a priest, healer, or templar?");
 
@@ -290,8 +284,6 @@ namespace Adventure_Game.src.ui {
                     GamePrinter.WriteLine("You chose ranger");
                     player.Class = "ranger";
                     player.ClassValue = 4;
-                    Weapon woodenKnife = new Weapon("wooden knife", 2, 3);
-                    player.HeldWeapon = woodenKnife;
                     while (true) {
                         GamePrinter.WriteLine("Is " + player.Name + " going to be a sniper, scout, or forester?");
 
@@ -325,180 +317,6 @@ namespace Adventure_Game.src.ui {
                     break;
                 }
                 else GamePrinter.WriteLine("That was not an option, please choose an option from the list and try again");
-            }
-        }
-
-        /// <summary>
-        /// A tutorial that explains the game. Lets the user skip the tutorial at any time, otherwise runs them through
-        /// sneaking away from enemies, finding new weapons, and fighting enemies.
-        /// </summary>
-        private void Tutorial() {
-            void Skip() {
-                GamePrinter.WriteLine("Tutorial has successfully been skipped");
-                player.ResetState();
-            }
-            GamePrinter.WriteLine();
-            GamePrinter.WriteLineEmphasis("Tutorial");
-            GamePrinter.WriteLineEmphasis("--------");
-            GamePrinter.WriteLineNote("The options you have will be in quotation marks. When choosing the option do not include the quotation marks");
-            GamePrinter.WriteLine("Welcome to the tutorial, say \"skip\" if you wish to skip it");
-            while (true) {
-                while (true) {
-                    GamePrinter.WriteLineNote("Normally, the direction you choose makes a difference, however, in the tutorial it does not");
-                    GamePrinter.WriteLine("Would you like to go straight, right, or left?");
-
-                    string? input = Console.ReadLine();
-                    if (input is null) {
-                        Console.Clear();
-                        continue;
-                    }
-                    input = input.ToLower();
-
-                    if (input == "straight" || input == "s") {
-                        break;
-                    }
-                    else if (input == "left" || input == "l") {
-                        break;
-                    }
-                    else if (input == "right" || input == "r") {
-                        break;
-                    }
-                    else if (input == "skip") {
-                        Skip();
-                        return;
-                    }
-                    else GamePrinter.WriteLine("That is not an option please look at the options and try again");
-                }
-
-                while (true) {
-                    ConsolePrinter.CreateTwoMiddlesText("You come across a wolf. It has ", GamePrinter.HealthColour, "30 health", " and ", GamePrinter.StrengthColour, "3 strength");
-                    GamePrinter.WriteLine("It is sleeping");
-                    ConsolePrinter.CreateTwoMiddlesText("You have ", GamePrinter.HealthColour, player.Health + " health", " and ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
-                    GamePrinter.WriteLineNote("Since the wolf is significantly stronger than you, you probably will not win the fight. You should try to sneak past it to continue");
-                    GamePrinter.WriteLine("Would you like to \"fight\" it or try to \"sneak\" past it?");
-
-                    string? input = Console.ReadLine();
-                    if (input is null) {
-                        Console.Clear();
-                        continue;
-                    }
-                    input = input.ToLower();
-
-                    if (input == "sneak" || input == "s") {
-                        GamePrinter.WriteLine("You successfully snuck past the wolf");
-                        break;
-                    }
-                    else if (input == "fight" || input == "f") {
-                        GamePrinter.WriteLineNote("I told you that if you were to fight the wolf you would lose so I did not let you. You will get to make this decisions yourself once you have finsihed the tutorial. If you want to skip the tutorial, say skip");
-                        GamePrinter.WriteLine("You successfully snuck past the wolf");
-                        break;
-                    }
-                    else if (input == "skip") {
-                        Skip();
-                        return;
-                    }
-                    else GamePrinter.WriteLine("That is not an option please look at the options and try again");
-                }
-                while (true) {
-                    GamePrinter.WriteLine("Would you like to go straight, right, or left?");
-
-                    string? input = Console.ReadLine();
-                    if (input is null) {
-                        Console.Clear();
-                        continue;
-                    }
-                    input = input.ToLower();
-
-                    if (input == "straight" || input == "s") {
-                        break;
-                    }
-                    else if (input == "left" || input == "l") {
-                        break;
-                    }
-                    else if (input == "right" || input == "r") {
-                        break;
-                    }
-                    else if (input == "skip") {
-                        Skip();
-                        return;
-                    }
-                    else {
-                        GamePrinter.WriteLine("That is not an option please look at the options and try again");
-                        GamePrinter.WriteLineNote("Normally, the direction you choose makes a difference however, in the tutorial it does not");
-                    }
-                }
-                GamePrinter.WriteLine("You find a treasure chest with a " + player.HeldWeapon.Name + " inside!");
-                if (player.HeldWeapon.NameIsPlural) {
-                    ConsolePrinter.CreateMiddleText("Your " + player.HeldWeapon.Name + " have brought you up to ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
-                }
-                else {
-                    ConsolePrinter.CreateMiddleText("Your " + player.HeldWeapon.Name + " has brought you up to ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
-                }
-                while (true) {
-                    GamePrinter.WriteLine("Would you like to go straight, right, or left?");
-
-                    string? input = Console.ReadLine();
-                    if (input is null) {
-                        Console.Clear();
-                        continue;
-                    }
-                    input = input.ToLower();
-
-                    if (input == "straight" || input == "s") {
-                        break;
-                    }
-                    else if (input == "left" || input == "l") {
-                        break;
-                    }
-                    else if (input == "right" || input == "r") {
-                        break;
-                    }
-                    else if (input == "skip") {
-                        Skip();
-                        return;
-                    }
-                    else {
-                        GamePrinter.WriteLine("That is not an option please look at the options and try again");
-                        GamePrinter.WriteLineNote("Normally, the direction you choose makes a difference however, in the tutorial it does not");
-                    }
-                }
-                while (true) {
-                    ConsolePrinter.CreateTwoMiddlesText("You come across a stoneling. It has ", GamePrinter.HealthColour, "1 health", " and ", GamePrinter.StrengthColour, "1 strength");
-                    GamePrinter.WriteLine("It is awake and has seen you");
-                    ConsolePrinter.CreateTwoMiddlesText("You have ", GamePrinter.HealthColour, player.Health + " health", " and ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
-                    GamePrinter.WriteLineNote("Since you are significantly stronger than the stoneling, you will almost certainly win this fight and if you do, you will get loot. Additionally, you are unlikely to sneak past successfully since it has seen you");
-                    GamePrinter.WriteLine("Would you like to \"fight\" the stoneling or try to \"sneak\" past it?");
-
-                    string? input = Console.ReadLine();
-                    if (input is null) {
-                        Console.Clear();
-                        continue;
-                    }
-                    input = input.ToLower();
-
-                    if (input == "sneak" || input == "s") {
-                        GamePrinter.WriteLine("You try to sneak past, but the stoneling sees you");
-                        GamePrinter.WriteLineNote("I told you that it would not work!");
-                        ConsolePrinter.CreateMiddleText("The stoneling hit you for ", GamePrinter.DamageColour, "1 damage", ", leaving you with 19 health", GamePrinter.TakingDamageColour);
-                        player.Health--;
-                        break;
-                    }
-                    else if (input == "fight" || input == "f") {
-                        break;
-                    }
-                    else if (input == "skip") {
-                        Skip();
-                        return;
-                    }
-                    else GamePrinter.WriteLine("That is not an option please look at the options and try again");
-                }
-                double damageDealt = (random.NextDouble() * ((player.HeldWeapon.Strength + player.BaseStrength) - ((player.HeldWeapon.Strength + player.BaseStrength) * 0.8))) + ((player.HeldWeapon.Strength + player.BaseStrength) * 0.8);
-                ConsolePrinter.CreateMiddleText("You hit the stoneling for ", GamePrinter.DamageColour, Math.Round(damageDealt, 2) + " damage", " defeating it", GamePrinter.DealingDamageColour);
-                player.Gold++;
-                ConsolePrinter.CreateTwoMiddlesText("You got ", GamePrinter.GoldColour, "1 gold", ", bringing you up to ", GamePrinter.GoldColour, player.Gold + " gold");
-                GamePrinter.WriteLineEmphasis("Congratulations on completing the tutorial! Good luck on your adventures");
-                player.ResetState();
-                break;
             }
         }
 
