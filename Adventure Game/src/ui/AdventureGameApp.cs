@@ -371,8 +371,6 @@ namespace Adventure_Game.src.ui {
             while (true) {
                 Move();
 
-                game.DaysPlayed++;
-
                 RunTile();
 
                 if (game.PlayerDefeated()) {
@@ -380,7 +378,10 @@ namespace Adventure_Game.src.ui {
                     Console.Clear();
                     break;
                 }
-                GamePrinter.WriteLine();
+
+                game.DaysPlayed++;
+
+                ConsolePrinter.PrintBlankLines(1);
             }
         }
 
