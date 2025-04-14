@@ -182,7 +182,13 @@ namespace Adventure_Game.src.model {
         /// <param name="random">A reference to an object of the random class for the randomization.</param>
         /// <returns>A reference to a randomly-selected monster for the player to fight.</returns>
         public Monster GetMonster(Random random) {
-            int monsterPowerLevel = random.Next(Convert.ToInt32(GamePlayer.GetTotalStrength() * GamePlayer.MaxHealth * GetDifficultyMultiplier()));
+            int playerPowerLevel;
+            try {
+                playerPowerLevel = Convert.ToInt32(GamePlayer.GetTotalStrength() * GamePlayer.MaxHealth * GetDifficultyMultiplier());
+            } catch (System.OverflowException) {
+                playerPowerLevel = Int32.MaxValue;
+            }
+            int monsterPowerLevel = random.Next(playerPowerLevel);
             return Monster.GetAppropriateMonster(monsterPowerLevel);
         }
 
