@@ -114,7 +114,7 @@ namespace Adventure_Game.src.model {
         /// </summary>
         /// <returns>The player's total strength</returns>
         public double GetTotalStrength() {
-            return BaseStrength + HeldWeapon.Strength;
+            return BaseStrength + HeldWeapon.BaseStrength;
         }
 
         /// <summary>
