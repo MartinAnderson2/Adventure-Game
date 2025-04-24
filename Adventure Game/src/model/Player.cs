@@ -35,7 +35,7 @@ namespace Adventure_Game.src.model {
 
         public enum Class {
             Fighter,
-            Magician,
+            Wizard,
             Rogue,
             Cleric,
             Ranger

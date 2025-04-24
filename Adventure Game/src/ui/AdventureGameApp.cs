@@ -125,7 +125,7 @@ namespace Adventure_Game.src.ui {
                 }
                 #endif
 
-                GamePrinter.WriteLine("Is " + player.Name + " going to be a fighter, magician, rogue, cleric, or ranger?");
+                GamePrinter.WriteLine("Is " + player.Name + " going to be a fighter, wizard, rogue, cleric, or ranger?");
                 
                 string? secondInput = Console.ReadLine();
                 if (secondInput is null) {
@@ -166,11 +166,11 @@ namespace Adventure_Game.src.ui {
                     }
                     break;
                 }
-                else if (secondInput == "magician" || secondInput == "magic" || secondInput == "m") {
-                    GamePrinter.WriteLine("You chose magician");
-                    player.ClassType = Player.Class.Magician;
+                else if (secondInput == "wizard" || secondInput == "wiz" || secondInput == "w") {
+                    GamePrinter.WriteLine("You chose wizard");
+                    player.ClassType = Player.Class.Wizard;
                     while (true) {
-                        GamePrinter.WriteLine("Is " + player.Name + " going to be a nature, elemental, or illusionist magician?");
+                        GamePrinter.WriteLine("Is " + player.Name + " going to be a nature, elemental, or illusionist wizard?");
                         
                         string? thirdInput = Console.ReadLine();
                         if (thirdInput is null) {
@@ -180,17 +180,17 @@ namespace Adventure_Game.src.ui {
                         thirdInput = thirdInput.ToLower();
 
                         if (thirdInput == "nature" || thirdInput == "n") {
-                            GamePrinter.WriteLine(player.Name + " is now a nature magician");
+                            GamePrinter.WriteLine(player.Name + " is now a nature wizard");
                             player.SubclassType = Player.Subclass.Nature;
                             break;
                         }
                         else if (thirdInput == "elemental" || thirdInput == "element" || thirdInput == "e") {
-                            GamePrinter.WriteLine(player.Name + " is now an elemental magician");
+                            GamePrinter.WriteLine(player.Name + " is now an elemental wizard");
                             player.SubclassType = Player.Subclass.Elemental;
                             break;
                         }
                         else if (thirdInput == "illusionist" || thirdInput == "illusion" || thirdInput == "i") {
-                            GamePrinter.WriteLine(player.Name + " is now an illusionist magician");
+                            GamePrinter.WriteLine(player.Name + " is now an illusionist wizard");
                             player.SubclassType = Player.Subclass.Illusionist;
                             break;
                         }
@@ -547,7 +547,7 @@ namespace Adventure_Game.src.ui {
                         break;
                 }
             }
-            else if (newWeaponClass == Player.Class.Magician)
+            else if (newWeaponClass == Player.Class.Wizard)
             {
                 switch (newWeaponLevel) {
                     case 0:

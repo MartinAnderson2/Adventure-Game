@@ -90,7 +90,7 @@ namespace Adventure_Game.src.ui {
             switch (player.ClassType) {
                 case Player.Class.Fighter:
                     return new ReadOnlyName("stick");
-                case Player.Class.Magician:
+                case Player.Class.Wizard:
                     return new ReadOnlyName("slightly magical stick");
                 case Player.Class.Rogue:
                     return new ReadOnlyName("long stick");
