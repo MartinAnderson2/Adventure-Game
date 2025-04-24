@@ -543,7 +543,7 @@ namespace Adventure_Game.src.ui {
                         newWeaponSubclass = Player.Subclass.Samurai;
                         break;
                     default:
-                        GamePrinter.WriteLine("(Pseudo-)Random number generator failed");
+                        Debug.Fail("Random number generator produced unexpected output");
                         break;
                 }
             }
@@ -596,7 +596,7 @@ namespace Adventure_Game.src.ui {
                         newWeaponSubclass = Player.Subclass.Illusionist;
                         break;
                     default:
-                        GamePrinter.WriteLine("(Pseudo-)Random number generator failed");
+                        Debug.Fail("Random number generator produced unexpected output");
                         break;
                 }
             }
@@ -653,7 +653,7 @@ namespace Adventure_Game.src.ui {
                         newWeaponSubclass = Player.Subclass.Ninja;
                         break;
                     default:
-                        GamePrinter.WriteLine("(Pseudo-)Random number generator failed");
+                        Debug.Fail("Random number generator produced unexpected output");
                         break;
                 }
             }
@@ -707,7 +707,7 @@ namespace Adventure_Game.src.ui {
                         newWeaponSubclass = Player.Subclass.Priest;
                         break;
                     default:
-                        GamePrinter.WriteLine("(Pseudo-)Random number generator failed");
+                        Debug.Fail("Random number generator produced unexpected output");
                         break;
                 }
             }
@@ -765,7 +765,7 @@ namespace Adventure_Game.src.ui {
                         newWeaponPlural = true;
                         break;
                     default:
-                        GamePrinter.WriteLine("(Pseudo-)Random number generator failed");
+                        Debug.Fail("Random number generator produced unexpected output");
                         break;
                 }
             }
