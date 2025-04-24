@@ -119,10 +119,8 @@ namespace Adventure_Game.src.ui {
                 // Quick default character creator for testing purposes
                 #if DEBUG
                 if (player.Name == "Me") {
-                    player.Class = "fighter";
-                    player.ClassValue = 0;
-                    player.Subclass = "barbarian";
-                    player.SubclassValue = 0;
+                    player.ClassType = Player.Class.Fighter;
+                    player.SubclassType = Player.Subclass.Barbarian;
                     break;
                 }
                 #endif
@@ -138,8 +136,7 @@ namespace Adventure_Game.src.ui {
 
                 if (secondInput == "fighter" || secondInput == "f") {
                     GamePrinter.WriteLine("You chose fighter");
-                    player.Class = "fighter";
-                    player.ClassValue = 0;
+                    player.ClassType = Player.Class.Fighter;
                     while (true) {
                         GamePrinter.WriteLine("Is " + player.Name + " going to be a barbarian, knight, or samurai?");
 
@@ -152,20 +149,17 @@ namespace Adventure_Game.src.ui {
 
                         if (thirdInput == "barbarian" || thirdInput == "barb" || thirdInput == "b") {
                             GamePrinter.WriteLine(player.Name + " is now a barbarian");
-                            player.Subclass = "barbarian";
-                            player.SubclassValue = 0;
+                            player.SubclassType = Player.Subclass.Barbarian;
                             break;
                         }
                         else if (thirdInput == "knight" || thirdInput == "k") {
                             GamePrinter.WriteLine(player.Name + " is now a knight");
-                            player.Subclass = "knight";
-                            player.SubclassValue = 1;
+                            player.SubclassType = Player.Subclass.Knight;
                             break;
                         }
                         else if (thirdInput == "samurai" || thirdInput == "s") {
                             GamePrinter.WriteLine(player.Name + " is now a samurai");
-                            player.Subclass = "samurai";
-                            player.SubclassValue = 2;
+                            player.SubclassType = Player.Subclass.Samurai;
                             break;
                         }
                         else GamePrinter.WriteLine("That is not an option, please choose an option from the list and try again");
@@ -174,8 +168,7 @@ namespace Adventure_Game.src.ui {
                 }
                 else if (secondInput == "magician" || secondInput == "magic" || secondInput == "m") {
                     GamePrinter.WriteLine("You chose magician");
-                    player.Class = "magician";
-                    player.ClassValue = 1;
+                    player.ClassType = Player.Class.Magician;
                     while (true) {
                         GamePrinter.WriteLine("Is " + player.Name + " going to be a nature, elemental, or illusionist magician?");
                         
@@ -188,20 +181,17 @@ namespace Adventure_Game.src.ui {
 
                         if (thirdInput == "nature" || thirdInput == "n") {
                             GamePrinter.WriteLine(player.Name + " is now a nature magician");
-                            player.Subclass = "nature";
-                            player.SubclassValue = 0;
+                            player.SubclassType = Player.Subclass.Nature;
                             break;
                         }
                         else if (thirdInput == "elemental" || thirdInput == "element" || thirdInput == "e") {
                             GamePrinter.WriteLine(player.Name + " is now an elemental magician");
-                            player.Subclass = "elemental";
-                            player.SubclassValue = 1;
+                            player.SubclassType = Player.Subclass.Elemental;
                             break;
                         }
                         else if (thirdInput == "illusionist" || thirdInput == "illusion" || thirdInput == "i") {
                             GamePrinter.WriteLine(player.Name + " is now an illusionist magician");
-                            player.Subclass = "illusionist";
-                            player.SubclassValue = 2;
+                            player.SubclassType = Player.Subclass.Illusionist;
                             break;
                         }
                         else GamePrinter.WriteLine("That is not an option, please choose an option from the list and try again");
@@ -210,8 +200,7 @@ namespace Adventure_Game.src.ui {
                 }
                 else if (secondInput == "rogue" || secondInput == "ro") {
                     GamePrinter.WriteLine("You chose rogue");
-                    player.Class = "rogue";
-                    player.ClassValue = 2;
+                    player.ClassType = Player.Class.Rogue;
                     while (true) {
                         GamePrinter.WriteLine("Is " + player.Name + " going to be a thief, pirate, or ninja?");
 
@@ -224,20 +213,17 @@ namespace Adventure_Game.src.ui {
 
                         if (thirdInput == "thief" || thirdInput == "thief" || thirdInput == "stealer" || thirdInput == "t") {
                             GamePrinter.WriteLine(player.Name + " is now a thief");
-                            player.Subclass = "thief";
-                            player.SubclassValue = 0;
+                            player.SubclassType = Player.Subclass.Thief;
                             break;
                         }
                         else if (thirdInput == "pirate" || thirdInput == "p") {
                             GamePrinter.WriteLine(player.Name + " is now a pirate");
-                            player.Subclass = "pirate";
-                            player.SubclassValue = 1;
+                            player.SubclassType = Player.Subclass.Pirate;
                             break;
                         }
                         else if (thirdInput == "ninja" || thirdInput == "n") {
                             GamePrinter.WriteLine(player.Name + " is now a ninja");
-                            player.Subclass = "ninja";
-                            player.SubclassValue = 2;
+                            player.SubclassType = Player.Subclass.Ninja;
                             break;
                         }
                         else GamePrinter.WriteLine("That is not an option, please choose an option from the list and try again");
@@ -246,8 +232,7 @@ namespace Adventure_Game.src.ui {
                 }
                 else if (secondInput == "cleric" || secondInput == "c") {
                     GamePrinter.WriteLine("You chose cleric");
-                    player.Class = "cleric";
-                    player.ClassValue = 3;
+                    player.ClassType = Player.Class.Cleric;
                     while (true) {
                         GamePrinter.WriteLine("Is " + player.Name + " going to be a priest, healer, or templar?");
 
@@ -260,20 +245,17 @@ namespace Adventure_Game.src.ui {
 
                         if (thirdInput == "priest" || thirdInput == "p") {
                             GamePrinter.WriteLine(player.Name + " is now a preist");
-                            player.Subclass = "priest";
-                            player.SubclassValue = 0;
+                            player.SubclassType = Player.Subclass.Priest;
                             break;
                         }
                         else if (thirdInput == "healer" || thirdInput == "heal" || thirdInput == "h") {
                             GamePrinter.WriteLine(player.Name + " is now a healer");
-                            player.Subclass = "healer";
-                            player.SubclassValue = 1;
+                            player.SubclassType = Player.Subclass.Healer;
                             break;
                         }
                         else if (thirdInput == "templar" || thirdInput == "templ" || thirdInput == "t") {
                             GamePrinter.WriteLine(player.Name + " is now a templar");
-                            player.Subclass = "templar";
-                            player.SubclassValue = 2;
+                            player.SubclassType = Player.Subclass.Templar;
                             break;
                         }
                         else GamePrinter.WriteLine("That is not an option, please choose an option from the list and try again");
@@ -282,8 +264,7 @@ namespace Adventure_Game.src.ui {
                 }
                 else if (secondInput == "ranger" || secondInput == "range" || secondInput == "ra") {
                     GamePrinter.WriteLine("You chose ranger");
-                    player.Class = "ranger";
-                    player.ClassValue = 4;
+                    player.ClassType = Player.Class.Ranger;
                     while (true) {
                         GamePrinter.WriteLine("Is " + player.Name + " going to be a sniper, scout, or forester?");
 
@@ -296,20 +277,17 @@ namespace Adventure_Game.src.ui {
 
                         if (thirdInput == "sniper" || thirdInput == "snipe" || thirdInput == "sn") {
                             GamePrinter.WriteLine(player.Name + " is now a sniper");
-                            player.Subclass = "sniper";
-                            player.SubclassValue = 0;
+                            player.SubclassType = Player.Subclass.Sniper;
                             break;
                         }
                         else if (thirdInput == "scout" || thirdInput == "sc") {
                             GamePrinter.WriteLine(player.Name + " is now a scout");
-                            player.Subclass = "scout";
-                            player.SubclassValue = 1;
+                            player.SubclassType = Player.Subclass.Scout;
                             break;
                         }
                         else if (thirdInput == "forester" || thirdInput == "forest" || thirdInput == "f") {
                             GamePrinter.WriteLine(player.Name + " is now a forester");
-                            player.Subclass = "forester";
-                            player.SubclassValue = 2;
+                            player.SubclassType = Player.Subclass.Forester;
                             break;
                         }
                         else GamePrinter.WriteLine("That is not an option, please choose an option from the list and try again");
@@ -499,289 +477,291 @@ namespace Adventure_Game.src.ui {
         /// the old weapon or swapping to the new weapon. The weapon no longer in use is sold for gold.
         /// </summary>
         private void TreasureChest() {
-            int newWeaponLevel, newWeaponType = 0; // newWeaponLevel is the level of the weapon (spreadsheet), newWeaponType is the character type of the weapon (0-3) 0 = none
+            int newWeaponLevel; // newWeaponLevel is the level of the weapon (spreadsheet)
             string newWeaponName = "";
-            int newWeaponClass; //newWeaponClass is the class of the weapon, from 0-4. 0 = fighter, 1 = magician, 2 = rogue, 3 = cleric, and 4 = ranger
+            Player.Class newWeaponClass;
+            Player.Subclass? newWeaponSubclass = null;
             bool newWeaponStartsVowel = false;
             bool newWeaponPlural = false;
-            if (player.HeldWeapon.Strength < 10) //If the weapon is less than the maximum level use it to randomize which weapon is received
+            if (player.HeldWeapon.Strength < 10) // If the weapon is less than the maximum level use it to randomize which weapon is received
             {
-                newWeaponLevel = random.Next(0, Convert.ToInt32(player.HeldWeapon.Strength + 2)); //0-10
+                newWeaponLevel = random.Next(0, Convert.ToInt32(player.HeldWeapon.Strength + 2)); // 0-10
             }
-            else newWeaponLevel = random.Next(6, 11); //6-10
-            if (random.Next(0, 100) < 35) //35% chance for the weapon to be of the player's class
+            else newWeaponLevel = random.Next(6, 11); // 6-10
+            if (random.Next(0, 100) < 35) // 35% chance for the weapon to be of the player's class
             {
-                newWeaponClass = player.ClassValue;
+                newWeaponClass = player.ClassType;
             }
-            else newWeaponClass = random.Next(0, 5);
-            if (newWeaponClass == 0) //Player is a Fighter. 0 = None, 1 = Barbarian, 2 = Knight, 3 = Samurai
+            else newWeaponClass = (Player.Class) random.Next(0, 5); // otherwise a random class
+
+            if (newWeaponClass == Player.Class.Fighter)
             {
                 switch (newWeaponLevel) {
                     case 0:
                         newWeaponName = "stick";
-                        newWeaponType = 0;
+                        newWeaponSubclass = null;
                         break;
                     case 1:
                         newWeaponName = "sharp stick";
-                        newWeaponType = 0;
+                        newWeaponSubclass = null;
                         break;
                     case 2:
                         newWeaponName = "wooden club";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Barbarian;
                         break;
                     case 3:
                         newWeaponName = "wooden sword";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Knight;
                         break;
                     case 4:
                         newWeaponName = "stone club";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Barbarian;
                         break;
                     case 5:
                         newWeaponName = "blunt stone sword";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Knight;
                         break;
                     case 6:
                         newWeaponName = "stone sword";
-                        newWeaponType = 3;
+                        newWeaponSubclass = Player.Subclass.Samurai;
                         break;
                     case 7:
                         newWeaponName = "iron sword";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Knight;
                         newWeaponStartsVowel = true;
                         break;
                     case 8:
                         newWeaponName = "titanium club";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Barbarian;
                         break;
                     case 9:
                         newWeaponName = "knightly sword";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Knight;
                         break;
                     case 10:
                         newWeaponName = "katana";
-                        newWeaponType = 3;
+                        newWeaponSubclass = Player.Subclass.Samurai;
                         break;
                     default:
                         GamePrinter.WriteLine("(Pseudo-)Random number generator failed");
                         break;
                 }
             }
-            else if (newWeaponClass == 1) //Player is a Magician. 0 = None, 1 = Nature, 2 = Elemental, 3 = Illusionist
-              {
+            else if (newWeaponClass == Player.Class.Magician)
+            {
                 switch (newWeaponLevel) {
                     case 0:
                         newWeaponName = "slightly magical stick";
-                        newWeaponType = 0;
+                        newWeaponSubclass = null;
                         break;
                     case 1:
                         newWeaponName = "reasonably magical stick";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Nature;
                         break;
                     case 2:
                         newWeaponName = "magical stick";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Nature;
                         break;
                     case 3:
                         newWeaponName = "very magical stick";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Nature;
                         break;
                     case 4:
                         newWeaponName = "ice shard";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Elemental;
                         newWeaponStartsVowel = true;
                         break;
                     case 5:
                         newWeaponName = "glass shard";
-                        newWeaponType = 3;
+                        newWeaponSubclass = Player.Subclass.Illusionist;
                         break;
                     case 6:
                         newWeaponName = "stone shard";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Elemental;
                         break;
                     case 7:
                         newWeaponName = "fire wand";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Elemental;
                         break;
                     case 8:
                         newWeaponName = "tree wand";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Nature;
                         break;
                     case 9:
                         newWeaponName = "elemental wand";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Elemental;
                         break;
                     case 10:
                         newWeaponName = "mirror wand";
-                        newWeaponType = 3;
+                        newWeaponSubclass = Player.Subclass.Illusionist;
                         break;
                     default:
                         GamePrinter.WriteLine("(Pseudo-)Random number generator failed");
                         break;
                 }
             }
-            else if (newWeaponClass == 2) //Player is a Rogue. 0 = None, 1 = Thief, 2 = Pirate, 3 = Ninja
-              {
+            else if (newWeaponClass == Player.Class.Rogue)
+            {
                 switch (newWeaponLevel) {
                     case 0:
                         newWeaponName = "long stick";
-                        newWeaponType = 0;
+                        newWeaponSubclass = null;
                         break;
                     case 1:
                         newWeaponName = "gloves";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Thief;
                         newWeaponPlural = true;
                         break;
                     case 2:
                         newWeaponName = "attack parrot";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Pirate;
                         newWeaponStartsVowel = true;
                         break;
                     case 3:
                         newWeaponName = "football gloves";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Thief;
                         newWeaponPlural = true;
                         break;
                     case 4:
                         newWeaponName = "nunchucks";
-                        newWeaponType = 3;
+                        newWeaponSubclass = Player.Subclass.Ninja;
                         newWeaponPlural = true;
                         break;
                     case 5:
                         newWeaponName = "flintlock pistol";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Pirate;
                         break;
                     case 6:
                         newWeaponName = "mysterious cloak";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Thief;
                         break;
                     case 7:
                         newWeaponName = "stealthy cloak";
-                        newWeaponType = 3;
+                        newWeaponSubclass = Player.Subclass.Ninja;
                         break;
                     case 8:
                         newWeaponName = "cutlass";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Pirate;
                         break;
                     case 9:
                         newWeaponName = "invisibility cloak";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Thief;
                         newWeaponStartsVowel = true;
                         break;
                     case 10:
                         newWeaponName = "returning shuriken";
-                        newWeaponType = 3;
+                        newWeaponSubclass = Player.Subclass.Ninja;
                         break;
                     default:
                         GamePrinter.WriteLine("(Pseudo-)Random number generator failed");
                         break;
                 }
             }
-            else if (newWeaponClass == 3) //Player is a Cleric. 0 = None, 1 = Priest, 2 = Healer, 3 = Templar
-              {
+            else if (newWeaponClass == Player.Class.Cleric)
+            {
                 switch (newWeaponLevel) {
                     case 0:
                         newWeaponName = "worn book";
-                        newWeaponType = 0;
+                        newWeaponSubclass = null;
                         break;
                     case 1:
                         newWeaponName = "novel";
-                        newWeaponType = 3;
+                        newWeaponSubclass = Player.Subclass.Templar;
                         break;
                     case 2:
                         newWeaponName = "old book";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Healer;
                         newWeaponStartsVowel = true;
                         break;
                     case 3:
                         newWeaponName = "massive book";
-                        newWeaponType = 3;
+                        newWeaponSubclass = Player.Subclass.Templar;
                         break;
                     case 4:
                         newWeaponName = "slightly magical book";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Priest;
                         break;
                     case 5:
                         newWeaponName = "almanac";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Healer;
                         newWeaponStartsVowel = true;
                         break;
                     case 6:
                         newWeaponName = "very old book";
-                        newWeaponType = 3;
+                        newWeaponSubclass = Player.Subclass.Templar;
                         break;
                     case 7:
                         newWeaponName = "magical book";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Priest;
                         break;
                     case 8:
                         newWeaponName = "spell book";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Healer;
                         break;
                     case 9:
                         newWeaponName = "book of secrets";
-                        newWeaponType = 3;
+                        newWeaponSubclass = Player.Subclass.Templar;
                         break;
                     case 10:
                         newWeaponName = "divine book";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Priest;
                         break;
                     default:
                         GamePrinter.WriteLine("(Pseudo-)Random number generator failed");
                         break;
                 }
             }
-            else if (newWeaponClass == 4) //Player is a Ranger. 0 = None, 1 = Sniper, 2 = Scout, 3 = Forester
-              {
+            else if (newWeaponClass == Player.Class.Ranger)
+            {
                 switch (newWeaponLevel) {
                     case 0:
                         newWeaponName = "wooden knife";
-                        newWeaponType = 0;
+                        newWeaponSubclass = null;
                         break;
                     case 1:
                         newWeaponName = "mud boots";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Scout;
                         newWeaponPlural = true;
                         break;
                     case 2:
                         newWeaponName = "blowgun";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Sniper;
                         break;
                     case 3:
                         newWeaponName = "shears";
-                        newWeaponType = 3;
+                        newWeaponSubclass = Player.Subclass.Forester;
                         newWeaponPlural = true;
                         break;
                     case 4:
                         newWeaponName = "bow";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Sniper;
                         break;
                     case 5:
                         newWeaponName = "hiking boots";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Scout;
                         newWeaponPlural = true;
                         break;
                     case 6:
                         newWeaponName = "machete";
-                        newWeaponType = 3;
+                        newWeaponSubclass = Player.Subclass.Forester;
                         break;
                     case 7:
                         newWeaponName = "binoculars";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Scout;
                         newWeaponPlural = true;
                         break;
                     case 8:
                         newWeaponName = "crossbow";
-                        newWeaponType = 1;
+                        newWeaponSubclass = Player.Subclass.Sniper;
                         break;
                     case 9:
                         newWeaponName = "noiseless boots";
-                        newWeaponType = 2;
+                        newWeaponSubclass = Player.Subclass.Scout;
                         newWeaponPlural = true;
                         break;
                     case 10:
                         newWeaponName = "camouflage";
-                        newWeaponType = 3;
+                        newWeaponSubclass = Player.Subclass.Forester;
                         newWeaponPlural = true;
                         break;
                     default:
@@ -790,15 +770,16 @@ namespace Adventure_Game.src.ui {
                 }
             }
             else Debug.Fail("Random number generator produced unexpected output");
-            double newWeaponStrength = (newWeaponLevel + 2); //Creates the base damage of the weapon before adding class and type buffs or debuffs
-            if ((newWeaponClass == player.ClassValue) && (newWeaponType == (player.SubclassValue + 1))) //Check if both the class and type match (effectively just checking the type matches)
-            {
+
+            double newWeaponStrength = newWeaponLevel + 2; // Creates the base damage of the weapon before adding class and type buffs or debuffs
+            if (newWeaponClass == player.ClassType && newWeaponSubclass == player.SubclassType) { // Check if both the class and type match (effectively just checking the type matches)
                 newWeaponStrength *= 1.5;
-            }
-            else if (newWeaponClass != player.ClassValue) //Check if the class doesn't match and if it doesn't put it at 75% of the damage
-              {
+            } else if (newWeaponClass == player.ClassType) {
+                newWeaponStrength *= 1;
+            } else {
                 newWeaponStrength *= 0.75;
             }
+
             if (newWeaponPlural) //Tells the user what weapon they just found and checks for vowel and plural
             {
                 GamePrinter.WriteLine("You find a treasure chest with " + newWeaponName + " inside!");

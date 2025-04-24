@@ -16,10 +16,6 @@ namespace Adventure_Game.src.model {
     /// </summary>
     class Player {
         public string Name { get; set; }
-        public string Class { get; set; }
-        public int ClassValue { get; set; }
-        public string Subclass { get; set; }
-        public int SubclassValue { get; set; }
         public double Health { get; set; }
         public uint MaxHealth { get; set; }
         public uint NumHealthPotions { get; set; }
@@ -37,6 +33,38 @@ namespace Adventure_Game.src.model {
         }
         public Direction Facing { get; set; }
 
+        public enum Class {
+            Fighter,
+            Magician,
+            Rogue,
+            Cleric,
+            Ranger
+        }
+        public Class ClassType { get; set; }
+
+        public enum Subclass {
+            Barbarian,
+            Knight,
+            Samurai,
+
+            Nature,
+            Elemental,
+            Illusionist,
+
+            Thief,
+            Pirate,
+            Ninja,
+
+            Priest,
+            Healer,
+            Templar,
+
+            Sniper,
+            Scout,
+            Forester
+        }
+        public Subclass SubclassType { get; set; }
+
 
         private Action OnMovement;
 
@@ -45,16 +73,13 @@ namespace Adventure_Game.src.model {
         /// default, no health potions, 1 base strength, no weapon, no gold, and stood at (0, 0), facing North.
         /// </summary>
         /// <param name="name">The player's name.</param>
-        /// <param name="class">The name of the player's class.</param>
-        /// <param name="classValue">An integer representing the player's class.</param>
-        /// <param name="subclass">The name of the player's subclass.</param>
-        /// <param name="subclassValue">An integer representing the player's subclass.</param>
-        public Player(string name, string @class, int classValue, string subclass, int subclassValue, Action updateTile) {
+        /// <param name="classType">The player's class (of type Player.Class).</param>
+        /// <param name="subclassType">The player's subclass (of type Player.Subclass).</param>
+        /// <param name="updateTile">Method to Invoke whenever the player moves onto a new tile.</param>
+        public Player(string name, Class classType, Subclass subclassType, Action updateTile) {
             this.Name = name;
-            this.Class = @class;
-            this.ClassValue = classValue;
-            this.Subclass = subclass;
-            this.SubclassValue = subclassValue;
+            this.ClassType = classType;
+            this.SubclassType = subclassType;
             this.Health = GameState.STARTING_MAX_HEALTH;
             this.MaxHealth = GameState.STARTING_MAX_HEALTH;
             this.NumHealthPotions = 0;
@@ -65,7 +90,7 @@ namespace Adventure_Game.src.model {
             this.YPos = 0;
             this.Facing = Direction.North;
 
-            OnMovement = new Action(updateTile);
+            this.OnMovement = new Action(updateTile);
         }
 
         /// <summary>

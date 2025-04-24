@@ -65,7 +65,7 @@ namespace Adventure_Game.src.model {
         /// played, 0 days since the last shopping trip, and no health potions ever used.
         /// </summary>
         public GameState() {
-            this.GamePlayer = new Player("", "", 0, "", 0, UpdateCurrentTile);
+            this.GamePlayer = new Player("", Player.Class.Fighter, Player.Subclass.Barbarian, UpdateCurrentTile);
             CurrentTile = GetCurrentTile();
             this.GameDifficulty = Difficulty.Normal;
             this.HealthPotionStock = 0;
@@ -83,12 +83,10 @@ namespace Adventure_Game.src.model {
         /// </summary>
         /// <param name="difficulty">The difficulty of the game.</param>
         /// <param name="playerName">The player's name.</param>
-        /// <param name="className">The name of the player's class.</param>
-        /// <param name="classValue">An integer representing the player's class.</param>
-        /// <param name="subclassName">The name of the player's subclass.</param>
-        /// <param name="subclassValue">An integer representign the player's subclass.</param>
-        public GameState(Difficulty difficulty, string playerName, string className, int classValue, string subclassName, int subclassValue) {
-            this.GamePlayer = new Player(playerName, className, classValue, subclassName, subclassValue, UpdateCurrentTile);
+        /// <param name="classType">The player's class.</param>
+        /// <param name="subclassType">The player's subclass.</param>
+        public GameState(Difficulty difficulty, string playerName, Player.Class classType, Player.Subclass subclassType) {
+            this.GamePlayer = new Player(playerName, classType, subclassType, UpdateCurrentTile);
             CurrentTile = GetCurrentTile();
             this.GameDifficulty = difficulty;
             this.HealthPotionStock = 0;

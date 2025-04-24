@@ -87,16 +87,16 @@ namespace Adventure_Game.src.ui {
         /// <param name="player">The player finding the weapon.</param>
         /// <returns>The name of the weapon the player finds.</returns>
         static ReadOnlyName WeaponName(Player player) {
-            switch (player.Class) {
-                case "fighter":
+            switch (player.ClassType) {
+                case Player.Class.Fighter:
                     return new ReadOnlyName("stick");
-                case "magician":
+                case Player.Class.Magician:
                     return new ReadOnlyName("slightly magical stick");
-                case "rogue":
+                case Player.Class.Rogue:
                     return new ReadOnlyName("long stick");
-                case "cleric":
+                case Player.Class.Cleric:
                     return new ReadOnlyName("worn book");
-                case "ranger":
+                case Player.Class.Ranger:
                     return new ReadOnlyName("wooden knife");
                 default:
                     return new ReadOnlyName("stick");
