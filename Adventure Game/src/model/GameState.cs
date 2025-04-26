@@ -16,7 +16,7 @@ namespace Adventure_Game.src.model {
     /// in the world, the number of base strength increases that are in stock in the world, the number of max health
     /// increases that are in stock in the world, and whether or not the player has ever used a health potion.
     /// </summary>
-    class GameState {
+    internal class GameState {
         public const uint MAP_WIDTH = 7;
         public const uint MAP_HEIGHT = 7;
         public const int OFFSET = 3;

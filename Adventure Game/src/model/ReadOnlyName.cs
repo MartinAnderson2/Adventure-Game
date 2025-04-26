@@ -8,7 +8,7 @@ namespace Adventure_Game.src.model {
     /// <summary>
     /// Represents a read-only name that stores if it is plural and if it begins in a vowel sound.
     /// </summary>
-    class ReadOnlyName {
+    internal class ReadOnlyName {
         public string Name { get; }
         public bool Plural { get; }
         public bool BeginsVowelSound { get; }

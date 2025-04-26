@@ -5,7 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Adventure_Game.src.model.Tiles {
-    public class Tile {
+    /// <summary>
+    /// Represents a general tile that the player can walk on. Any time they move, they move to a new tile.
+    /// </summary>
+    internal abstract class Tile {
         /// <summary>
         /// Represents the four different types of tiles the player can end up on. TreasureChest is a chest that
         /// contains a new weapon, Monster is a monster (of difficulty appropriate for their strength), Village

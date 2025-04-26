@@ -10,7 +10,7 @@ namespace Adventure_Game.src.model {
     /// class that is proficient in the weapon (is able to fully utilize it), and a subclass that has expertise with
     /// the weapon (that is able to deal extra damage with it).
     /// </summary>
-    class Weapon {
+    internal class Weapon {
         public static Weapon[] fighterWeapons = {
             new Weapon(new ReadOnlyName("stick"),                                     0,  2,  3,   Player.Class.Fighter, null),
             new Weapon(new ReadOnlyName("sharp stick"),                               1,  3,  4,   Player.Class.Fighter, null),
@@ -89,7 +89,18 @@ namespace Adventure_Game.src.model {
         public Player.Class ProficientClass { get; }
         public Player.Subclass? ExpertSubclass { get; }
 
-        public Weapon(ReadOnlyName weaponName, int level, double weaponStrength, int weaponValue, Player.Class proficientClass, Player.Subclass? expertSubclass) {
+
+        /// <summary>
+        /// Constructs a new weapon with given name, level, base strength, gold value, class that is proficient with
+        /// it, and subclass that has expertise with it.
+        /// </summary>
+        /// <param name="weaponName">The name of the weapon to construct.</param>
+        /// <param name="level">The level of the weapon to construct. This is indicative of its strength and value.</param>
+        /// <param name="weaponStrength">The strength of the weapon to construct.</param>
+        /// <param name="weaponValue">The gold value of the weapon to construct.</param>
+        /// <param name="proficientClass">The class that is proficient with the constructed weapon.</param>
+        /// <param name="expertSubclass">The subclass that has expertise with the constructed weapon.</param>
+        private Weapon(ReadOnlyName weaponName, int level, double weaponStrength, int weaponValue, Player.Class proficientClass, Player.Subclass? expertSubclass) {
             this.Name = weaponName;
             this.Level = level;
             this.BaseStrength = weaponStrength;

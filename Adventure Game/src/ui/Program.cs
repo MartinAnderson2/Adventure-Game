@@ -8,7 +8,11 @@ namespace Adventure_Game.src.ui {
     /// <summary>
     /// Starts the application.
     /// </summary>
-    class Program {
+    internal class Program {
+        /// <summary>
+        /// Runs the Adventure Game.
+        /// </summary>
+        /// <param name="args">CLI arguments provided when running the program.</param>
         static void Main(string[] args) {
             new AdventureGameApp();
         }

@@ -9,7 +9,7 @@ namespace Adventure_Game.src.ui {
     /// Contains various static methods to make common console printing tasks easier.
     /// Also has constants for naming colours.
     /// </summary>
-    static class ConsolePrinter {
+    internal static class ConsolePrinter {
         public const ConsoleColor DefaultColour = ConsoleColor.Gray;
 
         /// <summary>
@@ -43,7 +43,9 @@ namespace Adventure_Game.src.ui {
         /// <param name="colouredText">Text to write in different colour.</param>
         /// <param name="finalText">Text to write after coloured text.</param>
         /// <param name="defaultColour">Colour to write text before and after coloured text in. Defaults to default console colour.</param>
-        public static void CreateMiddleText(string firstText, ConsoleColor colour, string colouredText, string finalText = "", ConsoleColor defaultColour = ConsoleColor.Gray) {
+        public static void CreateMiddleText(string firstText, ConsoleColor colour, string colouredText,
+            string finalText = "", ConsoleColor defaultColour = ConsoleColor.Gray) {
+
             WriteColouredText(defaultColour, firstText);
             WriteColouredText(colour, colouredText);
             WriteLineColouredText(defaultColour, finalText);
@@ -63,9 +65,10 @@ namespace Adventure_Game.src.ui {
         /// <param name="secondColouredText">Second text to write in different colour (after <paramref name="middleText"/>)</param>
         /// <param name="finalText">Text to write after coloured text.</param>
         /// <param name="defaultColour">Colour to write non-coloured text in. Defaults to default console colour.</param>
-        public static void CreateTwoMiddlesText(string firstText = "", ConsoleColor colourOne = ConsoleColor.Gray, string firstColouredText = "",
-                                                string middleText = "", ConsoleColor colourTwo = ConsoleColor.Gray, string secondColouredText = "",
-                                                string finalText = "", ConsoleColor defaultColour = ConsoleColor.Gray) {
+        public static void CreateTwoMiddlesText(string firstText = "", ConsoleColor colourOne = ConsoleColor.Gray,
+            string firstColouredText = "", string middleText = "", ConsoleColor colourTwo = ConsoleColor.Gray,
+            string secondColouredText = "", string finalText = "", ConsoleColor defaultColour = ConsoleColor.Gray) {
+
             WriteColouredText(defaultColour, firstText);
             WriteColouredText(colourOne, firstColouredText);
             WriteColouredText(defaultColour, middleText);
@@ -95,11 +98,13 @@ namespace Adventure_Game.src.ui {
         /// <param name="fourthColouredText">Fourth text to write in different colour (after <paramref name="fourthText"/>)</param>
         /// <param name="finalText">Text to write after coloured text.</param>
         /// <param name="defaultColour">Colour to write non-coloured text in. Defaults to default console colour.</param>
-        public static void CreateFourMiddlesText(string firstText = "", ConsoleColor colourOne = ConsoleColor.Gray, string firstColouredText = "",
-                                                 string secondText = "", ConsoleColor colourTwo = ConsoleColor.Gray, string secondColouredText = "",
-                                                 string thirdText = "", ConsoleColor colourThree = ConsoleColor.Gray, string thirdColouredText = "",
-                                                 string fourthText = "", ConsoleColor colourFour = ConsoleColor.Gray, string fourthColouredText = "",
-                                                 string finalText = "", ConsoleColor defaultColour = ConsoleColor.Gray) {
+        public static void CreateFourMiddlesText(string firstText = "",
+            ConsoleColor colourOne = ConsoleColor.Gray, string firstColouredText = "", string secondText = "",
+            ConsoleColor colourTwo = ConsoleColor.Gray, string secondColouredText = "", string thirdText = "",
+            ConsoleColor colourThree = ConsoleColor.Gray, string thirdColouredText = "", string fourthText = "",
+            ConsoleColor colourFour = ConsoleColor.Gray, string fourthColouredText = "", string finalText = "",
+            ConsoleColor defaultColour = ConsoleColor.Gray) {
+
             WriteColouredText(defaultColour, firstText);
             WriteColouredText(colourOne, firstColouredText);
             WriteColouredText(defaultColour, secondText);

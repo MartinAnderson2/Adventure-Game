@@ -10,7 +10,7 @@ namespace Adventure_Game.src.model {
     /// Represents a monster with a name, a starting/base/max health, and a strength (max damage it deals per hit).
     /// Includes constants representing the stats of each possible monster.
     /// </summary>
-    class Monster {
+    internal class Monster {
         public static Monster stoneling   = new Monster(new ReadOnlyName("stoneling"),                  1,    1,   1*1   + 1);
         public static Monster imp         = new Monster(new ReadOnlyName("imp", beginVowelSound: true), 5,    1.5, 2*2   + 1);
         public static Monster bandits     = new Monster(new ReadOnlyName("bandits", plural: true),      10,   2,   3*3   + 1);
@@ -54,41 +54,29 @@ namespace Adventure_Game.src.model {
         public static Monster GetAppropriateMonster(int monsterPowerLevel) {
             if (monsterPowerLevel <= 8) {
                 return stoneling;
-            }
-            else if (monsterPowerLevel <= 20) {
+            } else if (monsterPowerLevel <= 20) {
                 return imp;
-            }
-            else if (monsterPowerLevel <= 40) {
+            } else if (monsterPowerLevel <= 40) {
                 return bandits;
-            }
-            else if (monsterPowerLevel <= 45) {
+            } else if (monsterPowerLevel <= 45) {
                 return goblin;
-            }
-            else if (monsterPowerLevel <= 90) {
+            } else if (monsterPowerLevel <= 90) {
                 return snake;
-            }
-            else if (monsterPowerLevel <= 160) {
+            } else if (monsterPowerLevel <= 160) {
                 return wolf;
-            }
-            else if (monsterPowerLevel <= 250) {
+            } else if (monsterPowerLevel <= 250) {
                 return orc;
-            }
-            else if (monsterPowerLevel <= 525) {
+            } else if (monsterPowerLevel <= 525) {
                 return troll;
-            }
-            else if (monsterPowerLevel <= 750) {
+            } else if (monsterPowerLevel <= 750) {
                 return werewolf;
-            }
-            else if (monsterPowerLevel <= 1000) {
+            } else if (monsterPowerLevel <= 1000) {
                 return giant;
-            }
-            else if (monsterPowerLevel <= 6250) {
+            } else if (monsterPowerLevel <= 6250) {
                 return vampire;
-            }
-            else if (monsterPowerLevel <= 1250000) {
+            } else if (monsterPowerLevel <= 1250000) {
                 return dragon;
-            }
-            else {
+            } else {
                 return queenDragon;
             }
         }

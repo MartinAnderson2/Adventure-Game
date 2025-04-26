@@ -14,7 +14,7 @@ namespace Adventure_Game.src.model {
     /// health they can heal to, some number of health potions, a base strength without weapons, a weapon they are
     /// using, and a certain amount of gold, who is at a certain location facing a certain direction.
     /// </summary>
-    class Player {
+    internal class Player {
         public const double EXPERTISE_MULTIPLIER = 1.5;
         public const double PROFICIENCY_MULTIPLIER = 1;
         public const double NO_PROFICIENCY_MULTIPLIER = 0.75;

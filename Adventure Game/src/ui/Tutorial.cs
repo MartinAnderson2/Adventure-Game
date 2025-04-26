@@ -1,27 +1,32 @@
 ﻿using Adventure_Game.src.model;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Adventure_Game.src.ui {
+    /// <summary>
+    /// Represents the tutorial. It involves sneaking away from a strong enemy, finding a weapon (which is not kept),
+    /// and defeating an enemy. It has a monster that the player defeats.
+    /// </summary>
     internal static class Tutorial {
-        static bool skipTutorial;
+        private static bool skipTutorial;
 
-        static double weaponStrength;
-        static double totalStrength;
+        private static double weaponStrength;
+        private static double totalStrength;
 
-        static Monster monster = Monster.stoneling;
+        private static Monster monster = Monster.stoneling;
 
-        static Random random = new Random();
+        private static Random random = new Random();
 
         /// <summary>
-        /// A tutorial that explains the game. Lets the user skip the tutorial at any time, otherwise runs them through
-        /// sneaking away from enemies, finding new weapons, and fighting enemies.
+        /// A tutorial that explains the game. Lets the player skip the tutorial at any time, otherwise runs them
+        /// through sneaking away from enemies, finding new weapons, and fighting enemies.
         /// </summary>
         /// <param name="player">The player to run through the tutorial.</param>
-        static public void RunTutorial(Player player) {
+        public static void RunTutorial(Player player) {
             InitializeVariables(player);
 
             GamePrinter.WriteLine();
@@ -62,7 +67,7 @@ namespace Adventure_Game.src.ui {
         /// Initializes the fields for the tutorial.
         /// </summary>
         /// <param name="player"></param>
-        static void InitializeVariables(Player player) {
+        private static void InitializeVariables(Player player) {
             skipTutorial = false;
 
             weaponStrength = 2;
@@ -73,10 +78,10 @@ namespace Adventure_Game.src.ui {
 
 
         /// <summary>
-        /// Tells the user the tutorial has been skipped and sets the skipTutorial variable to true so the method
+        /// Tells the player the tutorial has been skipped and sets the skipTutorial variable to true so the method
         /// returns.
         /// </summary>
-        static void Skip() {
+        private static void Skip() {
             skipTutorial = true;
             GamePrinter.WriteLine("Tutorial has successfully been skipped");
         }
@@ -86,25 +91,26 @@ namespace Adventure_Game.src.ui {
         /// </summary>
         /// <param name="player">The player finding the weapon.</param>
         /// <returns>The name of the weapon the player finds.</returns>
-        static ReadOnlyName WeaponName(Player player) {
+        private static Weapon WeaponFound(Player player) {
             switch (player.ClassType) {
                 case Player.Class.Fighter:
-                    return new ReadOnlyName("stick");
+                    return Weapon.fighterWeapons[0];
                 case Player.Class.Wizard:
-                    return new ReadOnlyName("slightly magical stick");
+                    return Weapon.wizardWeapons[0];
                 case Player.Class.Rogue:
-                    return new ReadOnlyName("long stick");
+                    return Weapon.rogueWeapons[0];
                 case Player.Class.Cleric:
-                    return new ReadOnlyName("worn book");
+                    return Weapon.clericWeapons[0];
                 case Player.Class.Ranger:
-                    return new ReadOnlyName("wooden knife");
+                    return Weapon.rangerWeapons[0];
                 default:
-                    return new ReadOnlyName("stick");
+                    Debug.Fail("Player's Class was outside valid enum values (it was " + player.ClassType + ")");
+                    return Weapon.fighterWeapons[0];
             }
         }
 
         /// <summary>
-        /// Asks the user which direction they would like to travel in. Returns on a valid direction, skips if the
+        /// Asks the player which direction they would like to travel in. Returns on a valid direction, skips if the
         /// player enters skip, otherwise loops until valid input.
         /// </summary>
         static void GetDirectionPlayerWants() {
@@ -120,18 +126,14 @@ namespace Adventure_Game.src.ui {
 
                 if (input == "straight" || input == "s") {
                     break;
-                }
-                else if (input == "left" || input == "l") {
+                } else if (input == "left" || input == "l") {
                     break;
-                }
-                else if (input == "right" || input == "r") {
+                } else if (input == "right" || input == "r") {
                     break;
-                }
-                else if (input == "skip") {
+                } else if (input == "skip") {
                     Skip();
                     return;
-                }
-                else GamePrinter.WriteLine("That is not an option please look at the options and try again");
+                } else GamePrinter.WriteLine("That is not an option please look at the options and try again");
             }
         }
 
@@ -159,17 +161,14 @@ namespace Adventure_Game.src.ui {
                 if (input == "sneak" || input == "s") {
                     GamePrinter.WriteLine("You successfully snuck past the wolf");
                     break;
-                }
-                else if (input == "fight" || input == "f") {
+                } else if (input == "fight" || input == "f") {
                     GamePrinter.WriteLineNote("I told you that if you were to fight the wolf you would lose so I did not let you. You will get to make this decisions yourself once you have finished the tutorial. If you want to skip the tutorial, say \"skip\"");
                     GamePrinter.WriteLine("You successfully snuck past the wolf");
                     break;
-                }
-                else if (input == "skip") {
+                } else if (input == "skip") {
                     Skip();
                     return;
-                }
-                else GamePrinter.WriteLine("That is not an option please look at the options and try again");
+                } else GamePrinter.WriteLine("That is not an option please look at the options and try again");
             }
         }
 
@@ -179,13 +178,12 @@ namespace Adventure_Game.src.ui {
         /// </summary>
         /// <param name="player">The player who finds the weapon.</param>
         static void FindTreasureChest(Player player) {
-            ReadOnlyName weaponName = WeaponName(player);
-            GamePrinter.WriteLine("You find a treasure chest with a " + weaponName.Name + " inside! (You will lose it when the tutorial ends.)");
-            if (weaponName.Plural) {
-                ConsolePrinter.CreateMiddleText("Your " + weaponName.Name + " have brought you up to ", GamePrinter.StrengthColour, totalStrength + " total strength");
-            }
-            else {
-                ConsolePrinter.CreateMiddleText("Your " + weaponName.Name + " has brought you up to ", GamePrinter.StrengthColour, totalStrength + " total strength");
+            Weapon newWeapon = WeaponFound(player);
+            GamePrinter.WriteLine("You find a treasure chest with a " + newWeapon.Name.Name + " inside! (You will lose it when the tutorial ends.)");
+            if (newWeapon.Name.Plural) {
+                ConsolePrinter.CreateMiddleText("Your " + newWeapon.Name.Name + " have brought you up to ", GamePrinter.StrengthColour, totalStrength + " total strength");
+            } else {
+                ConsolePrinter.CreateMiddleText("Your " + newWeapon.Name.Name + " has brought you up to ", GamePrinter.StrengthColour, totalStrength + " total strength");
             }
         }
 
@@ -200,12 +198,10 @@ namespace Adventure_Game.src.ui {
                 if (monster.Name.Plural) {
                     ConsolePrinter.CreateTwoMiddlesText("You come across " + monster.Name.Name + ". They have ", GamePrinter.HealthColour, monster.MaxHealth + " health", " and ", GamePrinter.StrengthColour, monster.Strength + " strength");
                     GamePrinter.WriteLine("They are awake and have seen you");
-                }
-                else if (monster.Name.BeginsVowelSound) {
+                } else if (monster.Name.BeginsVowelSound) {
                     ConsolePrinter.CreateTwoMiddlesText("You come across an " + monster.Name.Name + ". It has ", GamePrinter.HealthColour, monster.MaxHealth + " health", " and ", GamePrinter.StrengthColour, monster.Strength + " strength");
                     GamePrinter.WriteLine("It is awake and has seen you");
-                }
-                else {
+                } else {
                     ConsolePrinter.CreateTwoMiddlesText("You come across a " + monster.Name.Name + ". It has ", GamePrinter.HealthColour, monster.MaxHealth + " health", " and ", GamePrinter.StrengthColour, monster.Strength + " strength");
                     GamePrinter.WriteLine("It is awake and has seen you");
                 }
@@ -224,23 +220,20 @@ namespace Adventure_Game.src.ui {
                 if (input == "sneak" || input == "s") {
                     if (monster.Name.Plural) {
                         GamePrinter.WriteLine("You try to sneak past, but the " + monster.Name.Name + " see you");
-                    }
-                    else {
+                    } else {
                         GamePrinter.WriteLine("You try to sneak past, but the " + monster.Name.Name + " sees you");
                     }
                     GamePrinter.WriteLineNote("I told you that it would not work!");
                     ConsolePrinter.CreateMiddleText("The " + monster.Name.Name + " hit you for ", GamePrinter.DamageColour, "1 damage", ", leaving you with " + (player.Health - 1) + " health", GamePrinter.TakingDamageColour);
                     break;
-                }
-                else if (input == "fight" || input == "f") {
+                } else if (input == "fight" || input == "f") {
                     break;
-                }
-                else if (input == "skip") {
+                } else if (input == "skip") {
                     Skip();
                     return;
-                }
-                else GamePrinter.WriteLine("That is not an option please look at the options and try again");
+                } else GamePrinter.WriteLine("That is not an option please look at the options and try again");
             }
+
             double damageDealt = 0.2 * (random.NextDouble() * totalStrength) + 0.8 * totalStrength;
             damageDealt = Math.Max(damageDealt, 1);
             ConsolePrinter.CreateMiddleText("You hit the " + monster.Name.Name + " for ", GamePrinter.DamageColour, Math.Round(damageDealt, 2) + " damage", " defeating " + (monster.Name.Plural ? "them" : "it"), GamePrinter.DealingDamageColour);

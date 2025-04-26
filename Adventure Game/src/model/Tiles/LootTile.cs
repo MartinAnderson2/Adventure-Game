@@ -7,7 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Adventure_Game.src.model.Tiles {
-    class LootTile : Tile {
+    /// <summary>
+    /// Represents a loot tile. This is a tile with a treasure chest on it, in which the player finds a new weapon
+    /// that they can choose to use.
+    /// </summary>
+    internal class LootTile : Tile {
+        /// <summary>
+        /// Constructs a new loot tile.
+        /// </summary>
         public LootTile() {
             Type = TileType.TreasureChest;
         }
@@ -25,17 +32,14 @@ namespace Adventure_Game.src.model.Tiles {
             int newWeaponLevel;
             if (currWeapon is null) {
                 newWeaponLevel = random.Next(0, 2);
-            }
-            else if (currWeapon.Level + 2 <= 10) {
+            } else if (currWeapon.Level + 2 <= 10) {
                 newWeaponLevel = random.Next(0, currWeapon.Level + 2);
-            }
-            else newWeaponLevel = random.Next(6, 11);
+            } else newWeaponLevel = random.Next(6, 11);
 
             Player.Class newWeaponClass;
             if (random.Next(0, 100) < 35) {
                 newWeaponClass = playerClass;
-            }
-            else newWeaponClass = (Player.Class) random.Next(0, 5);
+            } else newWeaponClass = (Player.Class) random.Next(0, 5);
 
             switch (newWeaponClass) {
                 case Player.Class.Fighter:
