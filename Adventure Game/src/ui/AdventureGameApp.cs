@@ -791,7 +791,7 @@ namespace Adventure_Game.src.ui {
 
             if (newWeaponName == player.HeldWeapon.Name.Name) {
                 player.Gold += player.HeldWeapon.Value;
-                ConsolePrinter.CreateTwoMiddlesText("You sold the " + player.HeldWeapon.Name + " you found for ", GamePrinter.GoldColour, player.HeldWeapon.Value + " gold", ", bringing you up to ", GamePrinter.GoldColour, player.Gold + " gold");
+                ConsolePrinter.CreateTwoMiddlesText("You sold the " + player.HeldWeapon.Name.Name + " you found for ", GamePrinter.GoldColour, player.HeldWeapon.Value + " gold", ", bringing you up to ", GamePrinter.GoldColour, player.Gold + " gold");
             }
             else if (player.HeldWeapon.Value == 0) {
                 int newWeaponValue = newWeaponLevel * newWeaponLevel + 3;
@@ -853,16 +853,16 @@ namespace Adventure_Game.src.ui {
                 bool inputWorks = false;
                 while (inputWorks == false) {
                     if (newWeaponPlural && player.HeldWeapon.Name.Plural) {
-                        ConsolePrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.HeldWeapon.Name + ", which deal ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", ", for the " + newWeaponName + ", which deal ", GamePrinter.StrengthColour, newWeaponStrength + " damage", ", or \"sell\" the " + newWeaponName + "?");
+                        ConsolePrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.HeldWeapon.Name.Name + ", which deal ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", ", for the " + newWeaponName + ", which deal ", GamePrinter.StrengthColour, newWeaponStrength + " damage", ", or \"sell\" the " + newWeaponName + "?");
                     }
                     else if (newWeaponPlural) {
-                        ConsolePrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.HeldWeapon.Name + ", which deals ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", ", for the " + newWeaponName + ", which deal ", GamePrinter.StrengthColour, newWeaponStrength + " damage", ", or \"sell\" the " + newWeaponName + "?");
+                        ConsolePrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.HeldWeapon.Name.Name + ", which deals ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", ", for the " + newWeaponName + ", which deal ", GamePrinter.StrengthColour, newWeaponStrength + " damage", ", or \"sell\" the " + newWeaponName + "?");
                     }
                     else if (player.HeldWeapon.Name.Plural) {
-                        ConsolePrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.HeldWeapon.Name + ", which deal ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", ", for the " + newWeaponName + ", which deals ", GamePrinter.StrengthColour, newWeaponStrength + " damage", ", or \"sell\" the " + newWeaponName + "?");
+                        ConsolePrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.HeldWeapon.Name.Name + ", which deal ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", ", for the " + newWeaponName + ", which deals ", GamePrinter.StrengthColour, newWeaponStrength + " damage", ", or \"sell\" the " + newWeaponName + "?");
                     }
                     else {
-                        ConsolePrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.HeldWeapon.Name + ", which deals ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", ", for the " + newWeaponName + ", which deals ", GamePrinter.StrengthColour, newWeaponStrength + " damage", ", or \"sell\" the " + newWeaponName + "?");
+                        ConsolePrinter.CreateTwoMiddlesText("Would you like to \"swap\" your " + player.HeldWeapon.Name.Name + ", which deals ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", ", for the " + newWeaponName + ", which deals ", GamePrinter.StrengthColour, newWeaponStrength + " damage", ", or \"sell\" the " + newWeaponName + "?");
                     }
 
                     string? input = Console.ReadLine();
@@ -881,8 +881,8 @@ namespace Adventure_Game.src.ui {
                             ReadOnlyName weaponName = new ReadOnlyName(newWeaponName, newWeaponPlural, newWeaponStartsVowel);
                             player.HeldWeapon = new Weapon(weaponName, newWeaponStrength, newWeaponValue, newWeaponClass, newWeaponSubclass);
 
-                            ConsolePrinter.CreateMiddleText("You successfully swapped your " + oldWeapon.Name + " for your " + newWeaponName + ", bringing you to ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
-                            ConsolePrinter.CreateTwoMiddlesText("You sold your " + oldWeapon.Name + " for ", GamePrinter.GoldColour, oldWeapon.Value + " gold", ", bringing you up to ", GamePrinter.GoldColour, player.Gold + " gold");
+                            ConsolePrinter.CreateMiddleText("You successfully swapped your " + oldWeapon.Name.Name + " for the " + newWeaponName + ", bringing you to ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
+                            ConsolePrinter.CreateTwoMiddlesText("You sold your " + oldWeapon.Name.Name + " for ", GamePrinter.GoldColour, oldWeapon.Value + " gold", ", bringing you up to ", GamePrinter.GoldColour, player.Gold + " gold");
                             inputWorks = true;
                         }
                         // The new weapon deals *less* damage than the old weapon
@@ -890,16 +890,16 @@ namespace Adventure_Game.src.ui {
                             while (!inputWorks) {
                                 if (player.HeldWeapon.Name.Plural && newWeaponPlural) //Asks the user to confirm they would like to swap the old weapon for the new weapon checks for plurality
                                 {
-                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.HeldWeapon.Name + ", which deal ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + "damage", ", for the " + newWeaponName + ", which deal ", GamePrinter.StrengthColour, newWeaponStrength + " damage", "? Say \"Yes\" or \"No\"");
+                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.HeldWeapon.Name.Name + ", which deal ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + "damage", ", for the " + newWeaponName + ", which deal ", GamePrinter.StrengthColour, newWeaponStrength + " damage", "? Say \"Yes\" or \"No\"");
                                 }
                                 else if (newWeaponPlural) {
-                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.HeldWeapon.Name + ", which deals ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + "damage", ", for the " + newWeaponName + ", which deal ", GamePrinter.StrengthColour, newWeaponStrength + " damage", "? Say \"Yes\" or \"No\"");
+                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.HeldWeapon.Name.Name + ", which deals ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + "damage", ", for the " + newWeaponName + ", which deal ", GamePrinter.StrengthColour, newWeaponStrength + " damage", "? Say \"Yes\" or \"No\"");
                                 }
                                 else if (player.HeldWeapon.Name.Plural) {
-                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.HeldWeapon.Name + ", which deal ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + "damage", ", for the " + newWeaponName + ", which deals ", GamePrinter.StrengthColour, newWeaponStrength + " damage", "? Say \"Yes\" or \"No\"");
+                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.HeldWeapon.Name.Name + ", which deal ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + "damage", ", for the " + newWeaponName + ", which deals ", GamePrinter.StrengthColour, newWeaponStrength + " damage", "? Say \"Yes\" or \"No\"");
                                 }
                                 else {
-                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.HeldWeapon.Name + ", which deals ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + "damage", ", for the " + newWeaponName + ", which deals ", GamePrinter.StrengthColour, newWeaponStrength + " damage", "? Say \"Yes\" or \"No\"");
+                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.HeldWeapon.Name.Name + ", which deals ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + "damage", ", for the " + newWeaponName + ", which deals ", GamePrinter.StrengthColour, newWeaponStrength + " damage", "? Say \"Yes\" or \"No\"");
                                 }
 
                                 string? secondInput = Console.ReadLine();
@@ -916,7 +916,7 @@ namespace Adventure_Game.src.ui {
                                     ReadOnlyName weaponName = new ReadOnlyName(newWeaponName, newWeaponPlural, newWeaponStartsVowel);
                                     player.HeldWeapon = new Weapon(weaponName, newWeaponStrength, newWeaponValue, newWeaponClass, newWeaponSubclass);
 
-                                    ConsolePrinter.CreateMiddleText("You successfully swapped your " + oldWeapon.Name + " for your " + newWeaponName + ", bringing you to ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
+                                    ConsolePrinter.CreateMiddleText("You successfully swapped your " + oldWeapon.Name + " for the " + newWeaponName + ", bringing you to ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
                                     ConsolePrinter.CreateTwoMiddlesText("You sold your " + oldWeapon.Name + " for ", GamePrinter.GoldColour, oldWeapon.Value + " gold", ", bringing you up to ", GamePrinter.GoldColour, player.Gold + " gold");
                                     inputWorks = true;
                                 }
@@ -939,16 +939,16 @@ namespace Adventure_Game.src.ui {
                             while (inputWorks == false) {
                                 if (newWeaponPlural && player.HeldWeapon.Name.Plural) //Asks the user to confirm they would like sell the new weapon and checks for plurality
                                 {
-                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to sell the " + newWeaponName + " you found, which deal ", GamePrinter.StrengthColour, newWeaponStrength + " damage", ", and keep your " + player.HeldWeapon.Name + ", which deal ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", "? Say \"Yes\" or \"No\"");
+                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to sell the " + newWeaponName + " you found, which deal ", GamePrinter.StrengthColour, newWeaponStrength + " damage", ", and keep your " + player.HeldWeapon.Name.Name + ", which deal ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", "? Say \"Yes\" or \"No\"");
                                 }
                                 else if (newWeaponPlural) {
-                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to sell the " + newWeaponName + " you found, which deal ", GamePrinter.StrengthColour, newWeaponStrength + " damage", ", and keep your " + player.HeldWeapon.Name + ", which deals ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", "? Say \"Yes\" or \"No\"");
+                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to sell the " + newWeaponName + " you found, which deal ", GamePrinter.StrengthColour, newWeaponStrength + " damage", ", and keep your " + player.HeldWeapon.Name.Name + ", which deals ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", "? Say \"Yes\" or \"No\"");
                                 }
                                 else if (player.HeldWeapon.Name.Plural) {
-                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to sell the " + newWeaponName + " you found, which deals ", GamePrinter.StrengthColour, newWeaponStrength + " damage", ", and keep your " + player.HeldWeapon.Name + ", which deal ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", "? Say \"Yes\" or \"No\"");
+                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to sell the " + newWeaponName + " you found, which deals ", GamePrinter.StrengthColour, newWeaponStrength + " damage", ", and keep your " + player.HeldWeapon.Name.Name + ", which deal ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", "? Say \"Yes\" or \"No\"");
                                 }
                                 else {
-                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to sell the " + newWeaponName + " you found, which deals ", GamePrinter.StrengthColour, newWeaponStrength + " damage", ", and keep your " + player.HeldWeapon.Name + ", which deals ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", "? Say \"Yes\" or \"No\"");
+                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to sell the " + newWeaponName + " you found, which deals ", GamePrinter.StrengthColour, newWeaponStrength + " damage", ", and keep your " + player.HeldWeapon.Name.Name + ", which deals ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", "? Say \"Yes\" or \"No\"");
                                 }
 
                                 string? secondInput = Console.ReadLine();
