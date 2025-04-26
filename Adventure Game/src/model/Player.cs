@@ -15,12 +15,16 @@ namespace Adventure_Game.src.model {
     /// using, and a certain amount of gold, who is at a certain location facing a certain direction.
     /// </summary>
     class Player {
+        public const double EXPERTISE_MULTIPLIER = 1.5;
+        public const double PROFICIENCY_MULTIPLIER = 1;
+        public const double NO_PROFICIENCY_MULTIPLIER = 0.75;
+
         public string Name { get; set; }
         public double Health { get; set; }
         public uint MaxHealth { get; set; }
         public uint NumHealthPotions { get; set; }
         public double BaseStrength { get; set; }
-        public Weapon HeldWeapon { get; set; }
+        public Weapon? HeldWeapon { get; set; }
         public int Gold { get; set; }
         public int XPos { get; set; }
         public int YPos { get; set; }
@@ -84,7 +88,7 @@ namespace Adventure_Game.src.model {
             this.MaxHealth = GameState.STARTING_MAX_HEALTH;
             this.NumHealthPotions = 0;
             this.BaseStrength = 1;
-            this.HeldWeapon = GameState.FISTS;
+            this.HeldWeapon = null;
             this.Gold = 0;
             this.XPos = 0;
             this.YPos = 0;
@@ -102,7 +106,7 @@ namespace Adventure_Game.src.model {
             this.MaxHealth = GameState.STARTING_MAX_HEALTH;
             this.NumHealthPotions = 0;
             this.BaseStrength = 1;
-            this.HeldWeapon = GameState.FISTS;
+            this.HeldWeapon = null;
             this.Gold = 0;
             this.XPos = 0;
             this.YPos = 0;
@@ -114,7 +118,37 @@ namespace Adventure_Game.src.model {
         /// </summary>
         /// <returns>The player's total strength</returns>
         public double GetTotalStrength() {
-            return BaseStrength + HeldWeapon.BaseStrength;
+            return BaseStrength + GetWeaponStrength();
+        }
+
+        /// <summary>
+        /// Returns the amount of strength the player's weapon gives them.
+        /// </summary>
+        /// <returns>The amount of strength the player's weapon gives them.</returns>
+        public double GetWeaponStrength() {
+            if (HeldWeapon is null) {
+                return 0;
+            } else {
+                return GetStrengthWeaponGives(HeldWeapon);
+            }
+        }
+
+        /// <summary>
+        /// Given a weapon, returns the amount of strength it will provide this player.
+        /// This is based on if they have expertise in the weapon, have proficiency in the weapon, or do not have either.
+        /// Expertise means the player's class and subclass match the weapon's, proficiency means the class matches but
+        /// the subclass does not, and neither means the player's class is different to the weapon's.
+        /// </summary>
+        /// <param name="weapon">The weapon the player wields.</param>
+        /// <returns>The amount of strength this player gains from wielding the given weapon.</returns>
+        public double GetStrengthWeaponGives(Weapon weapon) {
+            if (weapon.ProficientClass == ClassType && weapon.ExpertSubclass == SubclassType) {
+                return weapon.BaseStrength * EXPERTISE_MULTIPLIER;
+            } else if (weapon.ProficientClass == ClassType) {
+                return weapon.BaseStrength * PROFICIENCY_MULTIPLIER;
+            } else {
+                return weapon.BaseStrength * NO_PROFICIENCY_MULTIPLIER;
+            }
         }
 
         /// <summary>
@@ -216,6 +250,41 @@ namespace Adventure_Game.src.model {
                     break;
             }
             OnMovement.Invoke();
+        }
+
+        /// <summary>
+        /// Returns true if the player already has the weapon they found, false if it's any other weapon.
+        /// </summary>
+        /// <param name="weaponToCompare">The weapon to compare to the player's current weapon.</param>
+        /// <returns>True if the player's weapon is the same, false if it is different.</returns>
+        public bool AlreadyHasWeapon(Weapon weaponToCompare) {
+            return HeldWeapon == weaponToCompare;
+        }
+
+        /// <summary>
+        /// Sells the weapon: adds the weapon's value to the player's gold total. Returns the amount added.
+        /// </summary>
+        /// <param name="weaponToSell">The weapon for the player to sell.</param>
+        /// <returns>The amount of money gained from selling the weapon.</returns>
+        public int SellWeapon(Weapon weaponToSell) {
+            Gold += weaponToSell.Value;
+            return weaponToSell.Value;
+        }
+
+        /// <summary>
+        /// Swaps to new weapon, and sells old weapon (adds the weapon's value to player's gold total).
+        /// </summary>
+        /// <param name="weaponToSwapTo">The weapon for the player to swap to.</param>
+        /// <returns>The amount of money gained from selling the old weapon.</returns>
+        public int SwapWeapon(Weapon weaponToSwapTo) {
+            Weapon? oldWeapon = HeldWeapon;
+            HeldWeapon = weaponToSwapTo;
+
+            if (oldWeapon is not null) {
+                return SellWeapon(oldWeapon);
+            } else {
+                return 0;
+            }
         }
     }
 }

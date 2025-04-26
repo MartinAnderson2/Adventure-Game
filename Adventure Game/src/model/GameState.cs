@@ -22,7 +22,6 @@ namespace Adventure_Game.src.model {
         public const int OFFSET = 3;
 
         public const uint STARTING_MAX_HEALTH = 20;
-        public static Weapon FISTS = new Weapon(new ReadOnlyName("fists", true), 0, 0, Player.Class.Fighter, null);
 
 
         public Player GamePlayer { get; set; }
