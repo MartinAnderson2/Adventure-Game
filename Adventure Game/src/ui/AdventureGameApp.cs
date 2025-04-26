@@ -890,16 +890,16 @@ namespace Adventure_Game.src.ui {
                             while (!inputWorks) {
                                 if (player.HeldWeapon.Name.Plural && newWeaponPlural) //Asks the user to confirm they would like to swap the old weapon for the new weapon checks for plurality
                                 {
-                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.HeldWeapon.Name.Name + ", which deal ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + "damage", ", for the " + newWeaponName + ", which deal ", GamePrinter.StrengthColour, newWeaponStrength + " damage", "? Say \"Yes\" or \"No\"");
+                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.HeldWeapon.Name.Name + ", which deal ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", ", for the " + newWeaponName + ", which deal ", GamePrinter.StrengthColour, newWeaponStrength + " damage", "? Say \"Yes\" or \"No\"");
                                 }
                                 else if (newWeaponPlural) {
-                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.HeldWeapon.Name.Name + ", which deals ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + "damage", ", for the " + newWeaponName + ", which deal ", GamePrinter.StrengthColour, newWeaponStrength + " damage", "? Say \"Yes\" or \"No\"");
+                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.HeldWeapon.Name.Name + ", which deals ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", ", for the " + newWeaponName + ", which deal ", GamePrinter.StrengthColour, newWeaponStrength + " damage", "? Say \"Yes\" or \"No\"");
                                 }
                                 else if (player.HeldWeapon.Name.Plural) {
-                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.HeldWeapon.Name.Name + ", which deal ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + "damage", ", for the " + newWeaponName + ", which deals ", GamePrinter.StrengthColour, newWeaponStrength + " damage", "? Say \"Yes\" or \"No\"");
+                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.HeldWeapon.Name.Name + ", which deal ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", ", for the " + newWeaponName + ", which deals ", GamePrinter.StrengthColour, newWeaponStrength + " damage", "? Say \"Yes\" or \"No\"");
                                 }
                                 else {
-                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.HeldWeapon.Name.Name + ", which deals ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + "damage", ", for the " + newWeaponName + ", which deals ", GamePrinter.StrengthColour, newWeaponStrength + " damage", "? Say \"Yes\" or \"No\"");
+                                    ConsolePrinter.CreateTwoMiddlesText("Are you sure you want to swap your " + player.HeldWeapon.Name.Name + ", which deals ", GamePrinter.StrengthColour, player.HeldWeapon.BaseStrength + " damage", ", for the " + newWeaponName + ", which deals ", GamePrinter.StrengthColour, newWeaponStrength + " damage", "? Say \"Yes\" or \"No\"");
                                 }
 
                                 string? secondInput = Console.ReadLine();
@@ -916,8 +916,8 @@ namespace Adventure_Game.src.ui {
                                     ReadOnlyName weaponName = new ReadOnlyName(newWeaponName, newWeaponPlural, newWeaponStartsVowel);
                                     player.HeldWeapon = new Weapon(weaponName, newWeaponStrength, newWeaponValue, newWeaponClass, newWeaponSubclass);
 
-                                    ConsolePrinter.CreateMiddleText("You successfully swapped your " + oldWeapon.Name + " for the " + newWeaponName + ", bringing you to ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
-                                    ConsolePrinter.CreateTwoMiddlesText("You sold your " + oldWeapon.Name + " for ", GamePrinter.GoldColour, oldWeapon.Value + " gold", ", bringing you up to ", GamePrinter.GoldColour, player.Gold + " gold");
+                                    ConsolePrinter.CreateMiddleText("You successfully swapped your " + oldWeapon.Name.Name + " for the " + newWeaponName + ", bringing you to ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
+                                    ConsolePrinter.CreateTwoMiddlesText("You sold your " + oldWeapon.Name.Name + " for ", GamePrinter.GoldColour, oldWeapon.Value + " gold", ", bringing you up to ", GamePrinter.GoldColour, player.Gold + " gold");
                                     inputWorks = true;
                                 }
                                 else if (secondInput == "no" || secondInput == "n") {
