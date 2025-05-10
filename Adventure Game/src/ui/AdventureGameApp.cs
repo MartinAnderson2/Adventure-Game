@@ -371,7 +371,7 @@ namespace Adventure_Game.src.ui {
                     break;
                 } else if (input == "potion" || input == "p") {
                     UseHealthPotion();
-                } else if (input == "exit" || input == "e") {
+                } else if (input == "exit" || input == "e" || input == "quit" || input == "q") {
                     GiveOptionToExitGame();
                 }
                 // Debugging Code:
