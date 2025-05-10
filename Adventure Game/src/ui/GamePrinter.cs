@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Adventure_Game.src.model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,6 +64,102 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
+        /// Writes the name of a ReadOnlyName to the console.
+        /// </summary>
+        /// <param name="name">The ReadOnlyName whose name to write to the console.</param>
+        public static void WriteName(ReadOnlyName name) {
+            Console.Write(name.Name);
+        }
+
+        /// <summary>
+        /// Writes the appropriate text before a name based on if it is plural, starts with a vowel, or neither then
+        /// writes the name itself.
+        /// </summary>
+        /// <param name="name">The ReadOnlyName to write and to use to choose the text before it.</param>
+        /// <param name="singularBefore">The text to write if name is neither plural nor starts with a vowel.</param>
+        /// <param name="pluralBefore">The text to write if name is plural (regardless of if it starts with a
+        /// vowel.</param>
+        /// <param name="startsVowelBefore">The text to write if name starts with a vowel but is not plural.</param>
+        public static void WriteName(ReadOnlyName name, string singularBefore, string pluralBefore, string startsVowelBefore) {
+            if (name.Plural) {
+                Write(pluralBefore);
+                WriteName(name);
+            } else if (name.BeginsVowelSound) {
+                Write(startsVowelBefore);
+                WriteName(name);
+            } else {
+                Write(singularBefore);
+                WriteName(name);
+            }
+        }
+
+        /// <summary>
+        /// Writes the appropriate text before a name based on if it is plural, starts with a vowel, or neither then
+        /// writes the name itself and then writes the appropriate text after the name.
+        /// </summary>
+        /// <param name="name">The ReadOnlyName to write and to use to choose the text before and after it.</param>
+        /// <param name="singularBefore">The text to write before the name if it is neither plural nor starts with a
+        /// vowel.</param>
+        /// <param name="pluralBefore">The text to write before the name if it is plural (regardless of if it starts
+        /// with a vowel.</param>
+        /// <param name="startsVowelBefore">The text to write before the name if it starts with a vowel but is not
+        /// plural.</param>
+        /// <param name="singularAfter">The text to write after the name if it is neither plural nor starts with a
+        /// vowel.</param>
+        /// <param name="pluralAfter">The text to write after the name if it is plural (regardless of if it starts
+        /// with a vowel.</param>
+        /// <param name="startsVowelAfter">The text to write after the name if it starts with a vowel but is not
+        /// plural.</param>
+        public static void WriteName(ReadOnlyName name, string singularBefore, string pluralBefore, string startsVowelBefore, string singularAfter, string pluralAfter, string startsVowelAfter) {
+            if (name.Plural) {
+                Write(pluralBefore);
+                WriteName(name);
+                Write(pluralAfter);
+            } else if (name.BeginsVowelSound) {
+                Write(startsVowelBefore);
+                WriteName(name);
+                Write(startsVowelAfter);
+            } else {
+                Write(singularBefore);
+                WriteName(name);
+                Write(singularAfter);
+            }
+        }
+
+        /// <summary>
+        /// Writes the appropriate text before a name based on if it is plural, starts with a vowel, or neither, then
+        /// writes the name itself, then writes the appropriate text after the name, and then adds a line break.
+        /// </summary>
+        /// <param name="name">The ReadOnlyName to write and to use to choose the text before and after it.</param>
+        /// <param name="singularBefore">The text to write before the name if it is neither plural nor starts with a
+        /// vowel.</param>
+        /// <param name="pluralBefore">The text to write before the name if it is plural (regardless of if it starts
+        /// with a vowel.</param>
+        /// <param name="startsVowelBefore">The text to write before the name if it starts with a vowel but is not
+        /// plural.</param>
+        /// <param name="singularAfter">The text to write after the name if it is neither plural nor starts with a
+        /// vowel.</param>
+        /// <param name="pluralAfter">The text to write after the name if it is plural (regardless of if it starts
+        /// with a vowel.</param>
+        /// <param name="startsVowelAfter">The text to write after the name if it starts with a vowel but is not
+        /// plural.</param>
+        public static void WriteLineName(ReadOnlyName name, string singularBefore, string pluralBefore, string startsVowelBefore, string singularAfter, string pluralAfter, string startsVowelAfter) {
+            if (name.Plural) {
+                Write(pluralBefore);
+                WriteName(name);
+                WriteLine(pluralAfter);
+            } else if (name.BeginsVowelSound) {
+                Write(startsVowelBefore);
+                WriteName(name);
+                WriteLine(startsVowelAfter);
+            } else {
+                Write(singularBefore);
+                WriteName(name);
+                WriteLine(singularAfter);
+            }
+        }
+
+        /// <summary>
         /// Asks the player which of the available directions they would like to travel in.
         /// </summary>
         /// <param name="straight">If straight is available.</param>
@@ -70,14 +167,89 @@ namespace Adventure_Game.src.ui {
         /// <param name="left">If left is available.</param>
         public static void PrintDirectionOptions(bool straight, bool right, bool left) {
             GamePrinter.Write("Would you like to go ");
-            if      ( straight &&  right &&  left) GamePrinter.WriteLine("straight, right, or left?");
-            else if ( straight &&  right && !left) GamePrinter.WriteLine("straight or right?");
-            else if ( straight && !right &&  left) GamePrinter.WriteLine("straight or left?");
-            else if (!straight &&  right &&  left) GamePrinter.WriteLine("right or left?");
-            else if ( straight && !right && !left) GamePrinter.WriteLine("straight?");
-            else if (!straight &&  right && !left) GamePrinter.WriteLine("right?");
-            else if (!straight && !right &&  left) GamePrinter.WriteLine("left?");
+            if (straight && right && left) GamePrinter.WriteLine("straight, right, or left?");
+            else if (straight && right && !left) GamePrinter.WriteLine("straight or right?");
+            else if (straight && !right && left) GamePrinter.WriteLine("straight or left?");
+            else if (!straight && right && left) GamePrinter.WriteLine("right or left?");
+            else if (straight && !right && !left) GamePrinter.WriteLine("straight?");
+            else if (!straight && right && !left) GamePrinter.WriteLine("right?");
+            else if (!straight && !right && left) GamePrinter.WriteLine("left?");
             else GamePrinter.WriteLine("You don't seem to be able to move. Please restart the program and try again");
         }
+
+        /// <summary>
+        /// Writes $"{amount} gold" to the console in the gold colour.
+        /// </summary>
+        /// <param name="amount">The amount of gold to display.</param>
+        public static void PrintGold(int amount) {
+            ConsolePrinter.WriteColouredText(GamePrinter.GoldColour, amount + " gold");
+        }
+
+        /// <summary>
+        /// Writes $"{amount} health" to the console in the health colour.
+        /// </summary>
+        /// <param name="amount">The amount of health to display.</param>
+        public static void PrintHealth(double amount) {
+            ConsolePrinter.WriteColouredText(GamePrinter.HealthColour, amount + " health");
+        }
+
+        /// <summary>
+        /// Writes $"{amount} maximum health" to the console in the health colour.
+        /// </summary>
+        /// <param name="amount">The amount of maximum health to display.</param>
+        public static void PrintMaxHealth(uint amount) {
+            ConsolePrinter.WriteColouredText(GamePrinter.HealthColour, amount + " maximum health");
+        }
+
+        /// <summary>
+        /// Writes $"{amount} strength" to the console in the strength colour.
+        /// </summary>
+        /// <param name="amount">The amount of strength to display.</param>
+        public static void PrintStrength(double amount) {
+            ConsolePrinter.WriteColouredText(GamePrinter.StrengthColour, amount + " strength");
+        }
+
+        /// <summary>
+        /// Writes $"{amount} base strength" to the console in the strength colour.
+        /// </summary>
+        /// <param name="amount">The amount of strength to display.</param>
+        public static void PrintBaseStrength(double amount) {
+            ConsolePrinter.WriteColouredText(GamePrinter.StrengthColour, amount + " base strength");
+        }
+
+        #if DEBUG
+        /// <summary>
+        /// Runs print(amountAdded) then writes " has succesfully been added, bringing you up to "
+        /// then runs print(newTotal).
+        /// </summary>
+        /// <typeparam name="T">The type of the statistic that was added to.</typeparam>
+        /// <param name="amountAdded">The amount the statistic increased by.</param>
+        /// <param name="newTotal">The new value of the statistic.</param>
+        /// <param name="print">The method that prints T and its descriptor (gold, health, etc.).</param>
+        public static void PrintAdded<T>(T amountAdded, T newTotal, Action<T> print) {
+            print(amountAdded);
+            Write(" has successfully been added, bringing you up to ");
+            print(newTotal);
+            WriteLine();
+        }
+
+        /// <summary>
+        /// Runs print(amountAdded) then writes " has succesfully been added, bringing you up to "
+        /// then runs print(newTotal).
+        /// </summary>
+        /// <typeparam name="T">The type of the statistic that was added to.</typeparam>
+        /// <param name="amountAdded">The amount the statistic increased by.</param>
+        /// <param name="newTotal">The new value of the statistic.</param>
+        /// <param name="firstPrint">The method that prints T and its descriptor (gold, health, etc.)
+        /// for amountAdded.</param>
+        /// <param name="secondPrint">The method that prints T and its descriptor (gold, health, etc.)
+        /// for newTotal.</param>
+        public static void PrintAdded<T>(T amountAdded, T newTotal, Action<T> firstPrint, Action<T> secondPrint) {
+            firstPrint(amountAdded);
+            Write(" has successfully been added, bringing you up to ");
+            secondPrint(newTotal);
+            WriteLine();
+        }
+        #endif
     }
 }
