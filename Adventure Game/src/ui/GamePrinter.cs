@@ -64,6 +64,15 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
+        /// Rounds a double to the nearest hundredth so that there aren't an unecessary number of decimals printed.
+        /// </summary>
+        /// <param name="dbl">The double to round.</param>
+        /// <returns>The rounded double.</returns>
+        public static double RoundDouble(double dbl) {
+            return Math.Round(dbl, 2);
+        }
+
+        /// <summary>
         /// Writes the name of a ReadOnlyName to the console.
         /// </summary>
         /// <param name="name">The ReadOnlyName whose name to write to the console.</param>
@@ -72,15 +81,47 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
+        /// Writes the appropriate text before a name based on if it is singular or plural then writes the name itself.
+        /// </summary>
+        /// <param name="singularBefore">The text to write if name is singular.</param>
+        /// <param name="pluralBefore">The text to write if name is plural.</param>
+        /// <param name="name">The ReadOnlyName to write and to use to choose the text before it.</param>
+        public static void WriteName(string singularBefore, string pluralBefore, ReadOnlyName name) {
+            if (name.Plural) {
+                Write(pluralBefore);
+                WriteName(name);
+            } else {
+                Write(singularBefore);
+                WriteName(name);
+            }
+        }
+
+        /// <summary>
+        /// Writes a name and then the appropriate text after it based on if it is plural or singular.
+        /// </summary>
+        /// <param name="name">The ReadOnlyName to write and to use to choose the text after it.</param>
+        /// <param name="singularAfter">The text to write if name is singular.</param>
+        /// <param name="pluralAfter">The text to write if name is plural.</param>
+        public static void WriteName(ReadOnlyName name, string singularAfter, string pluralAfter) {
+            if (name.Plural) {
+                WriteName(name);
+                Write(pluralAfter);
+            } else {
+                WriteName(name);
+                Write(singularAfter);
+            }
+        }
+
+        /// <summary>
         /// Writes the appropriate text before a name based on if it is plural, starts with a vowel, or neither then
         /// writes the name itself.
         /// </summary>
-        /// <param name="name">The ReadOnlyName to write and to use to choose the text before it.</param>
         /// <param name="singularBefore">The text to write if name is neither plural nor starts with a vowel.</param>
         /// <param name="pluralBefore">The text to write if name is plural (regardless of if it starts with a
-        /// vowel.</param>
+        /// vowel).</param>
         /// <param name="startsVowelBefore">The text to write if name starts with a vowel but is not plural.</param>
-        public static void WriteName(ReadOnlyName name, string singularBefore, string pluralBefore, string startsVowelBefore) {
+        /// <param name="name">The ReadOnlyName to write and to use to choose the text before it.</param>
+        public static void WriteName(string singularBefore, string pluralBefore, string startsVowelBefore, ReadOnlyName name) {
             if (name.Plural) {
                 Write(pluralBefore);
                 WriteName(name);
@@ -94,23 +135,45 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
+        /// Writes a name and then the appropriate text after it based on if it is plural, starts with a vowel, or
+        /// neither.
+        /// </summary>
+        /// <param name="name">The ReadOnlyName to write and to use to choose the text after it.</param>
+        /// <param name="singularAfter">The text to write if name is neither plural nor starts with a vowel.</param>
+        /// <param name="pluralAfter">The text to write if name is plural (regardless of if it starts with a
+        /// vowel).</param>
+        /// <param name="startsVowelAfter">The text to write if name starts with a vowel but is not plural.</param>
+        public static void WriteName(ReadOnlyName name, string singularAfter, string pluralAfter, string startsVowelAfter) {
+            if (name.Plural) {
+                WriteName(name);
+                Write(pluralAfter);
+            } else if (name.BeginsVowelSound) {
+                WriteName(name);
+                Write(startsVowelAfter);
+            } else {
+                WriteName(name);
+                Write(singularAfter);
+            }
+        }
+
+        /// <summary>
         /// Writes the appropriate text before a name based on if it is plural, starts with a vowel, or neither then
         /// writes the name itself and then writes the appropriate text after the name.
         /// </summary>
-        /// <param name="name">The ReadOnlyName to write and to use to choose the text before and after it.</param>
         /// <param name="singularBefore">The text to write before the name if it is neither plural nor starts with a
         /// vowel.</param>
         /// <param name="pluralBefore">The text to write before the name if it is plural (regardless of if it starts
-        /// with a vowel.</param>
+        /// with a vowel).</param>
         /// <param name="startsVowelBefore">The text to write before the name if it starts with a vowel but is not
         /// plural.</param>
+        /// <param name="name">The ReadOnlyName to write and to use to choose the text before and after it.</param>
         /// <param name="singularAfter">The text to write after the name if it is neither plural nor starts with a
         /// vowel.</param>
         /// <param name="pluralAfter">The text to write after the name if it is plural (regardless of if it starts
-        /// with a vowel.</param>
+        /// with a vowel).</param>
         /// <param name="startsVowelAfter">The text to write after the name if it starts with a vowel but is not
         /// plural.</param>
-        public static void WriteName(ReadOnlyName name, string singularBefore, string pluralBefore, string startsVowelBefore, string singularAfter, string pluralAfter, string startsVowelAfter) {
+        public static void WriteName(string singularBefore, string pluralBefore, string startsVowelBefore, ReadOnlyName name, string singularAfter, string pluralAfter, string startsVowelAfter) {
             if (name.Plural) {
                 Write(pluralBefore);
                 WriteName(name);
@@ -127,23 +190,52 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
+        /// Writes the before text then the appropriate text right before a name based on if it is plural, starts with
+        /// a vowel, or neither, then writes the name itself, then writes the after text.
+        /// </summary>
+        /// <param name="before">The text to right first (before the name).</param>
+        /// <param name="singularRightBefore">The text to write right before the name if it is neither plural nor
+        /// starts with a vowel.</param>
+        /// <param name="pluralRightBefore">The text to write right before the name if it is plural (regardless of if
+        /// it starts with a vowel).</param>
+        /// <param name="startsVowelRightBefore">The text to write right before the name if it starts with a vowel but
+        /// is not plural.</param>
+        /// <param name="name">The ReadOnlyName to write and to use to choose the text before and after it.</param>
+        /// <param name="after">The text to write after the name.</param>
+        public static void WriteLineName(string before, string singularRightBefore, string pluralRightBefore, string startsVowelRightBefore, ReadOnlyName name, string after) {
+            if (name.Plural) {
+                Write(pluralRightBefore);
+                WriteName(name);
+                WriteLine(after);
+            } else if (name.BeginsVowelSound) {
+                Write(startsVowelRightBefore);
+                WriteName(name);
+                WriteLine(after);
+            } else {
+                Write(singularRightBefore);
+                WriteName(name);
+                WriteLine(after);
+            }
+        }
+
+        /// <summary>
         /// Writes the appropriate text before a name based on if it is plural, starts with a vowel, or neither, then
         /// writes the name itself, then writes the appropriate text after the name, and then adds a line break.
         /// </summary>
-        /// <param name="name">The ReadOnlyName to write and to use to choose the text before and after it.</param>
         /// <param name="singularBefore">The text to write before the name if it is neither plural nor starts with a
         /// vowel.</param>
         /// <param name="pluralBefore">The text to write before the name if it is plural (regardless of if it starts
-        /// with a vowel.</param>
+        /// with a vowel).</param>
         /// <param name="startsVowelBefore">The text to write before the name if it starts with a vowel but is not
         /// plural.</param>
+        /// <param name="name">The ReadOnlyName to write and to use to choose the text before and after it.</param>
         /// <param name="singularAfter">The text to write after the name if it is neither plural nor starts with a
         /// vowel.</param>
         /// <param name="pluralAfter">The text to write after the name if it is plural (regardless of if it starts
-        /// with a vowel.</param>
+        /// with a vowel).</param>
         /// <param name="startsVowelAfter">The text to write after the name if it starts with a vowel but is not
         /// plural.</param>
-        public static void WriteLineName(ReadOnlyName name, string singularBefore, string pluralBefore, string startsVowelBefore, string singularAfter, string pluralAfter, string startsVowelAfter) {
+        public static void WriteLineName(string singularBefore, string pluralBefore, string startsVowelBefore, ReadOnlyName name, string singularAfter, string pluralAfter, string startsVowelAfter) {
             if (name.Plural) {
                 Write(pluralBefore);
                 WriteName(name);
@@ -210,11 +302,43 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
+        /// Writes $"{amount} strength" to the console in the strength colour.
+        /// </summary>
+        /// <param name="amount">The amount of strength to display.</param>
+        public static void PrintStrengthRounded(double amount) {
+            ConsolePrinter.WriteColouredText(GamePrinter.StrengthColour, RoundDouble(amount) + " strength");
+        }
+
+        /// <summary>
         /// Writes $"{amount} base strength" to the console in the strength colour.
         /// </summary>
         /// <param name="amount">The amount of strength to display.</param>
         public static void PrintBaseStrength(double amount) {
             ConsolePrinter.WriteColouredText(GamePrinter.StrengthColour, amount + " base strength");
+        }
+
+        /// <summary>
+        /// Writes $"{amount} base strength" to the console in the strength colour.
+        /// </summary>
+        /// <param name="amount">The amount of strength to display.</param>
+        public static void PrintBaseStrengthRounded(double amount) {
+            ConsolePrinter.WriteColouredText(GamePrinter.StrengthColour, RoundDouble(amount) + " base strength");
+        }
+
+        /// <summary>
+        /// Writes $"{amount} damage" to the console in the damage colour.
+        /// </summary>
+        /// <param name="amount">The amount of damage to display.</param>
+        public static void PrintDamage(double amount) {
+            ConsolePrinter.WriteColouredText(GamePrinter.DamageColour, amount + " damage");
+        }
+
+        /// <summary>
+        /// Writes $"{amount} damage" to the console in the damage colour.
+        /// </summary>
+        /// <param name="amount">The amount of damage to display.</param>
+        public static void PrintDamageRounded(double amount) {
+            ConsolePrinter.WriteColouredText(GamePrinter.DamageColour, RoundDouble(amount) + " damage");
         }
 
         #if DEBUG
