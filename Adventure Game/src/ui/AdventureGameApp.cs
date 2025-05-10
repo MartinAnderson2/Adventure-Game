@@ -428,16 +428,16 @@ namespace Adventure_Game.src.ui {
                     if (player.Health + player.GetHealthPotionHealing() >= player.MaxHealth) {
                         player.Health = player.MaxHealth;
                         if (player.NumHealthPotions == 1) {
-                            ConsolePrinter.CreateFourMiddlesText("You succesfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, player.Health + " health", " (your maximum health) and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potion");
+                            ConsolePrinter.CreateFourMiddlesText("You successfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, player.Health + " health", " (your maximum health) and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potion");
                         }
-                        else ConsolePrinter.CreateFourMiddlesText("You succesfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, player.Health + " health", " (your maximum health) and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potions");
+                        else ConsolePrinter.CreateFourMiddlesText("You successfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, player.Health + " health", " (your maximum health) and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potions");
                     }
                     else {
                         player.Health += player.GetHealthPotionHealing();
                         if (player.NumHealthPotions == 1) {
-                            ConsolePrinter.CreateFourMiddlesText("You succesfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, Math.Round(player.Health, 2) + " health", " and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potion");
+                            ConsolePrinter.CreateFourMiddlesText("You successfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, Math.Round(player.Health, 2) + " health", " and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potion");
                         }
-                        else ConsolePrinter.CreateFourMiddlesText("You succesfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, Math.Round(player.Health, 2) + " health", " and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potions");
+                        else ConsolePrinter.CreateFourMiddlesText("You successfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, Math.Round(player.Health, 2) + " health", " and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potions");
                     }
                 }
             }
@@ -1017,7 +1017,7 @@ namespace Adventure_Game.src.ui {
                             } else GamePrinter.WriteLine("You did not input a number, please input a number from 0-10");
                         }
                     } else if (input == "pass" || input == "p") {
-                        GamePrinter.WriteLine("You succesfully pass through " + village.VillageName);
+                        GamePrinter.WriteLine("You successfully pass through " + village.VillageName);
                         break;
                     } else GamePrinter.WriteLine("That was not an option, please have a look at the options and try again");
                 }
