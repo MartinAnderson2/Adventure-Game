@@ -489,10 +489,10 @@ namespace Adventure_Game.src.ui {
                     Monsters();
                     break;
                 case Tile.TileType.Village:
-                    Villages((VillageTile)currTile);
+                    Villages((VillageTile) currTile);
                     break;
                 case Tile.TileType.Shop:
-                    Shops((ShopTile)currTile);
+                    Shops((ShopTile) currTile);
                     break;
                 default:
                     Debug.Fail("Tile Type was outside valid enum values (it was " + currTile.Type + ")");
