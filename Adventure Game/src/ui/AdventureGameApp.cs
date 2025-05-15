@@ -341,7 +341,6 @@ namespace Adventure_Game.src.ui {
                 } else if (input == "exit" || input == "e" || input == "quit" || input == "q") {
                     GiveOptionToExitGame();
                 }
-                // Debugging Code:
                 #if DEBUG
                 else if (input.Length >= 8 && input.Substring(0, 8) == "add gold") {
                     if (int.TryParse(input.Substring(8), out int goldToAdd)) {
@@ -373,7 +372,6 @@ namespace Adventure_Game.src.ui {
                     }
                 }
                 #endif
-                // End Debugging Code
                 else GamePrinter.WriteLine("That is not an option, please look at the options and try again");
             }
         }
@@ -715,7 +713,7 @@ namespace Adventure_Game.src.ui {
         /// </summary>
         private void Monsters() {
             Monster monster = game.GetMonster(random);
-            bool seen = false, awake = true, playerFirstHit = true;
+            bool seen = false, awake = true;
 
             if (random.Next(0, 4) == 0) awake = false;
             else if (random.Next(0, 4) == 0) seen = true;
@@ -753,19 +751,20 @@ namespace Adventure_Game.src.ui {
                 }
                 input = input.ToLower();
 
-                if (input == "sneak" || input == "s") { // Sneaking Away System
-                    if (awake && seen) { // Monster is awake and has seen player - 25% chance to sneak past
-                        if (random.Next(0, 100) >= 75) {
+                bool playerGetsFirstHit;
+                if (input == "sneak" || input == "s") {
+                    if (awake && seen) {
+                        if (random.Next(0, 100) < 25) {
                             GamePrinter.WriteLine("You successfully snuck past the " + monster.Name.Name);
                             break;
                         }
-                    } else if (awake) { // Monster is awake and has not seen player - 85% chance to sneak past
-                        if (random.Next(0, 100) >= 15) {
+                    } else if (awake && !seen) {
+                        if (random.Next(0, 100) < 85) {
                             GamePrinter.WriteLine("You successfully snuck past the " + monster.Name.Name);
                             break;
                         }
-                    } else { // Monster is sleeping - 99.9% chance to sneak past
-                        if (random.Next(0, 1000) != 0) {
+                    } else if (!awake && !seen) {
+                        if (random.Next(0, 1000) < 999) {
                             GamePrinter.WriteLine("You successfully snuck past the " + monster.Name.Name);
                             break;
                         }
@@ -776,25 +775,32 @@ namespace Adventure_Game.src.ui {
                     GamePrinter.WriteLine(" you");
 
                     if (awake && seen) {
-                        if (random.Next(0, 100) < 95) playerFirstHit = false; // False == player gets first hit
-                    } else if (awake) {
-                        if (random.Next(0, 100) < 75) playerFirstHit = false; // True == player gets first hit
-                    } else playerFirstHit = false; // Monster was woken up by the player trying to sneak away (0.1% chance) and is angry so gets the first hit
-                } else if (input == "fight" || input == "f") // Fighting System
-                  {
-                    if (awake && seen) {
-                        if (random.Next(0, 100) < 50) playerFirstHit = false; // True == player gets first hit
-                    } else if (awake) {
-                        if (random.Next(0, 100) < 25) playerFirstHit = false; // True == player gets first hit}
+                        playerGetsFirstHit = random.Next(0, 100) < 5;
+                    } else if (awake && !seen) {
+                        playerGetsFirstHit = random.Next(0, 100) < 25;
+                    } else if (!awake && !seen) {
+                        playerGetsFirstHit = false;
                     } else {
-                        if (random.Next(0, 100) == 0) playerFirstHit = false; // True == player gets first hit
+                        playerGetsFirstHit = false;
+                        Debug.Fail("Creature was asleep but saw the player");
+                    }
+                } else if (input == "fight" || input == "f") {
+                    if (awake && seen) {
+                        playerGetsFirstHit = random.Next(0, 100) < 50;
+                    } else if (awake && !seen) {
+                        playerGetsFirstHit = random.Next(0, 100) < 75;
+                    } else if (!awake && !seen) {
+                        playerGetsFirstHit = true;
+                    } else {
+                        playerGetsFirstHit = true;
+                        Debug.Fail("Creature was asleep but saw the player");
                     }
                 } else {
                     GamePrinter.WriteLine("That is not an option, please look at the options and try again");
                     continue;
                 }
 
-                if (!playerFirstHit) {
+                if (!playerGetsFirstHit) {
                     double damageDealtToPlayer = (random.NextDouble() * (monster.Strength - (monster.Strength * 0.8))) + (monster.Strength * 0.8);
                     player.Health -= damageDealtToPlayer;
                     if (player.Health > 0) {
@@ -807,8 +813,12 @@ namespace Adventure_Game.src.ui {
                 }
                 double monsterHealth = monster.MaxHealth;
                 while (monsterHealth > 0 && player.Health > 0) {
-                    double damageDealtByPlayer = (random.NextDouble() * (player.GetTotalStrength() * 0.2)) + 0.8 * player.GetTotalStrength();
-                    damageDealtByPlayer += 0.01; // This is added in order to make it possible for the player to deal the maximum damage and gives the player a slight advantage over the monsters
+                    double playerStrength = player.GetTotalStrength();
+                    // Enables the player to have a chance to deal their full damage, and also gives them a slight advantage over the monsters
+                    double houseAdvantage = 0.01;
+                    double randomPortion = random.NextDouble() * playerStrength + houseAdvantage;
+                    double guaranteedPortion = playerStrength;
+                    double damageDealtByPlayer = 0.2 * randomPortion + 0.8 * guaranteedPortion;
 
                     monsterHealth -= damageDealtByPlayer;
                     if (monsterHealth > 0) {
@@ -998,11 +1008,14 @@ namespace Adventure_Game.src.ui {
         /// <summary>
         /// Lets the player shop at the shop they went to, if they have enough money to. Asks the player which wares
         /// they would like to purchase, letting them purchase as many as they would like until they run out of money.
+        /// If the player has been playing for fewer than 5 days (they have moved fewer than 5 times) then they cannot
+        /// enter the shop. This is in order to minimize confusion and have fewer elements at the beginning of the
+        /// game.
         /// </summary>
         /// <param name="shop">The shop the player arrived at.</param>
         private void Shops(ShopTile shop) {
             ConsolePrinter.CreateMiddleText("You enter " + shop.ShopkeeperName + "\'s shop with ", GamePrinter.GoldColour, player.Gold + " gold");
-            if (game.DaysPlayed < 5) { // The player found the shop near the spawn and wouldn't have enough money to buy anything anyway, this is here in order to minimize confusion and have fewer elements at the beginning
+            if (game.DaysPlayed < 5) {
                 ConsolePrinter.CreateMiddleText(shop.ShopkeeperName + " says \"", GamePrinter.DialogueColour, "We don't accept noobs at our shop", "\""); // If the player went straight to a shop
                 GamePrinter.WriteLine("You exit " + shop.ShopkeeperName + "'s shop");
             } else if (game.DateLastShopped + 5 > game.DaysPlayed && game.HealthPotionStock + game.BaseStrengthStock + game.MaxHealthStock == 0) { // If it has been less than 5 days since shopped and there is still no stock
