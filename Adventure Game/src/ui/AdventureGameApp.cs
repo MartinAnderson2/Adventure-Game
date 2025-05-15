@@ -280,42 +280,9 @@ namespace Adventure_Game.src.ui {
         /// </summary>
         private void IntroduceForest() {
             GamePrinter.Write("You begin your adventure in the middle of a ");
-            int forestType = random.Next(10);
-            switch (forestType) {
-                case 0:
-                    GamePrinter.WriteLine("pine forest");
-                    break;
-                case 1:
-                    GamePrinter.WriteLine("dark forest");
-                    break;
-                case 2:
-                    GamePrinter.WriteLine("gloomy forest");
-                    break;
-                case 3:
-                    GamePrinter.WriteLine("subalpine spruce forest");
-                    break;
-                case 4:
-                    GamePrinter.WriteLine("boreal fir forest");
-                    break;
-                case 5:
-                    GamePrinter.WriteLine("mysterious forest");
-                    break;
-                case 6:
-                    GamePrinter.WriteLine("terrifying forest");
-                    break;
-                case 7:
-                    GamePrinter.WriteLine("very dark forest");
-                    break;
-                case 8:
-                    GamePrinter.WriteLine("coniferous forest");
-                    break;
-                case 9:
-                    GamePrinter.WriteLine("foggy forest");
-                    break;
-                default:
-                    GamePrinter.WriteLine("forest");
-                    break;
-            }
+            int forestType = random.Next(GamePrinter.forestTypes.Length);
+            GamePrinter.Write(GamePrinter.forestTypes[forestType].Name);
+            GamePrinter.WriteLine(" forest");
         }
 
         /// <summary>

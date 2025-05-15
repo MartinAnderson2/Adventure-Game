@@ -24,6 +24,21 @@ namespace Adventure_Game.src.ui {
         public const ConsoleColor StrengthColour = ConsoleColor.DarkRed;
         public const ConsoleColor GoldColour = ConsoleColor.DarkYellow;
 
+
+        public static readonly ReadOnlyName[] forestTypes = {
+            new ReadOnlyName("pine"),
+            new ReadOnlyName("dark"),
+            new ReadOnlyName("gloomy"),
+            new ReadOnlyName("subalpine spruce"),
+            new ReadOnlyName("boreal fir"),
+            new ReadOnlyName("mysterious"),
+            new ReadOnlyName("terrifying"),
+            new ReadOnlyName("very dark"),
+            new ReadOnlyName("coniferous"),
+            new ReadOnlyName("foggy")
+        };
+
+
         /// <summary>
         /// Writes text to the console (exists in case changing formatting is ever desired).
         /// </summary>
