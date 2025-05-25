@@ -416,7 +416,7 @@ namespace Adventure_Game.src.ui {
                 GamePrinter.Write("You are already at your ");
                 ConsolePrinter.WriteColouredText(GamePrinter.HealthColour, "maximum health");
                 GamePrinter.Write(", ");
-                GamePrinter.PrintHealth(player.Health);
+                GamePrinter.PrintHealthRounded(player.Health);
                 GamePrinter.Write(". You are still at ");
                 GamePrinter.PrintNumHealthPotions(player.NumHealthPotions);
                 GamePrinter.WriteLine();
@@ -425,7 +425,7 @@ namespace Adventure_Game.src.ui {
                 GamePrinter.Write("You successfully used a ");
                 ConsolePrinter.WriteColouredText(GamePrinter.HealthColour, "health potion");
                 GamePrinter.Write(", bringing you up to ");
-                GamePrinter.PrintHealth(player.Health);
+                GamePrinter.PrintHealthRounded(player.Health);
                 if (player.FullHealth()) GamePrinter.Write(" (your maximum health)");
                 GamePrinter.Write(" and leaving you with ");
                 GamePrinter.PrintNumHealthPotions(player.NumHealthPotions);

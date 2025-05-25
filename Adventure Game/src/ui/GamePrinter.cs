@@ -301,6 +301,14 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
+        /// Writes $"{amount} health" to the console in the health colour.
+        /// </summary>
+        /// <param name="amount">The amount of health to display.</param>
+        public static void PrintHealthRounded(double amount) {
+            ConsolePrinter.WriteColouredText(GamePrinter.HealthColour, RoundDouble(amount) + " health");
+        }
+
+        /// <summary>
         /// Writes $"{amount} maximum health" to the console in the health colour.
         /// </summary>
         /// <param name="amount">The amount of maximum health to display.</param>
