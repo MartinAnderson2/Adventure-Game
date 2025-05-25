@@ -413,15 +413,13 @@ namespace Adventure_Game.src.ui {
                     ConsolePrinter.CreateFourMiddlesText("You are already at your ", GamePrinter.HealthColour, "maximum health", ", ", GamePrinter.HealthColour, player.Health + " health", ". You are still at ", GamePrinter.HealthColour, "1 health potion", ".");
                 }
                 else {
-                    player.NumHealthPotions--;
-                    if (player.Health + player.GetHealthPotionHealing() >= player.MaxHealth) {
-                        player.Health = player.MaxHealth;
+                    player.UseHealthPotion();
+                    if (player.FullHealth()) {
                         if (player.NumHealthPotions == 1) {
                             ConsolePrinter.CreateFourMiddlesText("You successfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, player.Health + " health", " (your maximum health) and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potion");
                         }
                         else ConsolePrinter.CreateFourMiddlesText("You successfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, player.Health + " health", " (your maximum health) and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potions");
-                    }
-                    else {
+                    } else {
                         player.Health += player.GetHealthPotionHealing();
                         if (player.NumHealthPotions == 1) {
                             ConsolePrinter.CreateFourMiddlesText("You successfully used a ", GamePrinter.HealthColour, "health potion", ", bringing you up to ", GamePrinter.HealthColour, GamePrinter.RoundDouble(player.Health) + " health", " and leaving you with ", GamePrinter.HealthColour, player.NumHealthPotions + " health potion");

@@ -160,6 +160,14 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
+        /// Returns true if the player is at full health and false if they are not.
+        /// </summary>
+        /// <returns>True if the player is at full health and false if they are not.</returns>
+        public bool FullHealth() {
+            return Health >= MaxHealth;
+        }
+
+        /// <summary>
         /// Returns true if the player has been defeated (they are out of health) otherwise returns false.
         /// </summary>
         /// <returns>True if the player has lost, false otherwise.</returns>
@@ -284,6 +292,23 @@ namespace Adventure_Game.src.model {
                 return SellWeapon(oldWeapon);
             } else {
                 return 0;
+            }
+        }
+
+        /// <summary>
+        /// If the player has at least one health potion and is not at their maximum health, uses a health potion and
+        /// increases the player's health by the amount returned by GetHealthPotionHealing. If this would bring the
+        /// player past their maximum health, brings them to their maximum health.
+        /// </summary>
+        public void UseHealthPotion() {
+            if (NumHealthPotions > 0 && Health != MaxHealth) {
+                NumHealthPotions--;
+                if (Health + GetHealthPotionHealing() >= MaxHealth) {
+                    Health = MaxHealth;
+                }
+                else {
+                    Health += GetHealthPotionHealing();
+                }
             }
         }
     }
