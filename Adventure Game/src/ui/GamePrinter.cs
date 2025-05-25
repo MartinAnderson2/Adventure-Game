@@ -361,7 +361,7 @@ namespace Adventure_Game.src.ui {
         /// colour.
         /// </summary>
         /// <param name="amount">The amount of health potions to display.</param>
-        public static void PrintHealthPotions(int amount) {
+        public static void PrintNumHealthPotions(uint amount) {
             if (amount == 1) {
                 ConsolePrinter.WriteColouredText(GamePrinter.HealthColour, "1 health potion");
             } else {
