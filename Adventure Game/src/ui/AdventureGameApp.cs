@@ -342,39 +342,52 @@ namespace Adventure_Game.src.ui {
                     GiveOptionToExitGame();
                 }
                 #if DEBUG
-                else if (input.Length >= 8 && input.Substring(0, 8) == "add gold") {
-                    if (int.TryParse(input.Substring(8), out int goldToAdd)) {
-                        player.Gold += goldToAdd;
-                        GamePrinter.PrintAdded(goldToAdd, player.Gold, GamePrinter.PrintGold);
-                    } else {
-                        GamePrinter.WriteLine("That was not a valid number");
-                    }
-                } else if (input.Length >= 10 && input.Substring(0, 10) == "add health") {
-                    if (double.TryParse(input.Substring(10), out double healthToAdd)) {
-                        player.Health += healthToAdd;
-                        GamePrinter.PrintAdded(healthToAdd, player.Health, GamePrinter.PrintHealth);
-                    } else {
-                        GamePrinter.WriteLine("That was not a valid number");
-                    }
-                } else if (input.Length >= 14 && input.Substring(0, 14) == "add max health") {
-                    if (uint.TryParse(input.Substring(14), out uint maxHealthToAdd)) {
-                        player.MaxHealth += maxHealthToAdd;
-                        GamePrinter.PrintAdded(maxHealthToAdd, player.MaxHealth, GamePrinter.PrintMaxHealth);
-                    } else {
-                        GamePrinter.WriteLine("That was not a valid number");
-                    }
-                } else if (input.Length >= 12 && input.Substring(0, 12) == "add strength") {
-                    if (double.TryParse(input.Substring(12), out double strengthToAdd)) {
-                        player.BaseStrength += strengthToAdd;
-                        GamePrinter.PrintAdded(strengthToAdd, player.GetTotalStrength(), GamePrinter.PrintBaseStrength, GamePrinter.PrintStrengthRounded);
-                    } else {
-                        GamePrinter.WriteLine("That was not a valid number");
-                    }
+                else if (input.Substring(0, 3) == "add") {
+                    DebugAdd(input);
                 }
                 #endif
                 else GamePrinter.WriteLine("That is not an option, please look at the options and try again");
             }
         }
+
+        #if DEBUG
+        /// <summary>
+        /// Adds the requested amount of the appropriate stat by parsing input string.
+        /// </summary>
+        /// <param name="input">A string starting with "add" and then containing the name of a stat to increase and the
+        /// amount by which to increase it.</param>
+        private void DebugAdd(string input) {
+            if (input.Length >= 8 && input.Substring(0, 8) == "add gold") {
+                if (int.TryParse(input.Substring(8), out int goldToAdd)) {
+                    player.Gold += goldToAdd;
+                    GamePrinter.PrintAdded(goldToAdd, player.Gold, GamePrinter.PrintGold);
+                } else {
+                    GamePrinter.WriteLine("That was not a valid number");
+                }
+            } else if (input.Length >= 10 && input.Substring(0, 10) == "add health") {
+                if (double.TryParse(input.Substring(10), out double healthToAdd)) {
+                    player.Health += healthToAdd;
+                    GamePrinter.PrintAdded(healthToAdd, player.Health, GamePrinter.PrintHealth);
+                } else {
+                    GamePrinter.WriteLine("That was not a valid number");
+                }
+            } else if (input.Length >= 14 && input.Substring(0, 14) == "add max health") {
+                if (uint.TryParse(input.Substring(14), out uint maxHealthToAdd)) {
+                    player.MaxHealth += maxHealthToAdd;
+                    GamePrinter.PrintAdded(maxHealthToAdd, player.MaxHealth, GamePrinter.PrintMaxHealth);
+                } else {
+                    GamePrinter.WriteLine("That was not a valid number");
+                }
+            } else if (input.Length >= 12 && input.Substring(0, 12) == "add strength") {
+                if (double.TryParse(input.Substring(12), out double strengthToAdd)) {
+                    player.BaseStrength += strengthToAdd;
+                    GamePrinter.PrintAdded(strengthToAdd, player.GetTotalStrength(), GamePrinter.PrintBaseStrength, GamePrinter.PrintStrengthRounded);
+                } else {
+                    GamePrinter.WriteLine("That was not a valid number");
+                }
+            }
+        }
+        #endif
 
         /// <summary>
         /// Attempts to use a health potion. If the player is already at the maximum health, informs them. If they are
