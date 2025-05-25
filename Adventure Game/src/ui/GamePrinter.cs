@@ -386,6 +386,21 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
+        /// Runs print(amountAdded) then writes " have succesfully been added, bringing you up to "
+        /// then runs print(newTotal).
+        /// </summary>
+        /// <typeparam name="T">The type of the statistic that was added to.</typeparam>
+        /// <param name="amountAdded">The amount the statistic increased by.</param>
+        /// <param name="newTotal">The new value of the statistic.</param>
+        /// <param name="print">The method that prints T and its descriptor (gold, health, etc.).</param>
+        public static void PrintAddedPlural<T>(T amountAdded, T newTotal, Action<T> print) {
+            print(amountAdded);
+            Write(" have successfully been added, bringing you up to ");
+            print(newTotal);
+            WriteLine();
+        }
+
+        /// <summary>
         /// Runs print(amountAdded) then writes " has succesfully been added, bringing you up to "
         /// then runs print(newTotal).
         /// </summary>

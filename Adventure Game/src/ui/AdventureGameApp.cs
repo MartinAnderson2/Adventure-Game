@@ -385,6 +385,17 @@ namespace Adventure_Game.src.ui {
                 } else {
                     GamePrinter.WriteLine("That was not a valid number");
                 }
+            } else if (input.Length >= 12 && input.Substring(0, 10) == "add potion") {
+                if (uint.TryParse(input.Substring(10), out uint potionsToAdd)) {
+                    player.NumHealthPotions += potionsToAdd;
+                    if (potionsToAdd == 1) {
+                        GamePrinter.PrintAdded(potionsToAdd, player.NumHealthPotions, GamePrinter.PrintNumHealthPotions);
+                    } else {
+                        GamePrinter.PrintAddedPlural(potionsToAdd, player.NumHealthPotions, GamePrinter.PrintNumHealthPotions);
+                    }
+                } else {
+                    GamePrinter.WriteLine("That was not a valid number");
+                }
             }
         }
         #endif
