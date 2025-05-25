@@ -364,6 +364,28 @@ namespace Adventure_Game.src.ui {
                 } else {
                     GamePrinter.WriteLine("That was not a valid number");
                 }
+            } else if (input.Length >= 17 && input.Substring(0, 17) == "add health potion") {
+                if (uint.TryParse(input.Substring(17), out uint potionsToAdd)) {
+                    player.NumHealthPotions += potionsToAdd;
+                    if (potionsToAdd == 1) {
+                        GamePrinter.PrintAdded(potionsToAdd, player.NumHealthPotions, GamePrinter.PrintNumHealthPotions);
+                    } else {
+                        GamePrinter.PrintAddedPlural(potionsToAdd, player.NumHealthPotions, GamePrinter.PrintNumHealthPotions);
+                    }
+                } else {
+                    GamePrinter.WriteLine("That was not a valid number");
+                }
+            } else if (input.Length >= 10 && input.Substring(0, 10) == "add potion") {
+                if (uint.TryParse(input.Substring(10), out uint potionsToAdd)) {
+                    player.NumHealthPotions += potionsToAdd;
+                    if (potionsToAdd == 1) {
+                        GamePrinter.PrintAdded(potionsToAdd, player.NumHealthPotions, GamePrinter.PrintNumHealthPotions);
+                    } else {
+                        GamePrinter.PrintAddedPlural(potionsToAdd, player.NumHealthPotions, GamePrinter.PrintNumHealthPotions);
+                    }
+                } else {
+                    GamePrinter.WriteLine("That was not a valid number");
+                }
             } else if (input.Length >= 10 && input.Substring(0, 10) == "add health") {
                 if (double.TryParse(input.Substring(10), out double healthToAdd)) {
                     player.Health += healthToAdd;
@@ -385,17 +407,8 @@ namespace Adventure_Game.src.ui {
                 } else {
                     GamePrinter.WriteLine("That was not a valid number");
                 }
-            } else if (input.Length >= 12 && input.Substring(0, 10) == "add potion") {
-                if (uint.TryParse(input.Substring(10), out uint potionsToAdd)) {
-                    player.NumHealthPotions += potionsToAdd;
-                    if (potionsToAdd == 1) {
-                        GamePrinter.PrintAdded(potionsToAdd, player.NumHealthPotions, GamePrinter.PrintNumHealthPotions);
-                    } else {
-                        GamePrinter.PrintAddedPlural(potionsToAdd, player.NumHealthPotions, GamePrinter.PrintNumHealthPotions);
-                    }
-                } else {
-                    GamePrinter.WriteLine("That was not a valid number");
-                }
+            } else {
+                GamePrinter.WriteLine("That was not a valid statistic that can be added");
             }
         }
         #endif
