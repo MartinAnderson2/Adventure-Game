@@ -342,7 +342,7 @@ namespace Adventure_Game.src.ui {
                     GiveOptionToExitGame();
                 }
                 #if DEBUG
-                else if (input.Substring(0, 3) == "add") {
+                else if (input.Length >= 3 && input.Substring(0, 3) == "add") {
                     DebugAdd(input);
                 }
                 #endif
