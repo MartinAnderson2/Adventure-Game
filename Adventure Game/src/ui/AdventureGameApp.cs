@@ -98,9 +98,27 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Asks the player to name the player and to decide its class and subclass.
+        /// Asks the player to name their character and to decide its class and subclass.
         /// </summary>
         private void CreateCharacter() {
+            SelectName();
+
+            // Quick default character creator for testing purposes
+            #if DEBUG
+            if (player.Name == "Me") {
+                player.ClassType = Player.Class.Fighter;
+                player.SubclassType = Player.Subclass.Barbarian;
+                return;
+            }
+            #endif
+
+            SelectClassAndSubclass();
+        }
+
+        /// <summary>
+        /// Asks the player what they would like to name their character and sets its name to that.
+        /// </summary>
+        private void SelectName() {
             GamePrinter.WriteLine("Please input your character's name");
 
             string? input = Console.ReadLine();
@@ -111,167 +129,218 @@ namespace Adventure_Game.src.ui {
             }
 
             player.Name = input;
-            
-            while (true) {
-                // Quick default character creator for testing purposes
-                #if DEBUG
-                if (player.Name == "Me") {
-                    player.ClassType = Player.Class.Fighter;
-                    player.SubclassType = Player.Subclass.Barbarian;
-                    break;
-                }
-                #endif
+        }
 
+        /// <summary>
+        /// Asks the player which class they would like their character to be, from a selection of five. After they
+        /// choose the class, sets it to the class they chose. It loops until they select one of the options. Next,
+        /// asks them to decide the player's subclass. There are three possible subclasses for each class. Once they
+        /// choose the subclass, sets it. Loops until they select one of the options.
+        /// </summary>
+        private void SelectClassAndSubclass() {
+            while (true) {
                 GamePrinter.WriteLine("Is " + player.Name + " going to be a fighter, wizard, rogue, cleric, or ranger?");
-                
-                string? secondInput = Console.ReadLine();
-                if (secondInput is null) {
+
+                string? input = Console.ReadLine();
+                if (input is null) {
                     Console.Clear();
                     continue;
                 }
-                secondInput = secondInput.ToLower();
+                input = input.ToLower();
 
-                if (secondInput == "fighter" || secondInput == "f") {
-                    GamePrinter.WriteLine("You chose fighter");
+                if (input == "fighter" || input == "f") {
                     player.ClassType = Player.Class.Fighter;
-                    while (true) {
-                        GamePrinter.WriteLine("Is " + player.Name + " going to be a barbarian, knight, or samurai?");
-
-                        string? thirdInput = Console.ReadLine();
-                        if (thirdInput is null) {
-                            Console.Clear();
-                            continue;
-                        }
-                        thirdInput = thirdInput.ToLower();
-
-                        if (thirdInput == "barbarian" || thirdInput == "barb" || thirdInput == "b") {
-                            GamePrinter.WriteLine(player.Name + " is now a barbarian");
-                            player.SubclassType = Player.Subclass.Barbarian;
-                            break;
-                        } else if (thirdInput == "knight" || thirdInput == "k") {
-                            GamePrinter.WriteLine(player.Name + " is now a knight");
-                            player.SubclassType = Player.Subclass.Knight;
-                            break;
-                        } else if (thirdInput == "samurai" || thirdInput == "s") {
-                            GamePrinter.WriteLine(player.Name + " is now a samurai");
-                            player.SubclassType = Player.Subclass.Samurai;
-                            break;
-                        } else GamePrinter.WriteLine("That is not an option, please choose an option from the list and try again");
-                    }
+                    GamePrinter.WriteLine(player.Name + " is now a fighter");
+                    SelectBarbarianSubclass();
                     break;
-                } else if (secondInput == "wizard" || secondInput == "wiz" || secondInput == "w") {
-                    GamePrinter.WriteLine("You chose wizard");
+                } else if (input == "wizard" || input == "wiz" || input == "w") {
                     player.ClassType = Player.Class.Wizard;
-                    while (true) {
-                        GamePrinter.WriteLine("Is " + player.Name + " going to be a nature, elemental, or illusionist wizard?");
-                        
-                        string? thirdInput = Console.ReadLine();
-                        if (thirdInput is null) {
-                            Console.Clear();
-                            continue;
-                        }
-                        thirdInput = thirdInput.ToLower();
-
-                        if (thirdInput == "nature" || thirdInput == "n") {
-                            GamePrinter.WriteLine(player.Name + " is now a nature wizard");
-                            player.SubclassType = Player.Subclass.Nature;
-                            break;
-                        } else if (thirdInput == "elemental" || thirdInput == "element" || thirdInput == "e") {
-                            GamePrinter.WriteLine(player.Name + " is now an elemental wizard");
-                            player.SubclassType = Player.Subclass.Elemental;
-                            break;
-                        } else if (thirdInput == "illusionist" || thirdInput == "illusion" || thirdInput == "i") {
-                            GamePrinter.WriteLine(player.Name + " is now an illusionist wizard");
-                            player.SubclassType = Player.Subclass.Illusionist;
-                            break;
-                        } else GamePrinter.WriteLine("That is not an option, please choose an option from the list and try again");
-                    }
+                    GamePrinter.WriteLine(player.Name + " is now a wizard");
+                    SelectWizardSubclass();
                     break;
-                } else if (secondInput == "rogue" || secondInput == "ro") {
-                    GamePrinter.WriteLine("You chose rogue");
+                } else if (input == "rogue" || input == "ro") {
                     player.ClassType = Player.Class.Rogue;
-                    while (true) {
-                        GamePrinter.WriteLine("Is " + player.Name + " going to be a thief, pirate, or ninja?");
-
-                        string? thirdInput = Console.ReadLine();
-                        if (thirdInput is null) {
-                            Console.Clear();
-                            continue;
-                        }
-                        thirdInput = thirdInput.ToLower();
-
-                        if (thirdInput == "thief" || thirdInput == "thief" || thirdInput == "stealer" || thirdInput == "t") {
-                            GamePrinter.WriteLine(player.Name + " is now a thief");
-                            player.SubclassType = Player.Subclass.Thief;
-                            break;
-                        } else if (thirdInput == "pirate" || thirdInput == "p") {
-                            GamePrinter.WriteLine(player.Name + " is now a pirate");
-                            player.SubclassType = Player.Subclass.Pirate;
-                            break;
-                        } else if (thirdInput == "ninja" || thirdInput == "n") {
-                            GamePrinter.WriteLine(player.Name + " is now a ninja");
-                            player.SubclassType = Player.Subclass.Ninja;
-                            break;
-                        } else GamePrinter.WriteLine("That is not an option, please choose an option from the list and try again");
-                    }
+                    GamePrinter.WriteLine(player.Name + " is now a rogue");
+                    SelectRogueSubclass();
                     break;
-                } else if (secondInput == "cleric" || secondInput == "c") {
-                    GamePrinter.WriteLine("You chose cleric");
+                } else if (input == "cleric" || input == "c") {
                     player.ClassType = Player.Class.Cleric;
-                    while (true) {
-                        GamePrinter.WriteLine("Is " + player.Name + " going to be a priest, healer, or templar?");
-
-                        string? thirdInput = Console.ReadLine();
-                        if (thirdInput is null) {
-                            Console.Clear();
-                            continue;
-                        }
-                        thirdInput = thirdInput.ToLower();
-
-                        if (thirdInput == "priest" || thirdInput == "p") {
-                            GamePrinter.WriteLine(player.Name + " is now a preist");
-                            player.SubclassType = Player.Subclass.Priest;
-                            break;
-                        } else if (thirdInput == "healer" || thirdInput == "heal" || thirdInput == "h") {
-                            GamePrinter.WriteLine(player.Name + " is now a healer");
-                            player.SubclassType = Player.Subclass.Healer;
-                            break;
-                        } else if (thirdInput == "templar" || thirdInput == "templ" || thirdInput == "t") {
-                            GamePrinter.WriteLine(player.Name + " is now a templar");
-                            player.SubclassType = Player.Subclass.Templar;
-                            break;
-                        } else GamePrinter.WriteLine("That is not an option, please choose an option from the list and try again");
-                    }
+                    GamePrinter.WriteLine(player.Name + " is now a cleric");
+                    SelectClericSubclass();
                     break;
-                } else if (secondInput == "ranger" || secondInput == "range" || secondInput == "ra") {
-                    GamePrinter.WriteLine("You chose ranger");
+                } else if (input == "ranger" || input == "range" || input == "ra") {
                     player.ClassType = Player.Class.Ranger;
-                    while (true) {
-                        GamePrinter.WriteLine("Is " + player.Name + " going to be a sniper, scout, or forester?");
-
-                        string? thirdInput = Console.ReadLine();
-                        if (thirdInput is null) {
-                            Console.Clear();
-                            continue;
-                        }
-                        thirdInput = thirdInput.ToLower();
-
-                        if (thirdInput == "sniper" || thirdInput == "snipe" || thirdInput == "sn") {
-                            GamePrinter.WriteLine(player.Name + " is now a sniper");
-                            player.SubclassType = Player.Subclass.Sniper;
-                            break;
-                        } else if (thirdInput == "scout" || thirdInput == "sc") {
-                            GamePrinter.WriteLine(player.Name + " is now a scout");
-                            player.SubclassType = Player.Subclass.Scout;
-                            break;
-                        } else if (thirdInput == "forester" || thirdInput == "forest" || thirdInput == "f") {
-                            GamePrinter.WriteLine(player.Name + " is now a forester");
-                            player.SubclassType = Player.Subclass.Forester;
-                            break;
-                        } else GamePrinter.WriteLine("That is not an option, please choose an option from the list and try again");
-                    }
+                    GamePrinter.WriteLine(player.Name + " is now a ranger");
+                    SelectRangerSubclass();
                     break;
-                } else GamePrinter.WriteLine("That was not an option, please choose an option from the list and try again");
+                } else {
+                    GamePrinter.WriteLine("That was not an option, please choose an option from the list and try again");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Asks the player which of the three barbarian subclasses they would like their character to take. Sets it to
+        /// the subclass they chose. Loops until they select one of the options.
+        /// </summary>
+        private void SelectBarbarianSubclass() {
+            while (true) {
+                GamePrinter.WriteLine("Is " + player.Name + " going to be a barbarian, knight, or samurai?");
+
+                string? input = Console.ReadLine();
+                if (input is null) {
+                    Console.Clear();
+                    continue;
+                }
+                input = input.ToLower();
+
+                if (input == "barbarian" || input == "barb" || input == "b") {
+                    player.SubclassType = Player.Subclass.Barbarian;
+                    GamePrinter.WriteLine(player.Name + " is now a barbarian");
+                    break;
+                } else if (input == "knight" || input == "k") {
+                    player.SubclassType = Player.Subclass.Knight;
+                    GamePrinter.WriteLine(player.Name + " is now a knight");
+                    break;
+                } else if (input == "samurai" || input == "s") {
+                    player.SubclassType = Player.Subclass.Samurai;
+                    GamePrinter.WriteLine(player.Name + " is now a samurai");
+                    break;
+                } else {
+                    GamePrinter.WriteLine("That is not an option, please choose an option from the list and try again");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Asks the player which of the three wizard subclasses they would like their character to take. Sets it to
+        /// the subclass they chose. Loops until they select one of the options.
+        /// </summary>
+        private void SelectWizardSubclass() {
+            while (true) {
+                GamePrinter.WriteLine("Is " + player.Name + " going to be a nature, elemental, or illusionist wizard?");
+
+                string? input = Console.ReadLine();
+                if (input is null) {
+                    Console.Clear();
+                    continue;
+                }
+                input = input.ToLower();
+
+                if (input == "nature" || input == "n") {
+                    player.SubclassType = Player.Subclass.Nature;
+                    GamePrinter.WriteLine(player.Name + " is now a nature wizard");
+                    break;
+                } else if (input == "elemental" || input == "element" || input == "e") {
+                    player.SubclassType = Player.Subclass.Elemental;
+                    GamePrinter.WriteLine(player.Name + " is now an elemental wizard");
+                    break;
+                } else if (input == "illusionist" || input == "illusion" || input == "i") {
+                    player.SubclassType = Player.Subclass.Illusionist;
+                    GamePrinter.WriteLine(player.Name + " is now an illusionist wizard");
+                    break;
+                } else {
+                    GamePrinter.WriteLine("That is not an option, please choose an option from the list and try again");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Asks the player which of the three rogue subclasses they would like their character to take. Sets it to
+        /// the subclass they chose. Loops until they select one of the options.
+        /// </summary>
+        private void SelectRogueSubclass() {
+            while (true) {
+                GamePrinter.WriteLine("Is " + player.Name + " going to be a thief, pirate, or ninja?");
+
+                string? input = Console.ReadLine();
+                if (input is null) {
+                    Console.Clear();
+                    continue;
+                }
+                input = input.ToLower();
+
+                if (input == "thief" || input == "thief" || input == "stealer" || input == "t") {
+                    player.SubclassType = Player.Subclass.Thief;
+                    GamePrinter.WriteLine(player.Name + " is now a thief");
+                    break;
+                } else if (input == "pirate" || input == "p") {
+                    player.SubclassType = Player.Subclass.Pirate;
+                    GamePrinter.WriteLine(player.Name + " is now a pirate");
+                    break;
+                } else if (input == "ninja" || input == "n") {
+                    player.SubclassType = Player.Subclass.Ninja;
+                    GamePrinter.WriteLine(player.Name + " is now a ninja");
+                    break;
+                } else {
+                    GamePrinter.WriteLine("That is not an option, please choose an option from the list and try again");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Asks the player which of the three cleric subclasses they would like their character to take. Sets it to
+        /// the subclass they chose. Loops until they select one of the options.
+        /// </summary>
+        private void SelectClericSubclass() {
+            while (true) {
+                GamePrinter.WriteLine("Is " + player.Name + " going to be a priest, healer, or templar?");
+
+                string? input = Console.ReadLine();
+                if (input is null) {
+                    Console.Clear();
+                    continue;
+                }
+                input = input.ToLower();
+
+                if (input == "priest" || input == "p") {
+                    player.SubclassType = Player.Subclass.Priest;
+                    GamePrinter.WriteLine(player.Name + " is now a preist");
+                    break;
+                } else if (input == "healer" || input == "heal" || input == "h") {
+                    player.SubclassType = Player.Subclass.Healer;
+                    GamePrinter.WriteLine(player.Name + " is now a healer");
+                    break;
+                } else if (input == "templar" || input == "templ" || input == "t") {
+                    player.SubclassType = Player.Subclass.Templar;
+                    GamePrinter.WriteLine(player.Name + " is now a templar");
+                    break;
+                } else {
+                    GamePrinter.WriteLine("That is not an option, please choose an option from the list and try again");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Asks the player which of the three ranger subclasses they would like their character to take. Sets it to
+        /// the subclass they chose. Loops until they select one of the options.
+        /// </summary>
+        private void SelectRangerSubclass() {
+            while (true) {
+                GamePrinter.WriteLine("Is " + player.Name + " going to be a sniper, scout, or forester?");
+
+                string? input = Console.ReadLine();
+                if (input is null) {
+                    Console.Clear();
+                    continue;
+                }
+                input = input.ToLower();
+
+                if (input == "sniper" || input == "snipe" || input == "sn") {
+                    player.SubclassType = Player.Subclass.Sniper;
+                    GamePrinter.WriteLine(player.Name + " is now a sniper");
+                    break;
+                } else if (input == "scout" || input == "sc") {
+                    player.SubclassType = Player.Subclass.Scout;
+                    GamePrinter.WriteLine(player.Name + " is now a scout");
+                    break;
+                } else if (input == "forester" || input == "forest" || input == "f") {
+                    player.SubclassType = Player.Subclass.Forester;
+                    GamePrinter.WriteLine(player.Name + " is now a forester");
+                    break;
+                } else {
+                    GamePrinter.WriteLine("That is not an option, please choose an option from the list and try again");
+                }
             }
         }
 
