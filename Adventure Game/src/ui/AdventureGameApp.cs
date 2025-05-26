@@ -588,7 +588,7 @@ namespace Adventure_Game.src.ui {
             Weapon newWeapon = LootTile.GetWeapon(player, random);
 
             GamePrinter.Write("You find a treasure chest with ");
-            GamePrinter.WriteName(singularBefore: "a ", pluralBefore: "", startsVowelBefore: "an ", newWeapon.Name);
+            NamePrinter.WriteName(singularBefore: "a ", pluralBefore: "", startsVowelBefore: "an ", newWeapon.Name);
             GamePrinter.WriteLine(" inside!");
 
             if (player.AlreadyHasWeapon(newWeapon)) {
@@ -610,7 +610,7 @@ namespace Adventure_Game.src.ui {
         private void HandleSwappingWithFists(Weapon newWeapon) {
             while (true) {
                 GamePrinter.Write("Would you like to \"swap\" to the ");
-                GamePrinter.WriteName(newWeapon.Name, singularAfter: ", which deals ", pluralAfter: ", which deal ");
+                NamePrinter.WriteName(newWeapon.Name, singularAfter: ", which deals ", pluralAfter: ", which deal ");
                 GamePrinter.PrintDamageRounded(player.GetStrengthWeaponGives(newWeapon));
                 GamePrinter.Write(", or keep using your fists, which deal ");
                 GamePrinter.PrintDamage(0);
