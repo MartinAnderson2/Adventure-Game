@@ -207,7 +207,7 @@ namespace Adventure_Game.src.ui {
                 }
 
                 ConsolePrinter.CreateTwoMiddlesText("You have ", GamePrinter.HealthColour, player.Health + " health", " and ", GamePrinter.StrengthColour, totalStrength + " total strength");
-                GamePrinter.WriteLineNote("Since you are significantly stronger than the " + monster.Name.Name + ", you will almost certainly win this fight and if you do, you will get loot. Additionally, you are unlikely to sneak past successfully since " + (monster.Name.Plural ? "they have" : "it has") + " seen you");
+                GamePrinter.WriteLineNote("Since you are significantly stronger than the " + monster.Name.Name + ", you will almost certainly win this fight, and if you do, you will get loot. Additionally, you are unlikely to sneak past successfully since " + (monster.Name.Plural ? "they have" : "it has") + " seen you");
                 GamePrinter.WriteLine("Would you like to \"fight\" the " + monster.Name.Name + " or try to \"sneak\" past " + (monster.Name.Plural ? "them" : "it") + "?");
 
                 string? input = Console.ReadLine();
