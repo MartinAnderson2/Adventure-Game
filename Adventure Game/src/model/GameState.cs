@@ -46,7 +46,7 @@ namespace Adventure_Game.src.model {
         public bool EverUsedHealthPotion { get; set; }
 
 
-        // Transposed (each column is y and row is x)
+        // Transposed (since x selects the row and y selects the column)
         public Tile[,] Map { get; } = {
             { new MonsterTile(),                  new MonsterTile(),                 new MonsterTile(),                 new MonsterTile(),                       new LootTile(),                       new VillageTile("Brie", 5, 0.2), new MonsterTile()                       },
             { new VillageTile("Tempus", 4, 0.15), new MonsterTile(),                 new ShopTile("Emmony", 0.75),      new MonsterTile(),                       new MonsterTile(),                    new LootTile(),                  new ShopTile("Kyrillos", 1)             },
