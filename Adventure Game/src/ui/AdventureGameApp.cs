@@ -489,14 +489,14 @@ namespace Adventure_Game.src.ui {
         private void UseHealthPotion() {
             if (player.NumHealthPotions == 0) {
                 GamePrinter.Write("You do not currently own any ");
-                ConsolePrinter.WriteColouredText(GamePrinter.HealthColour, "health potions");
+                ConsolePrinter.WriteColouredText(GamePrinter.HealthPotionColour, "health potions");
                 GamePrinter.WriteLine(". Go to a store to purchase some");
                 return;
             }
 
             if (player.Health >= player.MaxHealth) {
                 GamePrinter.Write("You are already at your ");
-                ConsolePrinter.WriteColouredText(GamePrinter.HealthColour, "maximum health");
+                ConsolePrinter.WriteColouredText(GamePrinter.MaxHealthColour, "maximum health");
                 GamePrinter.Write(", ");
                 GamePrinter.PrintHealthRounded(player.Health);
                 GamePrinter.Write(". You are still at ");
@@ -508,7 +508,11 @@ namespace Adventure_Game.src.ui {
                 ConsolePrinter.WriteColouredText(GamePrinter.HealthColour, "health potion");
                 GamePrinter.Write(", bringing you up to ");
                 GamePrinter.PrintHealthRounded(player.Health);
-                if (player.FullHealth()) GamePrinter.Write(" (your maximum health)");
+                if (player.FullHealth()) {
+                    GamePrinter.Write(" (your ");
+                    ConsolePrinter.WriteColouredText(GamePrinter.MaxHealthColour, "maximum health");
+                    GamePrinter.Write(")");
+                }
                 GamePrinter.Write(" and leaving you with ");
                 GamePrinter.PrintNumHealthPotions(player.NumHealthPotions);
                 GamePrinter.WriteLine();
@@ -1173,8 +1177,8 @@ namespace Adventure_Game.src.ui {
                         if (!game.EverUsedHealthPotion) {
                             GamePrinter.WriteLine();
                             if (player.NumHealthPotions == 1) {
-                                ConsolePrinter.CreateFourMiddlesText("To use your ", GamePrinter.HealthColour, "health potion", ", type \"potion\", \"p\", or \"use potion\". ", GamePrinter.HealthColour, "Health potions", " will heal ", GamePrinter.HealthColour, "50%", " of your ", GamePrinter.HealthColour, "maximum health", " and can only be used when you are asked in which direction you wish to travel", GamePrinter.NoteColour);
-                            } else ConsolePrinter.CreateFourMiddlesText("To use your ", GamePrinter.HealthColour, "health potions", ", type \"potion\", \"p\", or \"use potion\". ", GamePrinter.HealthColour, "Health potions", " will heal ", GamePrinter.HealthColour, "50%", " of your ", GamePrinter.HealthColour, "maximum health", " and can only be used when you are asked in which direction you wish to travel", GamePrinter.NoteColour);
+                                ConsolePrinter.CreateFourMiddlesText("To use your ", GamePrinter.HealthPotionColour, "health potion", ", type \"potion\", \"p\", or \"use potion\". ", GamePrinter.HealthPotionColour, "Health potions", " will heal ", GamePrinter.HealthColour, "50%", " of your ", GamePrinter.MaxHealthColour, "maximum health", " and can only be used when you are asked in which direction you wish to travel", GamePrinter.NoteColour);
+                            } else ConsolePrinter.CreateFourMiddlesText("To use your ", GamePrinter.HealthPotionColour, "health potions", ", type \"potion\", \"p\", or \"use potion\". ", GamePrinter.HealthPotionColour, "Health potions", " will heal ", GamePrinter.HealthColour, "50%", " of your ", GamePrinter.MaxHealthColour, "maximum health", " and can only be used when you are asked in which direction you wish to travel", GamePrinter.NoteColour);
                             game.EverUsedHealthPotion = true;
                         }
                         break;
@@ -1184,8 +1188,8 @@ namespace Adventure_Game.src.ui {
                         if (!game.EverUsedHealthPotion) {
                             GamePrinter.WriteLine();
                             if (player.NumHealthPotions == 1) {
-                                ConsolePrinter.CreateFourMiddlesText("To use your ", GamePrinter.HealthColour, "health potion", ", type \"potion\", \"p\", or \"use potion\". ", GamePrinter.HealthColour, "Health potions", " will heal ", GamePrinter.HealthColour, "50%", " of your ", GamePrinter.HealthColour, "maximum health", " and can only be used when you are asked in which direction you wish to travel", GamePrinter.NoteColour);
-                            } else ConsolePrinter.CreateFourMiddlesText("To use your ", GamePrinter.HealthColour, "health potions", ", type \"potion\", \"p\", or \"use potion\". ", GamePrinter.HealthColour, "Health potions", " will heal ", GamePrinter.HealthColour, "50%", " of your ", GamePrinter.HealthColour, "maximum health", " and can only be used when you are asked in which direction you wish to travel", GamePrinter.NoteColour);
+                                ConsolePrinter.CreateFourMiddlesText("To use your ", GamePrinter.HealthPotionColour, "health potion", ", type \"potion\", \"p\", or \"use potion\". ", GamePrinter.HealthPotionColour, "Health potions", " will heal ", GamePrinter.HealthColour, "50%", " of your ", GamePrinter.MaxHealthColour, "maximum health", " and can only be used when you are asked in which direction you wish to travel", GamePrinter.NoteColour);
+                            } else ConsolePrinter.CreateFourMiddlesText("To use your ", GamePrinter.HealthPotionColour, "health potions", ", type \"potion\", \"p\", or \"use potion\". ", GamePrinter.HealthPotionColour, "Health potions", " will heal ", GamePrinter.HealthColour, "50%", " of your ", GamePrinter.MaxHealthColour, "maximum health", " and can only be used when you are asked in which direction you wish to travel", GamePrinter.NoteColour);
                             game.EverUsedHealthPotion = true;
                         }
                         break;
@@ -1207,8 +1211,8 @@ namespace Adventure_Game.src.ui {
                         && input != "health potion") {
                         while (true) {
                             if (game.MaxHealthStock == 1) {
-                                ConsolePrinter.CreateFourMiddlesText("", ConsolePrinter.DefaultColour, shop.ShopkeeperName + " says \"", "I currently have ", GamePrinter.HealthColour, game.MaxHealthStock + " set of 5 extra max health", " in stock. How many would you like to buy at ", GamePrinter.GoldColour, 50 * shop.CostMultiplier + " gold", " each?", ConsolePrinter.DefaultColour, "\" (Say none if you do not want any)", "", GamePrinter.DialogueColour);
-                            } else ConsolePrinter.CreateFourMiddlesText("", ConsolePrinter.DefaultColour, shop.ShopkeeperName + " says \"", "I currently have ", GamePrinter.HealthColour, game.MaxHealthStock + " sets of 5 extra max health", " in stock. How many would you like to buy at ", GamePrinter.GoldColour, 50 * shop.CostMultiplier + " gold", " each?", ConsolePrinter.DefaultColour, "\" (Say none if you do not want any)", "", GamePrinter.DialogueColour);
+                                ConsolePrinter.CreateFourMiddlesText("", ConsolePrinter.DefaultColour, shop.ShopkeeperName + " says \"", "I currently have ", GamePrinter.MaxHealthColour, game.MaxHealthStock + " set of 5 extra max health", " in stock. How many would you like to buy at ", GamePrinter.GoldColour, 50 * shop.CostMultiplier + " gold", " each?", ConsolePrinter.DefaultColour, "\" (Say none if you do not want any)", "", GamePrinter.DialogueColour);
+                            } else ConsolePrinter.CreateFourMiddlesText("", ConsolePrinter.DefaultColour, shop.ShopkeeperName + " says \"", "I currently have ", GamePrinter.MaxHealthColour, game.MaxHealthStock + " sets of 5 extra max health", " in stock. How many would you like to buy at ", GamePrinter.GoldColour, 50 * shop.CostMultiplier + " gold", " each?", ConsolePrinter.DefaultColour, "\" (Say none if you do not want any)", "", GamePrinter.DialogueColour);
 
                             string? secondInput = Console.ReadLine();
                             if (secondInput is null) {
@@ -1229,7 +1233,7 @@ namespace Adventure_Game.src.ui {
                                     player.Health += amount * 5;
                                     game.MaxHealthStock -= Convert.ToUInt32(amount);
                                     player.Gold -= Convert.ToInt32(50 * shop.CostMultiplier * amount);
-                                    ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", GamePrinter.HealthColour, amount * 5 + " max health", ", bringing you up to ", GamePrinter.HealthColour, player.MaxHealth + " max health", " and leaving you with ", GamePrinter.GoldColour, player.Gold + " gold");
+                                    ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", GamePrinter.MaxHealthColour, amount * 5 + " max health", ", bringing you up to ", GamePrinter.MaxHealthColour, player.MaxHealth + " max health", " and leaving you with ", GamePrinter.GoldColour, player.Gold + " gold");
                                     purchasedSomething = true;
                                     break;
                                 }
@@ -1272,7 +1276,7 @@ namespace Adventure_Game.src.ui {
                     } else if (game.HealthPotionStock > 0 && player.Gold > 14 * shop.CostMultiplier
                          && (input == "health potion" || input == "potion" || input == "p" || input == "h p")) {
                         while (true) {
-                            ConsolePrinter.CreateFourMiddlesText("", ConsolePrinter.DefaultColour, shop.ShopkeeperName + " says \"", "I currently have ", GamePrinter.HealthColour, game.HealthPotionStock + " health potions", " in stock. How many would you like to buy at ", GamePrinter.GoldColour, 15 * shop.CostMultiplier + " gold", " each?", ConsolePrinter.DefaultColour, "\" (Say none if you do not want any)", "", GamePrinter.DialogueColour);
+                            ConsolePrinter.CreateFourMiddlesText("", ConsolePrinter.DefaultColour, shop.ShopkeeperName + " says \"", "I currently have ", GamePrinter.HealthPotionColour, game.HealthPotionStock + " health potions", " in stock. How many would you like to buy at ", GamePrinter.GoldColour, 15 * shop.CostMultiplier + " gold", " each?", ConsolePrinter.DefaultColour, "\" (Say none if you do not want any)", "", GamePrinter.DialogueColour);
 
                             string? secondInput = Console.ReadLine();
                             if (secondInput is null) {
@@ -1294,13 +1298,13 @@ namespace Adventure_Game.src.ui {
                                     player.Gold -= Convert.ToInt32(15 * shop.CostMultiplier * amount);
                                     if (player.NumHealthPotions == 1) {
                                         if (amount == 1) {
-                                            ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", GamePrinter.HealthColour, amount + " health potion", ", bringing you up to ", GamePrinter.HealthColour, player.NumHealthPotions + " health potion", " and leaving you with ", GamePrinter.GoldColour, player.Gold + " gold");
-                                        } else ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", GamePrinter.HealthColour, amount + " health potions", ", bringing you up to ", GamePrinter.HealthColour, player.NumHealthPotions + " health potion", " and leaving you with ", GamePrinter.GoldColour, player.Gold + " gold");
+                                            ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", GamePrinter.HealthPotionColour, amount + " health potion", ", bringing you up to ", GamePrinter.HealthPotionColour, player.NumHealthPotions + " health potion", " and leaving you with ", GamePrinter.GoldColour, player.Gold + " gold");
+                                        } else ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", GamePrinter.HealthPotionColour, amount + " health potions", ", bringing you up to ", GamePrinter.HealthPotionColour, player.NumHealthPotions + " health potion", " and leaving you with ", GamePrinter.GoldColour, player.Gold + " gold");
                                     }
                                     else {
                                         if (amount == 1) {
-                                            ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", GamePrinter.HealthColour, amount + " health potion", ", bringing you up to ", GamePrinter.HealthColour, player.NumHealthPotions + " health potions", " and leaving you with ", GamePrinter.GoldColour, player.Gold + " gold");
-                                        } else ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", GamePrinter.HealthColour, amount + " health potions", ", bringing you up to ", GamePrinter.HealthColour, player.NumHealthPotions + " health potions", " and leaving you with ", GamePrinter.GoldColour, player.Gold + " gold");
+                                            ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", GamePrinter.HealthPotionColour, amount + " health potion", ", bringing you up to ", GamePrinter.HealthPotionColour, player.NumHealthPotions + " health potions", " and leaving you with ", GamePrinter.GoldColour, player.Gold + " gold");
+                                        } else ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", GamePrinter.HealthPotionColour, amount + " health potions", ", bringing you up to ", GamePrinter.HealthPotionColour, player.NumHealthPotions + " health potions", " and leaving you with ", GamePrinter.GoldColour, player.Gold + " gold");
                                     }
                                     purchasedSomething = true;
                                     break;
@@ -1318,8 +1322,8 @@ namespace Adventure_Game.src.ui {
                             if (!game.EverUsedHealthPotion) {
                                 GamePrinter.WriteLine();
                                 if (player.NumHealthPotions == 1) {
-                                    ConsolePrinter.CreateFourMiddlesText("To use your ", GamePrinter.HealthColour, "health potion", ", type \"potion\", \"p\", or \"use potion\". ", GamePrinter.HealthColour, "Health potions", " will heal ", GamePrinter.HealthColour, "50%", " of your ", GamePrinter.HealthColour, "maximum health", " and can only be used when you are asked in which direction you wish to travel", GamePrinter.NoteColour);
-                                } else ConsolePrinter.CreateFourMiddlesText("To use your ", GamePrinter.HealthColour, "health potions", ", type \"potion\", \"p\", or \"use potion\". ", GamePrinter.HealthColour, "Health potions", " will heal ", GamePrinter.HealthColour, "50%", " of your ", GamePrinter.HealthColour, "maximum health", " and can only be used when you are asked in which direction you wish to travel", GamePrinter.NoteColour);
+                                    ConsolePrinter.CreateFourMiddlesText("To use your ", GamePrinter.HealthPotionColour, "health potion", ", type \"potion\", \"p\", or \"use potion\". ", GamePrinter.HealthPotionColour, "Health potions", " will heal ", GamePrinter.HealthColour, "50%", " of your ", GamePrinter.MaxHealthColour, "maximum health", " and can only be used when you are asked in which direction you wish to travel", GamePrinter.NoteColour);
+                                } else ConsolePrinter.CreateFourMiddlesText("To use your ", GamePrinter.HealthPotionColour, "health potions", ", type \"potion\", \"p\", or \"use potion\". ", GamePrinter.HealthPotionColour, "Health potions", " will heal ", GamePrinter.HealthColour, "50%", " of your ", GamePrinter.MaxHealthColour, "maximum health", " and can only be used when you are asked in which direction you wish to travel", GamePrinter.NoteColour);
                                 game.EverUsedHealthPotion = true;
                             }
                             break;

@@ -20,6 +20,8 @@ namespace Adventure_Game.src.ui {
         public const ConsoleColor SleepTimeColour = ConsoleColor.Blue;
 
         public const ConsoleColor HealthColour = ConsoleColor.Red;
+        public const ConsoleColor MaxHealthColour = ConsoleColor.Red;
+        public const ConsoleColor HealthPotionColour = ConsoleColor.Red;
         public const ConsoleColor DamageColour = ConsoleColor.DarkRed;
         public const ConsoleColor StrengthColour = ConsoleColor.DarkRed;
         public const ConsoleColor GoldColour = ConsoleColor.DarkYellow;
@@ -309,11 +311,11 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Writes $"{amount} maximum health" to the console in the health colour.
+        /// Writes $"{amount} maximum health" to the console in the max health colour.
         /// </summary>
         /// <param name="amount">The amount of maximum health to display.</param>
         public static void PrintMaxHealth(uint amount) {
-            ConsolePrinter.WriteColouredText(GamePrinter.HealthColour, amount + " maximum health");
+            ConsolePrinter.WriteColouredText(GamePrinter.MaxHealthColour, amount + " maximum health");
         }
 
         /// <summary>
@@ -366,14 +368,14 @@ namespace Adventure_Game.src.ui {
 
         /// <summary>
         /// Writes $"{amount} health potions" (the s is excluded if amount is 1) to the console in the health
-        /// colour.
+        /// potion colour.
         /// </summary>
         /// <param name="amount">The amount of health potions to display.</param>
         public static void PrintNumHealthPotions(uint amount) {
             if (amount == 1) {
-                ConsolePrinter.WriteColouredText(GamePrinter.HealthColour, "1 health potion");
+                ConsolePrinter.WriteColouredText(GamePrinter.HealthPotionColour, "1 health potion");
             } else {
-                ConsolePrinter.WriteColouredText(GamePrinter.HealthColour, amount + " health potions");
+                ConsolePrinter.WriteColouredText(GamePrinter.HealthPotionColour, amount + " health potions");
             }
         }
 
