@@ -27,7 +27,7 @@ namespace Adventure_Game.src.ui {
             while (true) {
                 InitializeVariables();
 
-                #if DEBUG
+#if DEBUG
                 CreateCharacter();
                 if (player is not null && player.Name != "Me") {
                     ConsolePrinter.PrintBlankLines(1);
@@ -36,7 +36,7 @@ namespace Adventure_Game.src.ui {
 
                     Tutorial.RunTutorial(player);
                 }
-                #else
+#else
                 ChooseDifficulty();
 
                 ConsolePrinter.PrintBlankLines(1);
@@ -44,7 +44,7 @@ namespace Adventure_Game.src.ui {
                 CreateCharacter();
 
                 Tutorial.RunTutorial(player);
-                #endif
+#endif
 
                 ConsolePrinter.PrintBlankLines(2);
 
@@ -104,13 +104,13 @@ namespace Adventure_Game.src.ui {
             SelectName();
 
             // Quick default character creator for testing purposes
-            #if DEBUG
+#if DEBUG
             if (player.Name == "Me") {
                 player.ClassType = Player.Class.Fighter;
                 player.SubclassType = Player.Subclass.Barbarian;
                 return;
             }
-            #endif
+#endif
 
             SelectClassAndSubclass();
         }
@@ -410,11 +410,11 @@ namespace Adventure_Game.src.ui {
                 } else if (input == "exit" || input == "e" || input == "quit" || input == "q") {
                     GiveOptionToExitGame();
                 }
-                #if DEBUG
+#if DEBUG
                 else if (input.Length >= 3 && input.Substring(0, 3) == "add") {
                     DebugAdd(input);
                 }
-                #endif
+#endif
                 else GamePrinter.WriteLine("That is not an option, please look at the options and try again");
             }
         }
@@ -537,12 +537,10 @@ namespace Adventure_Game.src.ui {
                 if (input == "yes" || input == "y") {
                     GamePrinter.WriteLine();
                     Environment.Exit(0);
-                }
-                else if (input == "no" || input == "n") {
+                } else if (input == "no" || input == "n") {
                     GamePrinter.WriteLine();
                     break;
-                }
-                else {
+                } else {
                     GamePrinter.WriteLine("That is not an option, please enter \"yes\" or \"no\".");
                 }
             }
@@ -600,7 +598,7 @@ namespace Adventure_Game.src.ui {
                 SwapOrSell(player.HeldWeapon, newWeapon);
             }
         }
-        
+
         /// <summary>
         /// If the player currently has no weapon, asks them if they would like to keep the weapon they found or if
         /// they want to sell it. If they say they want to sell it, then ask them to confirm, since this is usually
@@ -633,8 +631,7 @@ namespace Adventure_Game.src.ui {
                         GamePrinter.PrintNewWeaponSuccessfullySold(newWeapon.Name, moneyFromSale, player.Gold);
                         break;
                     }
-                }
-                else GamePrinter.WriteLine("That is not an option, please state whether you would like to \"swap\" to your new weapon or \"sell\" it");
+                } else GamePrinter.WriteLine("That is not an option, please state whether you would like to \"swap\" to your new weapon or \"sell\" it");
             }
         }
 
@@ -772,7 +769,8 @@ namespace Adventure_Game.src.ui {
         /// <returns></returns>
         private bool ConfirmSellBetterWeapon(Weapon playerWeapon, Weapon newWeapon) {
             while (true) {
-                GamePrinter.PrintConfirmSell(newWeapon.Name, player.GetStrengthWeaponGives(newWeapon), playerWeapon.Name, player.GetWeaponStrength());
+                GamePrinter.PrintConfirmSell(newWeapon.Name, player.GetStrengthWeaponGives(newWeapon),
+                    playerWeapon.Name, player.GetWeaponStrength());
 
                 string? secondInput = Console.ReadLine();
                 if (secondInput is null) {
@@ -1279,8 +1277,7 @@ namespace Adventure_Game.src.ui {
                                         if (amount == 1) {
                                             ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", GamePrinter.HealthPotionColour, amount + " health potion", ", bringing you up to ", GamePrinter.HealthPotionColour, player.NumHealthPotions + " health potion", " and leaving you with ", GamePrinter.GoldColour, player.Gold + " gold");
                                         } else ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", GamePrinter.HealthPotionColour, amount + " health potions", ", bringing you up to ", GamePrinter.HealthPotionColour, player.NumHealthPotions + " health potion", " and leaving you with ", GamePrinter.GoldColour, player.Gold + " gold");
-                                    }
-                                    else {
+                                    } else {
                                         if (amount == 1) {
                                             ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", GamePrinter.HealthPotionColour, amount + " health potion", ", bringing you up to ", GamePrinter.HealthPotionColour, player.NumHealthPotions + " health potions", " and leaving you with ", GamePrinter.GoldColour, player.Gold + " gold");
                                         } else ConsolePrinter.CreateFourMiddlesText("You successfully purchased ", GamePrinter.HealthPotionColour, amount + " health potions", ", bringing you up to ", GamePrinter.HealthPotionColour, player.NumHealthPotions + " health potions", " and leaving you with ", GamePrinter.GoldColour, player.Gold + " gold");
