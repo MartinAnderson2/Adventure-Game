@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -172,6 +173,22 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
+        /// Writes $"{amount} total strength" to the console in the strength colour.
+        /// </summary>
+        /// <param name="amount">The amount of strength to display.</param>
+        public static void PrintTotalStrength(double amount) {
+            ConsolePrinter.WriteColouredText(GamePrinter.StrengthColour, amount + " total strength");
+        }
+
+        /// <summary>
+        /// Writes $"{amount} total strength" to the console in the strength colour.
+        /// </summary>
+        /// <param name="amount">The amount of strength to display.</param>
+        public static void PrintTotalStrengthRounded(double amount) {
+            ConsolePrinter.WriteColouredText(GamePrinter.StrengthColour, RoundDouble(amount) + " total strength");
+        }
+
+        /// <summary>
         /// Writes $"{amount} damage" to the console in the damage colour.
         /// </summary>
         /// <param name="amount">The amount of damage to display.</param>
@@ -249,5 +266,147 @@ namespace Adventure_Game.src.ui {
             WriteLine();
         }
         #endif
+
+        /// <summary>
+        /// Writes $"You sold the {newWeapon.name} you found for {moneyFromSale}, bringing you up to {playerGold}" to
+        /// the console, in the appropriate colours.
+        /// </summary>
+        /// <param name="newWeapon">The ReadOnlyName of the weapon the player found and then sold.</param>
+        /// <param name="moneyFromSale">The amount of gold the player got for selling the weapon.</param>
+        /// <param name="playerGold">The player's new gold total.</param>
+        public static void PrintNewWeaponSold(ReadOnlyName newWeapon, int moneyFromSale, int playerGold) {
+            Write("You sold the ");
+            NamePrinter.WriteName(newWeapon);
+            Write(" you found for ");
+            PrintGold(moneyFromSale);
+            Write(", bringing you up to ");
+            PrintGold(playerGold);
+            WriteLine();
+        }
+
+        /// <summary>
+        /// Writes $"You successfully sold the {newWeapon.name} you found for {moneyFromSale}, bringing you up to
+        /// {playerGold}" to the console, in the appropriate colours.
+        /// </summary>
+        /// <param name="newWeapon">The ReadOnlyName of the weapon the player found and then sold.</param>
+        /// <param name="moneyFromSale">The amount of gold the player got for selling the weapon.</param>
+        /// <param name="playerGold">The player's new gold total.</param>
+        public static void PrintNewWeaponSuccessfullySold(ReadOnlyName newWeapon, int moneyFromSale, int playerGold) {
+            Write("You successfully sold the ");
+            NamePrinter.WriteName(newWeapon);
+            Write(" you found for ");
+            PrintGold(moneyFromSale);
+            Write(", bringing you up to ");
+            PrintGold(playerGold);
+            WriteLine();
+        }
+
+        /// <summary>
+        /// Writes $"You sold your {newWeapon.name} for {moneyFromSale}, bringing you up to {playerGold}" to
+        /// the console, in the appropriate colours.
+        /// </summary>
+        /// <param name="oldWeapon">The ReadOnlyName of the weapon the player found and then sold.</param>
+        /// <param name="moneyFromSale">The amount of gold the player got for selling the weapon.</param>
+        /// <param name="playerGold">The player's new gold total.</param>
+        public static void PrintOldWeaponSold(ReadOnlyName oldWeapon, int moneyFromSale, int playerGold) {
+            Write("You sold your ");
+            NamePrinter.WriteName(oldWeapon);
+            Write(" for ");
+            PrintGold(moneyFromSale);
+            Write(", bringing you up to ");
+            PrintGold(playerGold);
+            WriteLine();
+        }
+
+        /// <summary>
+        /// Writes $"You are now using the {newWeapon.name}, bringing you to {playerStrength} total strength" to the
+        /// console, in the appropriate colours.
+        /// </summary>
+        /// <param name="newWeapon">The name of the weapon the player swapped to.</param>
+        /// <param name="playerStrength">The player's new strength.</param>
+        public static void PrintWeaponSwapped(ReadOnlyName newWeapon, double playerStrength) {
+            Write("You are now using the ");
+            NamePrinter.WriteName(newWeapon);
+            Write(", bringing you to ");
+            PrintTotalStrengthRounded(playerStrength);
+            WriteLine();
+        }
+
+        /// <summary>
+        /// Writes $"You successfully swapped your {oldWeapon.Name} for the {newWeapon.Name}, bringing you to
+        /// {playerStrength} total strength" to the console, in the appropriate colours.
+        /// </summary>
+        /// <param name="oldWeapon">The name of player's original weapon.</param>
+        /// <param name="newWeapon">The name of the weapon the player swapped to.</param>
+        /// <param name="playerStrength">The player's new strength.</param>
+        public static void PrintWeaponSuccessfullySwapped(ReadOnlyName oldWeapon, ReadOnlyName newWeapon, double playerStrength) {
+            Write("You successfully swapped your ");
+            NamePrinter.WriteName(oldWeapon);
+            Write(" for the ");
+            NamePrinter.WriteName(newWeapon);
+            Write(", bringing you to ");
+            PrintTotalStrengthRounded(playerStrength);
+            WriteLine();
+        }
+
+        /// <summary>
+        /// Writes $"Would you like to \"swap\" your {playerWeapon.Name} which deal(s) {playerWeaponDamage} damage for
+        /// the {newWeapon.Name}, which deal(s) {newWeaponDamage} damage, or \"sell\" the {newWeapon.Name}?" to the
+        /// console, in the appropriate colours.
+        /// </summary>
+        /// <param name="playerWeapon">The name of the player's current weapon.</param>
+        /// <param name="playerWeaponDamage">The amount of strength the player's current weapon gives them.</param>
+        /// <param name="newWeapon">The name of the weapon the player found.</param>
+        /// <param name="newWeaponDamage">The amount of strength the weapon the player found would give them.</param>
+        public static void PrintSwapOrSellWeapon(ReadOnlyName playerWeapon, double playerWeaponDamage, ReadOnlyName newWeapon, double newWeaponDamage) {
+            Write("Would you like to \"swap\" your ");
+            NamePrinter.WriteName(playerWeapon, singularAfter: ", which deals ", pluralAfter: ", which deal ");
+            PrintDamageRounded(playerWeaponDamage);
+            Write(", for the ");
+            NamePrinter.WriteName(newWeapon, singularAfter: ", which deals ", pluralAfter: ", which deal ");
+            PrintDamageRounded(newWeaponDamage);
+            Write(", or \"sell\" the ");
+            NamePrinter.WriteName(newWeapon);
+            WriteLine("?");
+        }
+
+        /// <summary>
+        /// Writes $"Are you sure you want to \"sell\" the {newWeapon.Name} you found, which deal(s) {newWeaponDamage}
+        /// damage, and keep your {playerWeapon.Name}, which deal(s) {playerWeaponDamage} damage? Say \"Yes\" or
+        /// \"No\"" to the console, in the appropriate colours.
+        /// </summary>
+        /// <param name="newWeapon">The name of the weapon the player found.</param>
+        /// <param name="newWeaponDamage">The amount of strength the weapon the player found would give them.</param>
+        /// <param name="playerWeapon">The name of the player's current weapon.</param>
+        /// <param name="playerWeaponDamage">The amount of strength the player's current weapon gives them.</param>
+        public static void PrintConfirmSell(ReadOnlyName newWeapon, double newWeaponDamage, ReadOnlyName playerWeapon, double playerWeaponDamage) {
+            Write("Are you sure you want to \"sell\" the ");
+            NamePrinter.WriteName(newWeapon, singularAfter: " you found, which deals ",
+                pluralAfter: " you found, which deal ");
+            PrintDamageRounded(newWeaponDamage);
+            Write(", and keep your ");
+            NamePrinter.WriteName(playerWeapon, singularAfter: ", which deals ", pluralAfter: ", which deal ");
+            PrintDamageRounded(playerWeaponDamage);
+            WriteLine("? Say \"Yes\" or \"No\"");
+        }
+
+        /// <summary>
+        /// Writes $"Are you sure you want to \"swap\" your {playerWeapon.Name} which deal(s) {playerWeaponDamage}
+        /// damage for the {newWeapon.Name}, which deal(s) {newWeaponDamage} damage? Say \"Yes\" or \"No\"" to the
+        /// console, in the appropriate colours.
+        /// </summary>
+        /// <param name="playerWeapon">The name of the player's current weapon.</param>
+        /// <param name="playerWeaponDamage">The amount of strength the player's current weapon gives them.</param>
+        /// <param name="newWeapon">The name of the weapon the player found.</param>
+        /// <param name="newWeaponDamage">The amount of strength the weapon the player found would give them.</param>
+        public static void PrintConfirmSwap(ReadOnlyName playerWeapon, double playerWeaponDamage, ReadOnlyName newWeapon, double newWeaponDamage) {
+            Write("Are you sure you want to \"swap\" your ");
+            NamePrinter.WriteName(playerWeapon, singularAfter: ", which deals ", pluralAfter: ", which deal ");
+            PrintDamageRounded(playerWeaponDamage);
+            Write(", for the ");
+            NamePrinter.WriteName(newWeapon, singularAfter: ", which deals ", pluralAfter: ", which deal ");
+            PrintDamageRounded(newWeaponDamage);
+            WriteLine("? Say \"Yes\" or \"No\"");
+        }
     }
 }
