@@ -27,7 +27,7 @@ namespace Adventure_Game.src.ui {
             while (true) {
                 InitializeVariables();
 
-#if DEBUG
+                #if DEBUG
                 CreateCharacter();
                 if (player is not null && player.Name != "Me") {
                     ConsolePrinter.PrintBlankLines(1);
@@ -36,7 +36,7 @@ namespace Adventure_Game.src.ui {
 
                     Tutorial.RunTutorial(player);
                 }
-#else
+                #else
                 ChooseDifficulty();
 
                 ConsolePrinter.PrintBlankLines(1);
@@ -44,7 +44,7 @@ namespace Adventure_Game.src.ui {
                 CreateCharacter();
 
                 Tutorial.RunTutorial(player);
-#endif
+                #endif
 
                 ConsolePrinter.PrintBlankLines(2);
 
@@ -104,13 +104,13 @@ namespace Adventure_Game.src.ui {
             SelectName();
 
             // Quick default character creator for testing purposes
-#if DEBUG
+            #if DEBUG
             if (player.Name == "Me") {
                 player.ClassType = Player.Class.Fighter;
                 player.SubclassType = Player.Subclass.Barbarian;
                 return;
             }
-#endif
+            #endif
 
             SelectClassAndSubclass();
         }
@@ -410,11 +410,11 @@ namespace Adventure_Game.src.ui {
                 } else if (input == "exit" || input == "e" || input == "quit" || input == "q") {
                     GiveOptionToExitGame();
                 }
-#if DEBUG
+                #if DEBUG
                 else if (input.Length >= 3 && input.Substring(0, 3) == "add") {
                     DebugAdd(input);
                 }
-#endif
+                #endif
                 else GamePrinter.WriteLine("That is not an option, please look at the options and try again");
             }
         }
