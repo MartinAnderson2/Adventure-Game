@@ -458,7 +458,7 @@ namespace Adventure_Game.src.ui {
             } else if (input.Length >= 10 && input.Substring(0, 10) == "add health") {
                 if (double.TryParse(input.Substring(10), out double healthToAdd)) {
                     player.Health += healthToAdd;
-                    GamePrinter.PrintAdded(healthToAdd, player.Health, GamePrinter.PrintHealth);
+                    GamePrinter.PrintAdded(healthToAdd, player.Health, GamePrinter.PrintHealthRounded);
                 } else {
                     GamePrinter.WriteLine("That was not a valid number");
                 }
