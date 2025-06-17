@@ -217,7 +217,70 @@ namespace Adventure_Game.src.ui {
             }
         }
 
-        #if DEBUG
+        /// <summary>
+        /// Writes " gold" to the console in the gold colour.
+        /// </summary>
+        public static void PrintWordGold() {
+            ConsolePrinter.WriteColouredText(GamePrinter.GoldColour, " gold");
+        }
+
+        /// <summary>
+        /// Writes " health" to the console in the health colour.
+        /// </summary>
+        public static void PrintWordHealth() {
+            ConsolePrinter.WriteColouredText(GamePrinter.HealthColour, " health");
+        }
+
+        /// <summary>
+        /// Writes " maximum health" to the console in the max health colour.
+        /// </summary>
+        public static void PrintWordMaxHealth() {
+            ConsolePrinter.WriteColouredText(GamePrinter.MaxHealthColour, " maximum health");
+        }
+
+        /// <summary>
+        /// Writes " strength" to the console in the strength colour.
+        /// </summary>
+        public static void PrintWordStrength() {
+            ConsolePrinter.WriteColouredText(GamePrinter.StrengthColour, " strength");
+        }
+
+        /// <summary>
+        /// Writes " base strength" to the console in the strength colour.
+        /// </summary>
+        public static void PrintWordBaseStrength() {
+            ConsolePrinter.WriteColouredText(GamePrinter.StrengthColour, " base strength");
+        }
+
+        /// <summary>
+        /// Writes " total strength" to the console in the strength colour.
+        /// </summary>
+        public static void PrintWordTotalStrength() {
+            ConsolePrinter.WriteColouredText(GamePrinter.StrengthColour, " total strength");
+        }
+
+        /// <summary>
+        /// Writes " damage" to the console in the damage colour.
+        /// </summary>
+        public static void PrintWordDamage() {
+            ConsolePrinter.WriteColouredText(GamePrinter.DamageColour, " damage");
+        }
+
+        /// <summary>
+        /// Writes " health potion" to the console in the health potion colour.
+        /// </summary>
+        public static void PrintWordHealthPotion() {
+            ConsolePrinter.WriteColouredText(GamePrinter.HealthPotionColour, " health potion");
+        }
+
+        /// <summary>
+        /// Writes " health potions" to the console in the health potion colour.
+        /// </summary>
+        public static void PrintWordHealthPotions() {
+            ConsolePrinter.WriteColouredText(GamePrinter.HealthPotionColour, " health potions");
+        }
+
+#if DEBUG
         /// <summary>
         /// Runs print(amountAdded) then writes " has succesfully been added, bringing you up to "
         /// then runs print(newTotal).
