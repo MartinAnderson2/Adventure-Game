@@ -489,14 +489,14 @@ namespace Adventure_Game.src.ui {
         private void UseHealthPotion() {
             if (player.NumHealthPotions == 0) {
                 GamePrinter.Write("You do not currently own any ");
-                ConsolePrinter.WriteColouredText(GamePrinter.HealthPotionColour, "health potions");
+                GamePrinter.PrintWordHealthPotions();
                 GamePrinter.WriteLine(". Go to a store to purchase some");
                 return;
             }
 
             if (player.Health >= player.MaxHealth) {
                 GamePrinter.Write("You are already at your ");
-                ConsolePrinter.WriteColouredText(GamePrinter.MaxHealthColour, "maximum health");
+                GamePrinter.PrintWordMaxHealth();
                 GamePrinter.Write(", ");
                 GamePrinter.PrintHealthRounded(player.Health);
                 GamePrinter.Write(". You are still at ");
@@ -505,12 +505,12 @@ namespace Adventure_Game.src.ui {
             } else {
                 player.UseHealthPotion();
                 GamePrinter.Write("You successfully used a ");
-                ConsolePrinter.WriteColouredText(GamePrinter.HealthColour, "health potion");
+                GamePrinter.PrintWordHealthPotion();
                 GamePrinter.Write(", bringing you up to ");
                 GamePrinter.PrintHealthRounded(player.Health);
                 if (player.FullHealth()) {
                     GamePrinter.Write(" (your ");
-                    ConsolePrinter.WriteColouredText(GamePrinter.MaxHealthColour, "maximum health");
+                    GamePrinter.PrintWordMaxHealth();
                     GamePrinter.Write(")");
                 }
                 GamePrinter.Write(" and leaving you with ");
