@@ -800,36 +800,48 @@ namespace Adventure_Game.src.ui {
         /// </summary>
         private void Monsters() {
             Monster monster = game.GetMonster(random);
-            bool seen = false, awake = true;
 
-            if (random.Next(0, 4) == 0) awake = false;
-            else if (random.Next(0, 4) == 0) seen = true;
+            bool awake, seen;
+            (awake, seen) = game.GetMonsterAwakeSeen(random);
+
             while (true) {
-                if (monster.Name.Plural) {
-                    ConsolePrinter.CreateTwoMiddlesText("You come across " + monster.Name.Name + ". They have ", GamePrinter.HealthColour, monster.MaxHealth + " health", " and ", GamePrinter.StrengthColour, monster.Strength + " strength");
-                    if (awake && seen) {
+                GamePrinter.Write("You come across ");
+                NamePrinter.WriteName("a ", "", "an ", monster.Name, ". It has ", ". They have ", ". It has ");
+                GamePrinter.PrintHealthRounded(monster.MaxHealth);
+                GamePrinter.Write(" and ");
+                GamePrinter.PrintStrengthRounded(monster.Strength);
+                GamePrinter.WriteLine();
+
+                if (awake && seen) {
+                    if (monster.Name.Plural) {
                         GamePrinter.WriteLine("They are awake and have seen you");
-                    } else if (awake) GamePrinter.WriteLine("They are awake but have not seen you");
-                    else GamePrinter.WriteLine("They are sleeping");
-                    ConsolePrinter.CreateTwoMiddlesText("You have ", GamePrinter.HealthColour, GamePrinter.RoundDouble(player.Health) + " health", " and ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
-                    GamePrinter.WriteLine("Would you like to \"fight\" the " + monster.Name.Name + " or try to \"sneak\" past them?");
-                } else if (monster.Name.BeginsVowelSound) {
-                    ConsolePrinter.CreateTwoMiddlesText("You come across an " + monster.Name.Name + ". It has ", GamePrinter.HealthColour, monster.MaxHealth + " health", " and ", GamePrinter.StrengthColour, monster.Strength + " strength");
-                    if (awake && seen) {
+                    } else {
                         GamePrinter.WriteLine("It is awake and has seen you");
-                    } else if (awake) GamePrinter.WriteLine("It is awake but has not seen you");
-                    else GamePrinter.WriteLine("It is sleeping");
-                    ConsolePrinter.CreateTwoMiddlesText("You have ", GamePrinter.HealthColour, GamePrinter.RoundDouble(player.Health) + " health", " and ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
-                    GamePrinter.WriteLine("Would you like to \"fight\" the " + monster.Name.Name + " or try to \"sneak\" past it?");
+                    }
+                } else if (awake) {
+                    if (monster.Name.Plural) {
+                        GamePrinter.WriteLine("They are awake but have not seen you");
+                    } else {
+                        GamePrinter.WriteLine("It is awake but has not seen you");
+                    }
                 } else {
-                    ConsolePrinter.CreateTwoMiddlesText("You come across a " + monster.Name.Name + ". It has ", GamePrinter.HealthColour, monster.MaxHealth + " health", " and ", GamePrinter.StrengthColour, monster.Strength + " strength");
-                    if (awake && seen) {
-                        GamePrinter.WriteLine("It is awake and has seen you");
-                    } else if (awake) GamePrinter.WriteLine("It is awake but has not seen you");
-                    else GamePrinter.WriteLine("It is sleeping");
-                    ConsolePrinter.CreateTwoMiddlesText("You have ", GamePrinter.HealthColour, GamePrinter.RoundDouble(player.Health) + " health", " and ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
-                    GamePrinter.WriteLine("Would you like to \"fight\" the " + monster.Name.Name + " or try to \"sneak\" past it?");
+                    if (monster.Name.Plural) {
+                        GamePrinter.WriteLine("They are sleeping");
+                    } else {
+                        GamePrinter.WriteLine("It is sleeping");
+                    }
                 }
+
+                GamePrinter.Write("You have ");
+                GamePrinter.PrintHealthRounded(player.Health);
+                GamePrinter.Write(" and ");
+                GamePrinter.PrintStrengthRounded(player.GetTotalStrength());
+                GamePrinter.WriteLine();
+
+                GamePrinter.Write("Would you like to \"fight\" the ");
+                NamePrinter.WriteName(monster.Name, " or try to \"sneak\" past it?", " or try to \"sneak\" past them?");
+                GamePrinter.WriteLine();
+
 
                 string? input = Console.ReadLine();
                 if (input is null) {

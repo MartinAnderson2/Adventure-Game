@@ -190,6 +190,29 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
+        /// Returns whether or not a monster is awake and whether or not it has seen the player (in that order).
+        /// </summary>
+        /// <param name="random">A reference to an object of the random class for the randomization.</param>
+        /// <returns>(false, false) if the monster is asleep, (true, false) if the monster is awake but has not seen
+        /// the player, and (true, true) if the monster is awake and has seen the player.</returns>
+        public (bool, bool) GetMonsterAwakeSeen(Random random) {
+            bool awake, seen;
+
+            if (random.Next(0, 4) == 0) {
+                awake = false;
+                seen = false;
+            } else if (random.Next(0, 4) == 0) {
+                awake = true;
+                seen = false;
+            } else {
+                awake = true;
+                seen = true;
+            }
+
+            return (awake, seen);
+        }
+
+        /// <summary>
         /// Returns true if the player has been defeated otherwise false.
         /// </summary>
         /// <returns>Returns true if the player has been defeated otherwise false.</returns>
