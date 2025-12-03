@@ -12,12 +12,12 @@ namespace Adventure_Game.src.ui {
     /// and defeating an enemy. It has a monster that the player defeats.
     /// </summary>
     internal static class Tutorial {
-        private static bool skipTutorial;
-
-        private static double weaponStrength;
+        private const double WEAPON_STRENGTH = 2;
         private static double totalStrength;
 
-        private static Monster monster = Monster.stoneling;
+        private static bool skipTutorial;
+
+        private readonly static Monster monster = Monster.stoneling;
 
         private static Random random = new Random();
 
@@ -28,39 +28,39 @@ namespace Adventure_Game.src.ui {
         /// <param name="player">The player to run through the tutorial.</param>
         public static void RunTutorial(Player player) {
             InitializeVariables(player);
-
-            GamePrinter.WriteLine();
-            GamePrinter.WriteLineEmphasis("Tutorial");
-            GamePrinter.WriteLineEmphasis("--------");
-            GamePrinter.WriteLineNote("The options you have will be in quotation marks. When choosing the option do not include the quotation marks");
-            GamePrinter.WriteLine("Welcome to the tutorial, say \"skip\" if you wish to skip it");
-
+            IntroduceTutorial();
 
             GamePrinter.WriteLineNote("Normally, the direction you choose makes a difference, however, in the tutorial it does not");
             GetDirectionPlayerWants();
             if (skipTutorial) return;
 
-
             WolfEncounter(player);
             if (skipTutorial) return;
 
-
             GetDirectionPlayerWants();
             if (skipTutorial) return;
-
 
             FindTreasureChest(player);
 
-
             GetDirectionPlayerWants();
             if (skipTutorial) return;
-
 
             StonelingEncounter(player);
             if (skipTutorial) return;
 
-
             GamePrinter.WriteLineEmphasis("Congratulations on completing the tutorial! Good luck on your adventures");
+        }
+
+        /// <summary>
+        /// Introduces the tutorial to the player: Prints a header showing that this is the tutorial and not the main
+        /// game, and provides basic instructions for the tutorial.
+        /// </summary>
+        private static void IntroduceTutorial() {
+            GamePrinter.WriteLine();
+            GamePrinter.WriteLineEmphasis("Tutorial");
+            GamePrinter.WriteLineEmphasis("--------");
+            GamePrinter.WriteLineNote("The options you have will be in quotation marks. When choosing the option do not include the quotation marks");
+            GamePrinter.WriteLine("Welcome to the tutorial, say \"skip\" if you wish to skip it");
         }
 
         /// <summary>
@@ -70,10 +70,7 @@ namespace Adventure_Game.src.ui {
         private static void InitializeVariables(Player player) {
             skipTutorial = false;
 
-            weaponStrength = 2;
-            totalStrength = player.BaseStrength + weaponStrength;
-
-            monster = Monster.stoneling;
+            totalStrength = player.BaseStrength + WEAPON_STRENGTH;
         }
 
 
