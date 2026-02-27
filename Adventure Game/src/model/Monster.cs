@@ -126,5 +126,22 @@ namespace Adventure_Game.src.model {
             player.Health -= totalDamage;
             return totalDamage;
         }
+
+        /// <summary>
+        /// Calculates the gold dropped by this monster, adds that much gold to the player, and returns the amount of
+        /// gold that was added.
+        /// </summary>
+        /// <param name="random">A random object that will determine how much gold the monster drops.</param>
+        /// <param name="player">The player that defeated this monster.</param>
+        /// <returns>The amount of gold dropped by this monster.</returns>
+        public int DropLoot(Random random, Player player) {
+            int droppedGold = Gold;
+            if (random.Next(0, 100) < GameState.MONSTER_BONUS_GOLD_DROP_RATE) {
+                droppedGold += (int) GameState.MONSTER_BONUS_GOLD;
+            }
+
+            player.Gold += droppedGold;
+            return droppedGold;
+        }
     }
 }

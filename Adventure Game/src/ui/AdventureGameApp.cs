@@ -844,13 +844,8 @@ namespace Adventure_Game.src.ui {
                 while (monster.Health > 0 && player.Health > 0) {
                     double damageDealtByPlayer = player.AttackMonster(random, monster);
                     if (monster.Defeated()) {
-                        if (random.Next(0, 2) == 0) {
-                            player.Gold += monster.Gold + 1;
-                            ConsolePrinter.CreateTwoMiddlesText("You got ", GamePrinter.GoldColour, (monster.Gold + 1) + " gold", ", bringing you up to ", GamePrinter.GoldColour, player.Gold + " gold");
-                        } else {
-                            player.Gold += monster.Gold;
-                            ConsolePrinter.CreateTwoMiddlesText("You got ", GamePrinter.GoldColour, monster.Gold + " gold", ", bringing you up to ", GamePrinter.GoldColour, player.Gold + " gold");
-                        }
+                        int droppedGold = monster.DropLoot(random, player);
+                        GamePrinter.PrintGotMonsterGold(droppedGold, player.Gold);
                         break;
                     }
                     GamePrinter.PrintPlayerAttackedMonster(monster, damageDealtByPlayer);

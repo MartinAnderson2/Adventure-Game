@@ -27,6 +27,9 @@ namespace Adventure_Game.src.model {
         public const double FIXED_DAMAGE_FRACTION = 1 - RANDOM_DAMAGE_FRACTION;
         public const double PLAYER_DAMAGE_ADVANTAGE = 0.01;
 
+        public const uint MONSTER_BONUS_GOLD_DROP_RATE = 50; // out of 100
+        public const uint MONSTER_BONUS_GOLD = 1;
+
         private const uint AWAKE_AND_SEEN_SNEAKING_SUCCESS_RATE = 25; // out of 100
         private const uint AWAKE_SNEAKING_SUCCESS_RATE = 85; // out of 100
         private const uint ASLEEP_SNEAKING_SUCCESS_RATE = 999; // out of 1000

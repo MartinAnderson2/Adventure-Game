@@ -646,5 +646,12 @@ namespace Adventure_Game.src.ui {
                 WriteDealingDamage(", defeating " + pronoun);
             }
         }
+
+        public static void PrintGotMonsterGold(int goldGotten, int playerGold) {
+            Write("You got ");
+            PrintGold(goldGotten);
+            Write(", bringing you up to ");
+            PrintGold(playerGold);
+        }
     }
 }
