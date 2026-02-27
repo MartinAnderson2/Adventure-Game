@@ -553,7 +553,7 @@ namespace Adventure_Game.src.ui {
         //}
 
         /// <summary>
-        /// Tells the player how much health they have and what their total strength is.
+        /// Writes $"You have {health} health and {strength} strength" in the appropriate colours.
         /// </summary>
         /// <param name="health">The player's current health.</param>
         /// <param name="strength">The player's total strength.</param>
