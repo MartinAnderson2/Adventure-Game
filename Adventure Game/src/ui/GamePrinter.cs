@@ -471,5 +471,88 @@ namespace Adventure_Game.src.ui {
             PrintDamageRounded(newWeaponDamage);
             WriteLine("? Say \"Yes\" or \"No\"");
         }
+
+
+        /// <summary>
+        /// Writes $"You come across a(n) {monster.Name}. It/They has/have {monster.MaxHealth} health and
+        /// {monster.Strength} strength" in the appropriate colours. Then writes whether it/they are awake or asleep
+        /// and if it/they have seen the player.
+        /// </summary>
+        /// <param name="monster">The monster the player came across.</param>
+        /// <param name="awake">True if the monster is awake, otherwise false.</param>
+        /// <param name="seen">True if the monster has seen the player, false if it/they hasn't/haven't</param>
+        public static void PrintMonsterEncountered(Monster monster, bool awake, bool seen) {
+            PrintEncounteredMonsterStats(monster);
+            PrintEncounteredMonsterAwareness(awake, seen, monster.Name.Plural);
+        }
+
+        /// <summary>
+        /// Writes $"You come across a(n) {monster.Name}. It/They has/have {monster.MaxHealth} health and
+        /// {monster.Strength} strength" in the appropriate colours.
+        /// </summary>
+        /// <param name="monster">The monster the player came across.</param>
+        private static void PrintEncounteredMonsterStats(Monster monster) {
+            Write("You come across ");
+            NamePrinter.WriteName("a ", "", "an ", monster.Name, ". It has ", ". They have ", ". It has ");
+            PrintHealthRounded(monster.MaxHealth);
+            Write(" and ");
+            PrintStrengthRounded(monster.Strength);
+            WriteLine();
+        }
+
+        /// <summary>
+        /// Writes whether or not the monster is awake and has seen the player.
+        /// </summary>
+        /// <param name="awake">True if the monster is awake, otherwise false.</param>
+        /// <param name="seen">True if the monster has seen the player, false if it/they hasn't/haven't</param>
+        /// <param name="plural">True if the monster is plural, false otherwise</param>
+        private static void PrintEncounteredMonsterAwareness(bool awake, bool seen, bool plural = false) {
+            if (awake && seen) {
+                if (plural) {
+                    WriteLine("They are awake and have seen you");
+                } else {
+                    WriteLine("It is awake and has seen you");
+                }
+            } else if (awake) {
+                if (plural) {
+                    WriteLine("They are awake but have not seen you");
+                } else {
+                    WriteLine("It is awake but has not seen you");
+                }
+            } else {
+                if (plural) {
+                    WriteLine("They are sleeping");
+                } else {
+                    WriteLine("It is sleeping");
+                }
+            }
+        }
+
+        //private static void PrintEncounteredMonsterAwareness(bool awake, bool seen, bool plural = false) {
+        //    string pronounBe = plural ? "They are" : "It is";
+        //    string hasOrHave = plural ? "have" : "has";
+        //    if (awake && seen) {
+        //        WriteLine(pronounBe + " awake and " + hasOrHave + " seen you");
+        //    }
+        //    else if (awake) {
+        //        WriteLine(pronounBe + " awake but " + hasOrHave + " not seen you");
+        //    }
+        //    else {
+        //        WriteLine(pronounBe + " sleeping");
+        //    }
+        //}
+
+        /// <summary>
+        /// Tells the player how much health they have and what their total strength is.
+        /// </summary>
+        /// <param name="health">The player's current health.</param>
+        /// <param name="strength">The player's total strength.</param>
+        public static void PrintPlayerState(double health, double strength) {
+            Write("You have ");
+            PrintHealthRounded(health);
+            Write(" and ");
+            PrintStrengthRounded(strength);
+            WriteLine();
+        }
     }
 }

@@ -932,53 +932,6 @@ namespace Adventure_Game.src.ui {
             }
         }
 
-        /// <summary>
-        /// Tells the player which monster they came across, whether it is asleep or awake, and whether it has seen
-        /// them or not.
-        /// </summary>
-        /// <param name="monster">The monster the player came across.</param>
-        /// <param name="awake">True if the monster is awake, otherwise false.</param>
-        /// <param name="seen">True if the monster has seen the player, false if it/they hasn't/havn't</param>
-        private static void PrintMonsterState(Monster monster, bool awake, bool seen) {
-            GamePrinter.Write("You come across ");
-            NamePrinter.WriteName("a ", "", "an ", monster.Name, ". It has ", ". They have ", ". It has ");
-            GamePrinter.PrintHealthRounded(monster.MaxHealth);
-            GamePrinter.Write(" and ");
-            GamePrinter.PrintStrengthRounded(monster.Strength);
-            GamePrinter.WriteLine();
-
-            if (awake && seen) {
-                if (monster.Name.Plural) {
-                    GamePrinter.WriteLine("They are awake and have seen you");
-                } else {
-                    GamePrinter.WriteLine("It is awake and has seen you");
-                }
-            } else if (awake) {
-                if (monster.Name.Plural) {
-                    GamePrinter.WriteLine("They are awake but have not seen you");
-                } else {
-                    GamePrinter.WriteLine("It is awake but has not seen you");
-                }
-            } else {
-                if (monster.Name.Plural) {
-                    GamePrinter.WriteLine("They are sleeping");
-                } else {
-                    GamePrinter.WriteLine("It is sleeping");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Tells the player how much health they have and what their total strength is.
-        /// </summary>
-        private void PrintPlayerState() {
-            GamePrinter.Write("You have ");
-            GamePrinter.PrintHealthRounded(player.Health);
-            GamePrinter.Write(" and ");
-            GamePrinter.PrintStrengthRounded(player.GetTotalStrength());
-            GamePrinter.WriteLine();
-        }
-
 
         /**
          * Villages
