@@ -23,6 +23,10 @@ namespace Adventure_Game.src.model {
 
         public const uint STARTING_MAX_HEALTH = 20;
 
+        public const uint AWAKE_AND_SEEN_SNEAKING_SUCCESS_RATE = 25; // out of 100
+        public const uint AWAKE_SNEAKING_SUCCESS_RATE = 85; // out of 100
+        public const uint ASLEEP_SNEAKING_SUCCESS_RATE = 999; // out of 1000
+
 
         public Player GamePlayer { get; set; }
 
@@ -210,6 +214,30 @@ namespace Adventure_Game.src.model {
             }
 
             return (awake, seen);
+        }
+
+        /// <summary>
+        /// Returns true if the player successfully snuck past the monster and false otherwise.
+        /// </summary>
+        /// <param name="random">A random object that will determine whether the player succeeds.</param>
+        /// <param name="awake">True if the monster is awake, false otherwise.</param>
+        /// <param name="seen">True if the monster has seen the player, false otherwise.</param>
+        /// <returns>True if the player successfully snuck past the monster and false otherwise.</returns>
+        public bool SuccessfullySnuckPastMonster(Random random, bool awake, bool seen) {
+            if (awake && seen) {
+                if (random.Next(0, 100) < AWAKE_AND_SEEN_SNEAKING_SUCCESS_RATE) {
+                    return true;
+                }
+            } else if (awake && !seen) {
+                if (random.Next(0, 100) < AWAKE_SNEAKING_SUCCESS_RATE) {
+                    return true;
+                }
+            } else if (!awake && !seen) {
+                if (random.Next(0, 1000) < ASLEEP_SNEAKING_SUCCESS_RATE) {
+                    return true;
+                }
+            }
+            return false;
         }
 
         /// <summary>
