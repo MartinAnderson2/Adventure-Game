@@ -311,5 +311,22 @@ namespace Adventure_Game.src.model {
                 }
             }
         }
+
+        /// <summary>
+        /// Calculates the damage this player deals to the monster, removes that much health from the monster, and
+        /// returns the amount of damage dealt.
+        /// </summary>
+        /// <param name="random">A random object that will determine how much damage the monster takes.</param>
+        /// <param name="monster">The monster being attacked.</param>
+        /// <returns>The amount of damage that was dealt to the monster.</returns>
+        public double AttackMonster(Random random, Monster monster) {
+            double randomDamage = GameState.RANDOM_DAMAGE_FRACTION * GetTotalStrength()
+                * (random.NextDouble() + GameState.PLAYER_DAMAGE_ADVANTAGE);
+            double fixedDamage = GetTotalStrength() * GameState.FIXED_DAMAGE_FRACTION;
+            double damage = randomDamage + fixedDamage;
+
+            monster.Health -= damage;
+            return damage;
+        }
     }
 }
