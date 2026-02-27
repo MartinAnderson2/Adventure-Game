@@ -647,6 +647,11 @@ namespace Adventure_Game.src.ui {
             }
         }
 
+        /// <summary>
+        /// Writes $"You got {goldGotten} gold, bringing you up to {playerGold}", in the appropriate colours.
+        /// </summary>
+        /// <param name="goldGotten">The amount of gold the monster dropped.</param>
+        /// <param name="playerGold">The player's new gold total.</param>
         public static void PrintGotMonsterGold(int goldGotten, int playerGold) {
             Write("You got ");
             PrintGold(goldGotten);
