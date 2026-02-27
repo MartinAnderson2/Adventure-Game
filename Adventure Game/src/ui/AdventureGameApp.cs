@@ -806,10 +806,7 @@ namespace Adventure_Game.src.ui {
                 GamePrinter.PrintMonsterEncountered(monster, awake, seen);
                 GamePrinter.PrintPlayerState(player.Health, player.GetTotalStrength());
 
-                GamePrinter.Write("Would you like to \"fight\" the ");
-                NamePrinter.WriteName(monster.Name, " or try to \"sneak\" past it?", " or try to \"sneak\" past them?");
-                GamePrinter.WriteLine();
-
+                GamePrinter.PrintCombatOptions(monster.Name);
 
                 string? input = Console.ReadLine();
                 if (input is null) {

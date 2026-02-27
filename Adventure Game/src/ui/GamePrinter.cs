@@ -564,5 +564,14 @@ namespace Adventure_Game.src.ui {
             PrintStrengthRounded(strength);
             WriteLine();
         }
+
+        /// <summary>
+        /// Writes $"Would you like to \"fight\" the {monster.Name} or try to \"sneak\" past it/them?".
+        /// </summary>
+        /// <param name="monster">The name of the monster the player encountered.</param>
+        public static void PrintCombatOptions(ReadOnlyName monster) {
+            Write("Would you like to \"fight\" the ");
+            NamePrinter.WriteLineName(monster, " or try to \"sneak\" past it?", " or try to \"sneak\" past them?");
+        }
     }
 }
