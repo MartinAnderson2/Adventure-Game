@@ -142,9 +142,9 @@ namespace Adventure_Game.src.ui {
         /// <param name="player">The player who has to decide to fight or sneak past the wolf.</param>
         static void WolfEncounter(Player player) {
             while (true) {
-                ConsolePrinter.CreateTwoMiddlesText("You come across a wolf. It has ", GamePrinter.HealthColour, "30 health", " and ", GamePrinter.StrengthColour, "3 strength");
-                GamePrinter.WriteLine("It is sleeping");
-                ConsolePrinter.CreateTwoMiddlesText("You have ", GamePrinter.HealthColour, player.Health + " health", " and ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
+                GamePrinter.PrintMonsterEncountered(Monster.wolf, false, false);
+                GamePrinter.PrintPlayerState(player.Health, player.GetTotalStrength());
+
                 GamePrinter.WriteLineNote("Since the wolf is significantly stronger than you, you probably will not win the fight. You should try to sneak past it to continue");
                 GamePrinter.WriteLine("Would you like to \"fight\" it or try to \"sneak\" past it?");
 
