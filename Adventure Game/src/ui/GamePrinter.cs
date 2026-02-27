@@ -573,5 +573,13 @@ namespace Adventure_Game.src.ui {
             Write("Would you like to \"fight\" the ");
             NamePrinter.WriteLineName(monster, " or try to \"sneak\" past it?", " or try to \"sneak\" past them?");
         }
+
+        /// <summary>
+        /// Writes $"You successfully snuck past the monster.Name}".
+        /// </summary>
+        /// <param name="monster">The name of the monster the player successfully snuck past.</param>
+        public static void PrintSnuckSuccessfully(ReadOnlyName monster) {
+            WriteLine("You successfully snuck past the " + monster.Name);
+        }
     }
 }

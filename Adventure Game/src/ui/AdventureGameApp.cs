@@ -817,21 +817,24 @@ namespace Adventure_Game.src.ui {
 
                 bool playerGetsFirstHit;
                 if (input == "sneak" || input == "s") {
+                    bool snuckPastSuccessfully = false;
                     if (awake && seen) {
                         if (random.Next(0, 100) < 25) {
-                            GamePrinter.WriteLine("You successfully snuck past the " + monster.Name.Name);
-                            break;
+                            snuckPastSuccessfully = true;
                         }
                     } else if (awake && !seen) {
                         if (random.Next(0, 100) < 85) {
-                            GamePrinter.WriteLine("You successfully snuck past the " + monster.Name.Name);
-                            break;
+                            snuckPastSuccessfully = true;
                         }
                     } else if (!awake && !seen) {
                         if (random.Next(0, 1000) < 999) {
-                            GamePrinter.WriteLine("You successfully snuck past the " + monster.Name.Name);
-                            break;
+                            snuckPastSuccessfully = true;
                         }
+                    }
+
+                    if (snuckPastSuccessfully) {
+                        GamePrinter.PrintSnuckSuccessfully(monster.Name);
+                        break;
                     }
 
                     GamePrinter.Write("You try to sneak past, but the " + monster.Name.Name + " see");
