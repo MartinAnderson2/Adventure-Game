@@ -236,6 +236,8 @@ namespace Adventure_Game.src.model {
                 if (random.Next(0, 1000) < ASLEEP_SNEAKING_SUCCESS_RATE) {
                     return true;
                 }
+            } else {
+                Debug.Fail("Creature was asleep but saw the player");
             }
             return false;
         }
