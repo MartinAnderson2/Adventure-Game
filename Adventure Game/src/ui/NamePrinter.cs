@@ -128,6 +128,23 @@ namespace Adventure_Game.src.ui {
             }
         }
 
+
+        /// <summary>
+        /// Writes a name and then the appropriate text after it based on if it is plural or singular.
+        /// </summary>
+        /// <param name="name">The ReadOnlyName to write and to use to choose the text after it.</param>
+        /// <param name="singularAfter">The text to write if name is singular.</param>
+        /// <param name="pluralAfter">The text to write if name is plural.</param>
+        public static void WriteLineName(ReadOnlyName name, string singularAfter, string pluralAfter) {
+            if (name.Plural) {
+                WriteName(name);
+                GamePrinter.Write(pluralAfter);
+            } else {
+                WriteName(name);
+                GamePrinter.Write(singularAfter);
+            }
+        }
+
         /// <summary>
         /// Writes the before text then the appropriate text right before a name based on if it is plural, starts with
         /// a vowel, or neither, then writes the name itself, then writes the after text.
