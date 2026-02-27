@@ -331,6 +331,16 @@ namespace Adventure_Game.src.ui {
         #endif
 
         /// <summary>
+        /// Writes $"You find a treasure chest with a(n) {newWeapon.Name} inside!" to the console.
+        /// </summary>
+        /// <param name="newWeapon">The ReadOnlyName object of the weapon.</param>
+        public static void PrintFoundTreasureChest(ReadOnlyName newWeapon) {
+            Write("You find a treasure chest with ");
+            NamePrinter.WriteName(singularBefore: "a ", pluralBefore: "", startsVowelBefore: "an ", newWeapon);
+            WriteLine(" inside!");
+        }
+
+        /// <summary>
         /// Writes $"You sold the {newWeapon.name} you found for {moneyFromSale}, bringing you up to {playerGold}" to
         /// the console, in the appropriate colours.
         /// </summary>

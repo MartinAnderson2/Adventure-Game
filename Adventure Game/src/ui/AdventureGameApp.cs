@@ -585,9 +585,7 @@ namespace Adventure_Game.src.ui {
         private void TreasureChests() {
             Weapon newWeapon = LootTile.GetWeapon(player, random);
 
-            GamePrinter.Write("You find a treasure chest with ");
-            NamePrinter.WriteName(singularBefore: "a ", pluralBefore: "", startsVowelBefore: "an ", newWeapon.Name);
-            GamePrinter.WriteLine(" inside!");
+            GamePrinter.PrintFoundTreasureChest(newWeapon.Name);
 
             if (player.AlreadyHasWeapon(newWeapon)) {
                 int moneyFromSale = player.SellWeapon(newWeapon);
