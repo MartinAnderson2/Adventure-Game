@@ -176,12 +176,9 @@ namespace Adventure_Game.src.ui {
         /// <param name="player">The player who finds the weapon.</param>
         static void FindTreasureChest(Player player) {
             Weapon newWeapon = WeaponFound(player);
-            GamePrinter.WriteLine("You find a treasure chest with a " + newWeapon.Name.Name + " inside! (You will lose it when the tutorial ends.)");
-            if (newWeapon.Name.Plural) {
-                ConsolePrinter.CreateMiddleText("Your " + newWeapon.Name.Name + " have brought you up to ", GamePrinter.StrengthColour, totalStrength + " total strength");
-            } else {
-                ConsolePrinter.CreateMiddleText("Your " + newWeapon.Name.Name + " has brought you up to ", GamePrinter.StrengthColour, totalStrength + " total strength");
-            }
+            GamePrinter.PrintFoundTreasureChest(newWeapon.Name);
+            GamePrinter.WriteLineNote("(You will lose it when the tutorial ends.)");
+            GamePrinter.PrintWeaponSwapped(newWeapon.Name, totalStrength);
         }
 
         /// <summary>
