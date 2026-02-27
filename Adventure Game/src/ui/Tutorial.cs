@@ -17,6 +17,8 @@ namespace Adventure_Game.src.ui {
 
         private static bool skipTutorial;
 
+        private readonly static Monster monster = Monster.stoneling;
+
         private static Random random = new Random();
 
         /// <summary>
@@ -140,12 +142,11 @@ namespace Adventure_Game.src.ui {
         /// <param name="player">The player who has to decide to fight or sneak past the wolf.</param>
         static void WolfEncounter(Player player) {
             while (true) {
-                GamePrinter.PrintMonsterEncountered(Monster.wolf, awake: false, seen: false);
-                GamePrinter.PrintPlayerState(player.Health, player.GetTotalStrength());
-
-                GamePrinter.WriteLineNote("Since the wolf is significantly stronger than you, you probably will not " +
-                    " win the fight. You should try to sneak past it to continue");
-                GamePrinter.PrintCombatOptions(Monster.wolf.Name);
+                ConsolePrinter.CreateTwoMiddlesText("You come across a wolf. It has ", GamePrinter.HealthColour, "30 health", " and ", GamePrinter.StrengthColour, "3 strength");
+                GamePrinter.WriteLine("It is sleeping");
+                ConsolePrinter.CreateTwoMiddlesText("You have ", GamePrinter.HealthColour, player.Health + " health", " and ", GamePrinter.StrengthColour, player.GetTotalStrength() + " total strength");
+                GamePrinter.WriteLineNote("Since the wolf is significantly stronger than you, you probably will not win the fight. You should try to sneak past it to continue");
+                GamePrinter.WriteLine("Would you like to \"fight\" it or try to \"sneak\" past it?");
 
                 string? input = Console.ReadLine();
                 if (input is null) {
@@ -155,13 +156,11 @@ namespace Adventure_Game.src.ui {
                 input = input.ToLower();
 
                 if (input == "sneak" || input == "s") {
-                    GamePrinter.PrintSnuckSuccessfully(Monster.wolf.Name);
+                    GamePrinter.WriteLine("You successfully snuck past the wolf");
                     break;
                 } else if (input == "fight" || input == "f") {
-                    GamePrinter.WriteLineNote("I told you that if you were to fight the wolf you would lose so " +
-                        " I did not let you. You will get to make this decisions yourself once you have finished " +
-                        " the tutorial. If you want to skip the tutorial, say \"skip\"");
-                    GamePrinter.PrintSnuckSuccessfully(Monster.wolf.Name);
+                    GamePrinter.WriteLineNote("I told you that if you were to fight the wolf you would lose so I did not let you. You will get to make this decisions yourself once you have finished the tutorial. If you want to skip the tutorial, say \"skip\"");
+                    GamePrinter.WriteLine("You successfully snuck past the wolf");
                     break;
                 } else if (input == "skip") {
                     Skip();
@@ -177,9 +176,12 @@ namespace Adventure_Game.src.ui {
         /// <param name="player">The player who finds the weapon.</param>
         static void FindTreasureChest(Player player) {
             Weapon newWeapon = WeaponFound(player);
-            GamePrinter.PrintFoundTreasureChest(newWeapon.Name);
-            GamePrinter.WriteLineNote("(You will lose it when the tutorial ends.)");
-            GamePrinter.PrintWeaponSwapped(newWeapon.Name, totalStrength);
+            GamePrinter.WriteLine("You find a treasure chest with a " + newWeapon.Name.Name + " inside! (You will lose it when the tutorial ends.)");
+            if (newWeapon.Name.Plural) {
+                ConsolePrinter.CreateMiddleText("Your " + newWeapon.Name.Name + " have brought you up to ", GamePrinter.StrengthColour, totalStrength + " total strength");
+            } else {
+                ConsolePrinter.CreateMiddleText("Your " + newWeapon.Name.Name + " has brought you up to ", GamePrinter.StrengthColour, totalStrength + " total strength");
+            }
         }
 
         /// <summary>
@@ -190,13 +192,20 @@ namespace Adventure_Game.src.ui {
         /// <param name="player">The player who must decide to fight or sneak past the stoneling</param>
         static void StonelingEncounter(Player player) {
             while (true) {
-                GamePrinter.PrintMonsterEncountered(Monster.stoneling, awake: true, seen: true);
-                GamePrinter.PrintPlayerState(player.Health, totalStrength);
+                if (monster.Name.Plural) {
+                    ConsolePrinter.CreateTwoMiddlesText("You come across " + monster.Name.Name + ". They have ", GamePrinter.HealthColour, monster.MaxHealth + " health", " and ", GamePrinter.StrengthColour, monster.Strength + " strength");
+                    GamePrinter.WriteLine("They are awake and have seen you");
+                } else if (monster.Name.BeginsVowelSound) {
+                    ConsolePrinter.CreateTwoMiddlesText("You come across an " + monster.Name.Name + ". It has ", GamePrinter.HealthColour, monster.MaxHealth + " health", " and ", GamePrinter.StrengthColour, monster.Strength + " strength");
+                    GamePrinter.WriteLine("It is awake and has seen you");
+                } else {
+                    ConsolePrinter.CreateTwoMiddlesText("You come across a " + monster.Name.Name + ". It has ", GamePrinter.HealthColour, monster.MaxHealth + " health", " and ", GamePrinter.StrengthColour, monster.Strength + " strength");
+                    GamePrinter.WriteLine("It is awake and has seen you");
+                }
 
-                GamePrinter.WriteLineNote("Since you are significantly stronger than the stoneling, you will almost " +
-                    "certainly win this fight, and if you do, you will get loot. Additionally, you are unlikely to " + 
-                    "sneak past it successfully since it has seen you");
-                GamePrinter.PrintCombatOptions(Monster.stoneling.Name);
+                ConsolePrinter.CreateTwoMiddlesText("You have ", GamePrinter.HealthColour, player.Health + " health", " and ", GamePrinter.StrengthColour, totalStrength + " total strength");
+                GamePrinter.WriteLineNote("Since you are significantly stronger than the " + monster.Name.Name + ", you will almost certainly win this fight, and if you do, you will get loot. Additionally, you are unlikely to sneak past successfully since " + (monster.Name.Plural ? "they have" : "it has") + " seen you");
+                GamePrinter.WriteLine("Would you like to \"fight\" the " + monster.Name.Name + " or try to \"sneak\" past " + (monster.Name.Plural ? "them" : "it") + "?");
 
                 string? input = Console.ReadLine();
                 if (input is null) {
@@ -206,7 +215,11 @@ namespace Adventure_Game.src.ui {
                 input = input.ToLower();
 
                 if (input == "sneak" || input == "s") {
-                    GamePrinter.PrintSnuckUnsuccessfully(Monster.stoneling.Name);
+                    if (monster.Name.Plural) {
+                        GamePrinter.WriteLine("You try to sneak past, but the " + monster.Name.Name + " see you");
+                    } else {
+                        GamePrinter.WriteLine("You try to sneak past, but the " + monster.Name.Name + " sees you");
+                    }
                     GamePrinter.WriteLineNote("I told you that it would not work!");
                     ConsolePrinter.CreateMiddleText("The " + monster.Name.Name + " hit you for ", GamePrinter.DamageColour, "1 damage", ", leaving you with " + (player.Health - 1) + " health", GamePrinter.TakingDamageColour);
                     break;
