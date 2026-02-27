@@ -27,6 +27,7 @@ namespace Adventure_Game.src.model {
 
         public ReadOnlyName Name { get; }
         public int MaxHealth { get; }
+        public double Health { get; set; }
         public double Strength { get; }
         public int Gold { get; }
 
@@ -43,6 +44,18 @@ namespace Adventure_Game.src.model {
             this.MaxHealth = maxHealth;
             this.Strength = strength;
             this.Gold = gold;
+        }
+
+        /// <summary>
+        /// Constructs an instance of a monster (using a given template). It is initialized to full health.
+        /// </summary>
+        /// <param name="template">The monster to create an instance of.</param>
+        public Monster(Monster template) {
+            this.Name = template.Name;
+            this.MaxHealth = template.MaxHealth;
+            this.Health = MaxHealth;
+            this.Strength = template.Strength;
+            this.Gold = template.Gold;
         }
 
         /// <summary>
@@ -91,10 +104,10 @@ namespace Adventure_Game.src.model {
         public double AttackPlayer(Random random, Player player) {
             double randomDamage = GameState.RANDOM_DAMAGE_FRACTION * this.Strength * random.NextDouble();
             double fixedDamage = this.Strength * GameState.FIXED_DAMAGE_FRACTION;
-            double damageDealtToPlayer = randomDamage + fixedDamage;
+            double totalDamage = randomDamage + fixedDamage;
 
-            player.Health -= damageDealtToPlayer;
-            return damageDealtToPlayer;
+            player.Health -= totalDamage;
+            return totalDamage;
         }
     }
 }
