@@ -815,7 +815,7 @@ namespace Adventure_Game.src.ui {
                 }
                 input = input.ToLower();
 
-                bool playerGetsFirstHit;
+                bool triedToSneakPast = false;
                 if (input == "sneak" || input == "s") {
                     if (game.SuccessfullySnuckPastMonster(random, awake, seen)) {
                         GamePrinter.PrintSnuckSuccessfully(monster.Name);
@@ -823,34 +823,13 @@ namespace Adventure_Game.src.ui {
                     }
 
                     GamePrinter.PrintSnuckUnsuccessfully(monster.Name);
-
-                    if (awake && seen) {
-                        playerGetsFirstHit = random.Next(0, 100) < 5;
-                    } else if (awake && !seen) {
-                        playerGetsFirstHit = random.Next(0, 100) < 25;
-                    } else if (!awake && !seen) {
-                        playerGetsFirstHit = false;
-                    } else {
-                        playerGetsFirstHit = false;
-                        Debug.Fail("Creature was asleep but saw the player");
-                    }
-                } else if (input == "fight" || input == "f") {
-                    if (awake && seen) {
-                        playerGetsFirstHit = random.Next(0, 100) < 50;
-                    } else if (awake && !seen) {
-                        playerGetsFirstHit = random.Next(0, 100) < 75;
-                    } else if (!awake && !seen) {
-                        playerGetsFirstHit = true;
-                    } else {
-                        playerGetsFirstHit = true;
-                        Debug.Fail("Creature was asleep but saw the player");
-                    }
+                    triedToSneakPast = true;
                 } else {
                     GamePrinter.WriteLine("That is not an option, please look at the options and try again");
                     continue;
                 }
 
-                if (!playerGetsFirstHit) {
+                if (!game.PlayerGetsFirstHit(random, awake, seen, triedToSneakPast)) {
                     double damageDealtToPlayer = (random.NextDouble() * (monster.Strength - (monster.Strength * 0.8))) + (monster.Strength * 0.8);
                     player.Health -= damageDealtToPlayer;
                     if (player.Health > 0) {

@@ -23,9 +23,16 @@ namespace Adventure_Game.src.model {
 
         public const uint STARTING_MAX_HEALTH = 20;
 
-        public const uint AWAKE_AND_SEEN_SNEAKING_SUCCESS_RATE = 25; // out of 100
-        public const uint AWAKE_SNEAKING_SUCCESS_RATE = 85; // out of 100
-        public const uint ASLEEP_SNEAKING_SUCCESS_RATE = 999; // out of 1000
+        private const uint AWAKE_AND_SEEN_SNEAKING_SUCCESS_RATE = 25; // out of 100
+        private const uint AWAKE_SNEAKING_SUCCESS_RATE = 85; // out of 100
+        private const uint ASLEEP_SNEAKING_SUCCESS_RATE = 999; // out of 1000
+
+        private const uint AWAKE_SEEN_AND_SNUCK_FIRST_HIT_RATE = 5; // out of 100
+        private const uint AWAKE_AND_SNUCK_FIRST_HIT_RATE = 25; // out of 100
+        private const uint ASLEEP_FIRST_HIT_RATE = 100; // out of 100
+        private const uint AWAKE_SEEN_AND_FOUGHT_FIRST_HIT_RATE = 50; // out of 100
+        private const uint AWAKE_AND_FOUGHT_FIRST_HIT_RATE = 75; // out of 100
+
 
 
         public Player GamePlayer { get; set; }
@@ -217,7 +224,8 @@ namespace Adventure_Game.src.model {
         }
 
         /// <summary>
-        /// Returns true if the player successfully snuck past the monster and false otherwise.
+        /// Returns true if the player successfully snuck past the monster and false otherwise, based on whether or not
+        /// it is awake or asleep and if it has seen the player.
         /// </summary>
         /// <param name="random">A random object that will determine whether the player succeeds.</param>
         /// <param name="awake">True if the monster is awake, false otherwise.</param>
@@ -240,6 +248,65 @@ namespace Adventure_Game.src.model {
                 Debug.Fail("Creature was asleep but saw the player");
             }
             return false;
+        }
+
+        /// <summary>
+        /// Returns true if the player gets the first hit on the monster and false otherwise, based on whether or not
+        /// they tried to sneak past the monster and if it is awake or asleep and if it has seen the player.
+        /// </summary>
+        /// <param name="random">A random object that will determine whether the player succeeds.</param>
+        /// <param name="awake">True if the monster is awake, false otherwise.</param>
+        /// <param name="seen">True if the monster has seen the player, false otherwise.</param>
+        /// <param name="triedToSneakPast">True if the player tried to sneak past the monster, false otherwise.</param>
+        /// <returns>True if the player gets the first hit on the monster and false otherwise.</returns>
+        public bool PlayerGetsFirstHit(Random random, bool awake, bool seen, bool triedToSneakPast) {
+            if (triedToSneakPast) {
+                return PlayerGetsFirstHitTriedToSneak(random, awake, seen);
+            } else {
+                return PlayerGetsFirstHitDidNotTryToSneak(random, awake, seen);
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the player gets the first hit on the monster and false otherwise, based on whether or not
+        /// it is awake or asleep and if it has seen the player, given that the player tried to sneak past it.
+        /// </summary>
+        /// <param name="random">A random object that will determine whether the player succeeds.</param>
+        /// <param name="awake">True if the monster is awake, false otherwise.</param>
+        /// <param name="seen">True if the monster has seen the player, false otherwise.</param>
+        /// <returns>True if the player gets the first hit on the monster and false otherwise.</returns>
+        private bool PlayerGetsFirstHitTriedToSneak(Random random, bool awake, bool seen) {
+            if (awake && seen) {
+                return random.Next(0, 100) < AWAKE_SEEN_AND_SNUCK_FIRST_HIT_RATE;
+            } else if (awake && !seen) {
+                return random.Next(0, 100) < AWAKE_AND_SNUCK_FIRST_HIT_RATE;
+            } else if (!awake && !seen) {
+                return random.Next(0, 100) < ASLEEP_FIRST_HIT_RATE;
+            } else {
+                Debug.Fail("Creature was asleep but saw the player");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the player gets the first hit on the monster and false otherwise, based on whether or not
+        /// it is awake or asleep and if it has seen the player, given that the player tried to fight it.
+        /// </summary>
+        /// <param name="random">A random object that will determine whether the player succeeds.</param>
+        /// <param name="awake">True if the monster is awake, false otherwise.</param>
+        /// <param name="seen">True if the monster has seen the player, false otherwise.</param>
+        /// <returns>True if the player gets the first hit on the monster and false otherwise.</returns>
+        private bool PlayerGetsFirstHitDidNotTryToSneak(Random random, bool awake, bool seen) {
+            if (awake && seen) {
+                return random.Next(0, 100) < AWAKE_SEEN_AND_FOUGHT_FIRST_HIT_RATE;
+            } else if (awake && !seen) {
+                return random.Next(0, 100) < AWAKE_AND_FOUGHT_FIRST_HIT_RATE;
+            } else if (!awake && !seen) {
+                return random.Next(0, 100) < ASLEEP_FIRST_HIT_RATE;
+            } else {
+                Debug.Fail("Creature was asleep but saw the player");
+                return true;
+            }
         }
 
         /// <summary>
