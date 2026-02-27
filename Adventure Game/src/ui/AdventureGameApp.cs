@@ -805,8 +805,8 @@ namespace Adventure_Game.src.ui {
             (awake, seen) = game.GetMonsterAwakeSeen(random);
 
             while (true) {
-                PrintMonsterState(monster, awake, seen);
-                PrintPlayerState();
+                GamePrinter.PrintMonsterEncountered(monster, awake, seen);
+                GamePrinter.PrintPlayerState(player.Health, player.GetTotalStrength());
 
                 GamePrinter.Write("Would you like to \"fight\" the ");
                 NamePrinter.WriteName(monster.Name, " or try to \"sneak\" past it?", " or try to \"sneak\" past them?");
