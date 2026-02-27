@@ -822,9 +822,7 @@ namespace Adventure_Game.src.ui {
                         break;
                     }
 
-                    GamePrinter.Write("You try to sneak past, but the " + monster.Name.Name + " see");
-                    if (!monster.Name.Plural) GamePrinter.Write("s");
-                    GamePrinter.WriteLine(" you");
+                    GamePrinter.PrintSnuckUnsuccessfully(monster.Name);
 
                     if (awake && seen) {
                         playerGetsFirstHit = random.Next(0, 100) < 5;
