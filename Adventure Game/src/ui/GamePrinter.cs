@@ -80,6 +80,22 @@ namespace Adventure_Game.src.ui {
         public static void WriteLineEmphasis(string text) {
             ConsolePrinter.WriteLineColouredText(GamePrinter.EmphasisColour, text);
         }
+        
+        /// <summary>
+        /// Writes text to console in taking damage colour.
+        /// </summary>
+        /// <param name="text">The text to write on the current line.</param>
+        private static void WriteTakingDamage(string text) {
+            ConsolePrinter.WriteLineColouredText(GamePrinter.TakingDamageColour, text);
+        }
+
+        /// <summary>
+        /// Writes text to console in dealing damage colour.
+        /// </summary>
+        /// <param name="text">The text to write on the current line.</param>
+        private static void WriteDealingDamage(string text) {
+            ConsolePrinter.WriteLineColouredText(GamePrinter.DealingDamageColour, text);
+        }
 
         /// <summary>
         /// Rounds a double to the nearest hundredth so that there aren't an unecessary number of decimals printed.
@@ -593,21 +609,41 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Writes $"The {monster.Name} hit you for {damageDealt} damage, leaving you with {player.Health} health" if
-        /// the player didn't die, and $"The {monster.Name} hit you for {damageDealt} damage, defeating you" if they
-        /// did.
+        /// Writes $"The {monster.Name} hit you for {damageDealt} damage, leaving you with {player.Health} health" in
+        /// the taking damage colour if the player didn't die, and $"The {monster.Name} hit you for {damageDealt}
+        /// damage, defeating you" in the taking damage colour if they did.
         /// </summary>
         /// <param name="monster">The name of the monster that attacked the player.</param>
         /// <param name="player">The player that was attacked.</param>
         /// <param name="damageDealt">The amount of damage the monster dealt to the player.</param>
-        public static void PrintPlayerAttacked(ReadOnlyName monster, Player player, double damageDealt) {
-            Write("The " + monster.Name + " hit you for ");
+        public static void PrintMonsterAttackedPlayer(ReadOnlyName monster, Player player, double damageDealt) {
+            WriteTakingDamage("The " + monster.Name + " hit you for ");
             PrintDamageRounded(damageDealt);
             if (!player.Defeated()) {
-                Write(", leaving you with ");
+                WriteTakingDamage(", leaving you with ");
                 PrintHealthRounded(player.Health);
             } else {
-                Write(", defeating you");
+                WriteTakingDamage(", defeating you");
+            }
+        }
+
+        /// <summary>
+        /// Writes $"You hit the {monster.Name} for {damageDealt} damage, leaving it/them with {monster.Health}", in
+        /// the dealing damage colour if the monster is still alive, and $"You hit the {monster.Name} for {damageDealt}
+        /// damage, defeating it/them", in the dealing damage colour if it was defeated.
+        /// </summary>
+        /// <param name="monster">The monster that attacked the player.</param>
+        /// <param name="damageDealt">The amount of damage the player dealt to the monster.</param>
+        public static void PrintPlayerAttackedMonster(Monster monster, double damageDealt) {
+            WriteDealingDamage("You hit the " + monster.Name + " for ");
+            PrintDamageRounded(damageDealt);
+
+            string pronoun = monster.Name.Plural ? "them" : "it";
+            if (!monster.Defeated()) {
+                WriteDealingDamage(", leaving " + pronoun + " with ");
+                PrintHealthRounded(monster.Health);
+            } else {
+                WriteDealingDamage(", defeating " + pronoun);
             }
         }
     }

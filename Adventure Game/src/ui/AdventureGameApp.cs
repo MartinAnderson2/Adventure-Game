@@ -832,7 +832,7 @@ namespace Adventure_Game.src.ui {
 
                 if (!game.PlayerGetsFirstHit(random, awake, seen, triedToSneakPast)) {
                     double damageDealtToPlayer = monster.AttackPlayer(random, player);
-                    GamePrinter.PrintPlayerAttacked(monster.Name, player, damageDealtToPlayer);
+                    GamePrinter.PrintMonsterAttackedPlayer(monster.Name, player, damageDealtToPlayer);
 
                     if (game.PlayerDefeated()) {
                         GamePrinter.WriteLine("Better luck next time");
@@ -842,30 +842,8 @@ namespace Adventure_Game.src.ui {
 
 
                 while (monster.Health > 0 && player.Health > 0) {
-                    double playerStrength = player.GetTotalStrength();
-                    // Enables the player to have a chance to deal their full damage, and also gives them a slight advantage over the monsters
-                    double houseAdvantage = 0.01;
-                    double randomPortion = random.NextDouble() * playerStrength + houseAdvantage;
-                    double guaranteedPortion = playerStrength;
-                    double damageDealtByPlayer = 0.2 * randomPortion + 0.8 * guaranteedPortion;
-
-                    monster.Health -= damageDealtByPlayer;
-                    if (monster.Health > 0) {
-                        if (monster.Name.Plural) {
-                            ConsolePrinter.CreateTwoMiddlesText("You hit the " + monster.Name.Name + " for ", GamePrinter.DamageColour, GamePrinter.RoundDouble(damageDealtByPlayer) + " damage", ", leaving them with ", GamePrinter.HealthColour, GamePrinter.RoundDouble(monster.Health) + " health", defaultColour: GamePrinter.DealingDamageColour);
-                        } else ConsolePrinter.CreateTwoMiddlesText("You hit the " + monster.Name.Name + " for ", GamePrinter.DamageColour, GamePrinter.RoundDouble(damageDealtByPlayer) + " damage", ", leaving it with ", GamePrinter.HealthColour, GamePrinter.RoundDouble(monster.Health) + " health", defaultColour: GamePrinter.DealingDamageColour);
-                    } else if (monster.Name.Plural) {
-                        ConsolePrinter.CreateMiddleText("You hit the " + monster.Name.Name + " for ", GamePrinter.DamageColour, GamePrinter.RoundDouble(damageDealtByPlayer) + " damage", ", defeating them", GamePrinter.DealingDamageColour);
-                        if (random.Next(0, 2) == 0) {
-                            player.Gold += monster.Gold + 1;
-                            ConsolePrinter.CreateTwoMiddlesText("You got ", GamePrinter.GoldColour, (monster.Gold + 1) + " gold", ", bringing you up to ", GamePrinter.GoldColour, player.Gold + " gold");
-                        } else {
-                            player.Gold += monster.Gold;
-                            ConsolePrinter.CreateTwoMiddlesText("You got ", GamePrinter.GoldColour, monster.Gold + " gold", ", bringing you up to ", GamePrinter.GoldColour, player.Gold + " gold");
-                        }
-                        break;
-                    } else {
-                        ConsolePrinter.CreateMiddleText("You hit the " + monster.Name.Name + " for ", GamePrinter.DamageColour, GamePrinter.RoundDouble(damageDealtByPlayer) + " damage", ", defeating it", GamePrinter.DealingDamageColour);
+                    double damageDealtByPlayer = player.AttackMonster(random, monster);
+                    if (monster.Defeated()) {
                         if (random.Next(0, 2) == 0) {
                             player.Gold += monster.Gold + 1;
                             ConsolePrinter.CreateTwoMiddlesText("You got ", GamePrinter.GoldColour, (monster.Gold + 1) + " gold", ", bringing you up to ", GamePrinter.GoldColour, player.Gold + " gold");
@@ -875,10 +853,11 @@ namespace Adventure_Game.src.ui {
                         }
                         break;
                     }
+                    GamePrinter.PrintPlayerAttackedMonster(monster, damageDealtByPlayer);
 
                     Thread.Sleep(600);
                     double damageDealtToPlayer = monster.AttackPlayer(random, player);
-                    GamePrinter.PrintPlayerAttacked(monster.Name, player, damageDealtToPlayer);
+                    GamePrinter.PrintMonsterAttackedPlayer(monster.Name, player, damageDealtToPlayer);
 
                     if (game.PlayerDefeated()) {
                         GamePrinter.WriteLine("Better luck next time");
