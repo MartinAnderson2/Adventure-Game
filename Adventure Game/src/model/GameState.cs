@@ -23,6 +23,9 @@ namespace Adventure_Game.src.model {
 
         public const uint STARTING_MAX_HEALTH = 20;
 
+        public const double RANDOM_DAMAGE_FRACTION = 0.2;
+        public const double FIXED_DAMAGE_FRACTION = 1 - RANDOM_DAMAGE_FRACTION;
+
         private const uint AWAKE_AND_SEEN_SNEAKING_SUCCESS_RATE = 25; // out of 100
         private const uint AWAKE_SNEAKING_SUCCESS_RATE = 85; // out of 100
         private const uint ASLEEP_SNEAKING_SUCCESS_RATE = 999; // out of 1000

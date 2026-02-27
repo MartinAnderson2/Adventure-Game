@@ -80,5 +80,21 @@ namespace Adventure_Game.src.model {
                 return queenDragon;
             }
         }
+
+        /// <summary>
+        /// Calculates the damage this monster deals to the player, removes that much health from the player, and
+        /// returns the amount of damage dealt.
+        /// </summary>
+        /// <param name="random">A random object that will determine how much damage the player takes.</param>
+        /// <param name="player">The player being attacked.</param>
+        /// <returns>The amount of damage that was dealt to the player.</returns>
+        public double AttackPlayer(Random random, Player player) {
+            double randomDamage = GameState.RANDOM_DAMAGE_FRACTION * this.Strength * random.NextDouble();
+            double fixedDamage = this.Strength * GameState.FIXED_DAMAGE_FRACTION;
+            double damageDealtToPlayer = randomDamage + fixedDamage;
+
+            player.Health -= damageDealtToPlayer;
+            return damageDealtToPlayer;
+        }
     }
 }
