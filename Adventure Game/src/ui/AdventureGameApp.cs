@@ -830,16 +830,15 @@ namespace Adventure_Game.src.ui {
                 }
 
                 if (!game.PlayerGetsFirstHit(random, awake, seen, triedToSneakPast)) {
-                    double damageDealtToPlayer = (random.NextDouble() * (monster.Strength - (monster.Strength * 0.8))) + (monster.Strength * 0.8);
-                    player.Health -= damageDealtToPlayer;
-                    if (player.Health > 0) {
-                        ConsolePrinter.CreateTwoMiddlesText("The " + monster.Name.Name + " hit you for ", GamePrinter.DamageColour, GamePrinter.RoundDouble(damageDealtToPlayer) + " damage", ", leaving you with ", GamePrinter.HealthColour, GamePrinter.RoundDouble(player.Health) + " health", defaultColour: GamePrinter.TakingDamageColour);
-                    } else {
-                        ConsolePrinter.CreateMiddleText("The " + monster.Name.Name + " hit you for ", GamePrinter.DamageColour, GamePrinter.RoundDouble(damageDealtToPlayer) + " damage", ", defeating you", GamePrinter.TakingDamageColour);
+                    double damageDealtToPlayer = monster.AttackPlayer(random, player);
+                    GamePrinter.PrintPlayerAttacked(monster.Name, player, damageDealtToPlayer);
+
+                    if (game.PlayerDefeated()) {
                         GamePrinter.WriteLine("Better luck next time");
                         break;
                     }
                 }
+
                 double monsterHealth = monster.MaxHealth;
                 while (monsterHealth > 0 && player.Health > 0) {
                     double playerStrength = player.GetTotalStrength();
@@ -877,12 +876,10 @@ namespace Adventure_Game.src.ui {
                     }
 
                     Thread.Sleep(600);
-                    double damageDealtToPlayer = (random.NextDouble() * (0.2 * monster.Strength)) + (0.8 * monster.Strength);
-                    player.Health -= damageDealtToPlayer;
-                    if (player.Health > 0) {
-                        ConsolePrinter.CreateTwoMiddlesText("The " + monster.Name.Name + " hit you for ", GamePrinter.DamageColour, GamePrinter.RoundDouble(damageDealtToPlayer) + " damage", ", leaving you with ", GamePrinter.HealthColour, GamePrinter.RoundDouble(player.Health) + " health", defaultColour: GamePrinter.TakingDamageColour);
-                    } else {
-                        ConsolePrinter.CreateMiddleText("The " + monster.Name.Name + " hit you for ", GamePrinter.DamageColour, GamePrinter.RoundDouble(damageDealtToPlayer) + " damage", ", defeating you", GamePrinter.TakingDamageColour);
+                    double damageDealtToPlayer = monster.AttackPlayer(random, player);
+                    GamePrinter.PrintPlayerAttacked(monster.Name, player, damageDealtToPlayer);
+
+                    if (game.PlayerDefeated()) {
                         GamePrinter.WriteLine("Better luck next time");
                         break;
                     }

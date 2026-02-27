@@ -591,5 +591,24 @@ namespace Adventure_Game.src.ui {
             NamePrinter.WriteLineName(monster, "sees", "see");
             WriteLine(" you");
         }
+
+        /// <summary>
+        /// Writes $"The {monster.Name} hit you for {damageDealt} damage, leaving you with {player.Health} health" if
+        /// the player didn't die, and $"The {monster.Name} hit you for {damageDealt} damage, defeating you" if they
+        /// did.
+        /// </summary>
+        /// <param name="monster">The name of the monster that attacked the player.</param>
+        /// <param name="player">The player that was attacked.</param>
+        /// <param name="damageDealt">The amount of damage the monster dealt to the player.</param>
+        public static void PrintPlayerAttacked(ReadOnlyName monster, Player player, double damageDealt) {
+            Write("The " + monster.Name + " hit you for ");
+            PrintDamageRounded(damageDealt);
+            if (!player.Defeated()) {
+                Write(", leaving you with ");
+                PrintHealthRounded(player.Health);
+            } else {
+                Write(", defeating you");
+            }
+        }
     }
 }
