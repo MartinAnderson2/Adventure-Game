@@ -94,6 +94,23 @@ namespace Adventure_Game.src.model {
             }
         }
 
+        
+        /// <summary>
+        /// Returns true if the monster is at full health and false if it/they is/are not.
+        /// </summary>
+        /// <returns>True if the monster is at full health and false if it/they is/are not.</returns>
+        public bool FullHealth() {
+            return Health >= MaxHealth;
+        }
+
+        /// <summary>
+        /// Returns true if the monster has/have been defeated (it/they are out of health) otherwise returns false.
+        /// </summary>
+        /// <returns>True if the monster is defeated, false otherwise.</returns>
+        public bool Defeated() {
+            return Health <= 0;
+        }
+
         /// <summary>
         /// Calculates the damage this monster deals to the player, removes that much health from the player, and
         /// returns the amount of damage dealt.
