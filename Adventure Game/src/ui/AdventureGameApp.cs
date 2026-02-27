@@ -798,6 +798,7 @@ namespace Adventure_Game.src.ui {
         /// </summary>
         private void Monsters() {
             Monster monster = game.GetMonster(random);
+            monster = new Monster(monster);
 
             bool awake, seen;
             (awake, seen) = game.GetMonsterAwakeSeen(random);
@@ -839,8 +840,8 @@ namespace Adventure_Game.src.ui {
                     }
                 }
 
-                double monsterHealth = monster.MaxHealth;
-                while (monsterHealth > 0 && player.Health > 0) {
+
+                while (monster.Health > 0 && player.Health > 0) {
                     double playerStrength = player.GetTotalStrength();
                     // Enables the player to have a chance to deal their full damage, and also gives them a slight advantage over the monsters
                     double houseAdvantage = 0.01;
@@ -848,11 +849,11 @@ namespace Adventure_Game.src.ui {
                     double guaranteedPortion = playerStrength;
                     double damageDealtByPlayer = 0.2 * randomPortion + 0.8 * guaranteedPortion;
 
-                    monsterHealth -= damageDealtByPlayer;
-                    if (monsterHealth > 0) {
+                    monster.Health -= damageDealtByPlayer;
+                    if (monster.Health > 0) {
                         if (monster.Name.Plural) {
-                            ConsolePrinter.CreateTwoMiddlesText("You hit the " + monster.Name.Name + " for ", GamePrinter.DamageColour, GamePrinter.RoundDouble(damageDealtByPlayer) + " damage", ", leaving them with ", GamePrinter.HealthColour, GamePrinter.RoundDouble(monsterHealth) + " health", defaultColour: GamePrinter.DealingDamageColour);
-                        } else ConsolePrinter.CreateTwoMiddlesText("You hit the " + monster.Name.Name + " for ", GamePrinter.DamageColour, GamePrinter.RoundDouble(damageDealtByPlayer) + " damage", ", leaving it with ", GamePrinter.HealthColour, GamePrinter.RoundDouble(monsterHealth) + " health", defaultColour: GamePrinter.DealingDamageColour);
+                            ConsolePrinter.CreateTwoMiddlesText("You hit the " + monster.Name.Name + " for ", GamePrinter.DamageColour, GamePrinter.RoundDouble(damageDealtByPlayer) + " damage", ", leaving them with ", GamePrinter.HealthColour, GamePrinter.RoundDouble(monster.Health) + " health", defaultColour: GamePrinter.DealingDamageColour);
+                        } else ConsolePrinter.CreateTwoMiddlesText("You hit the " + monster.Name.Name + " for ", GamePrinter.DamageColour, GamePrinter.RoundDouble(damageDealtByPlayer) + " damage", ", leaving it with ", GamePrinter.HealthColour, GamePrinter.RoundDouble(monster.Health) + " health", defaultColour: GamePrinter.DealingDamageColour);
                     } else if (monster.Name.Plural) {
                         ConsolePrinter.CreateMiddleText("You hit the " + monster.Name.Name + " for ", GamePrinter.DamageColour, GamePrinter.RoundDouble(damageDealtByPlayer) + " damage", ", defeating them", GamePrinter.DealingDamageColour);
                         if (random.Next(0, 2) == 0) {
