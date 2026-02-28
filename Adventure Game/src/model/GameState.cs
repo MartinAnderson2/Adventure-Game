@@ -23,6 +23,8 @@ namespace Adventure_Game.src.model {
 
         public const uint STARTING_MAX_HEALTH = 20;
 
+        public const int PAUSE_BETWEEN_ATTACKS = 600; // In ms
+
         public const double RANDOM_DAMAGE_FRACTION = 0.2;
         public const double FIXED_DAMAGE_FRACTION = 1 - RANDOM_DAMAGE_FRACTION;
         public const double PLAYER_DAMAGE_ADVANTAGE = 0.01;

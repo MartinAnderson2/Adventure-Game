@@ -840,6 +840,8 @@ namespace Adventure_Game.src.ui {
                         GamePrinter.WriteLine("Better luck next time");
                         break;
                     }
+
+                    Thread.Sleep(GameState.PAUSE_BETWEEN_ATTACKS);
                 }
 
 
@@ -852,7 +854,7 @@ namespace Adventure_Game.src.ui {
                         break;
                     }
 
-                    Thread.Sleep(600);
+                    Thread.Sleep(GameState.PAUSE_BETWEEN_ATTACKS);
                     double damageDealtToPlayer = monster.AttackPlayer(random, player);
                     GamePrinter.PrintMonsterAttackedPlayer(monster.Name, player, damageDealtToPlayer);
 
@@ -860,7 +862,7 @@ namespace Adventure_Game.src.ui {
                         GamePrinter.WriteLine("Better luck next time");
                         break;
                     }
-                    Thread.Sleep(600);
+                    Thread.Sleep(GameState.PAUSE_BETWEEN_ATTACKS);
                 }
                 break;
             }
