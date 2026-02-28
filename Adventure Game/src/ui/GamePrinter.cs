@@ -636,7 +636,7 @@ namespace Adventure_Game.src.ui {
         /// <param name="monster">The monster that attacked the player.</param>
         /// <param name="damageDealt">The amount of damage the player dealt to the monster.</param>
         public static void PrintPlayerAttackedMonster(Monster monster, double damageDealt) {
-            WriteDealingDamage("You hit the " + monster.Name + " for ");
+            WriteDealingDamage("You hit the " + monster.Name.Name + " for ");
             PrintDamageRounded(damageDealt);
 
             string pronoun = monster.Name.Plural ? "them" : "it";
