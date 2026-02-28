@@ -625,6 +625,7 @@ namespace Adventure_Game.src.ui {
             } else {
                 WriteTakingDamage(", defeating you");
             }
+            WriteLine();
         }
 
         /// <summary>
@@ -645,6 +646,7 @@ namespace Adventure_Game.src.ui {
             } else {
                 WriteDealingDamage(", defeating " + pronoun);
             }
+            WriteLine();
         }
 
         /// <summary>
@@ -657,6 +659,7 @@ namespace Adventure_Game.src.ui {
             PrintGold(goldGotten);
             Write(", bringing you up to ");
             PrintGold(playerGold);
+            WriteLine();
         }
     }
 }
