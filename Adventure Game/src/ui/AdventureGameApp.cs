@@ -816,7 +816,7 @@ namespace Adventure_Game.src.ui {
                 }
                 input = input.ToLower();
 
-                bool triedToSneakPast = false;
+                bool triedToSneakPast;
                 if (input == "sneak" || input == "s") {
                     if (game.SuccessfullySnuckPastMonster(random, awake, seen)) {
                         GamePrinter.PrintSnuckSuccessfully(monster.Name);
@@ -825,6 +825,8 @@ namespace Adventure_Game.src.ui {
 
                     GamePrinter.PrintSnuckUnsuccessfully(monster.Name);
                     triedToSneakPast = true;
+                } else if (input == "fight" || input == "f") {
+                    triedToSneakPast = false;
                 } else {
                     GamePrinter.WriteLine("That is not an option, please look at the options and try again");
                     continue;
