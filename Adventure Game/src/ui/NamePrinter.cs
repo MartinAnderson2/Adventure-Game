@@ -138,10 +138,10 @@ namespace Adventure_Game.src.ui {
         public static void WriteLineName(ReadOnlyName name, string singularAfter, string pluralAfter) {
             if (name.Plural) {
                 WriteName(name);
-                GamePrinter.Write(pluralAfter);
+                GamePrinter.WriteLine(pluralAfter);
             } else {
                 WriteName(name);
-                GamePrinter.Write(singularAfter);
+                GamePrinter.WriteLine(singularAfter);
             }
         }
 
