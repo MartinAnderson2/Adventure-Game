@@ -227,6 +227,8 @@ namespace Adventure_Game.src.ui {
             int goldDropped = stoneling.DropLoot(random, player);
             GamePrinter.PrintGotMonsterGold(goldDropped, player.Gold);
             player.Gold = 0;
+            GamePrinter.WriteLineNote("Well done! Unfortunately, since this is the tutorial, you do not get to keep "
+                + "the gold (sorry)");
         }
     }
 }
