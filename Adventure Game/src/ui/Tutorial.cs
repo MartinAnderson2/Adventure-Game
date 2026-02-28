@@ -143,8 +143,8 @@ namespace Adventure_Game.src.ui {
                 GamePrinter.PrintMonsterEncountered(Monster.wolf, awake: false, seen: false);
                 GamePrinter.PrintPlayerState(player.Health, player.GetTotalStrength());
 
-                GamePrinter.WriteLineNote("Since the wolf is significantly stronger than you, you probably will not " +
-                    " win the fight. You should try to sneak past it to continue");
+                GamePrinter.WriteLineNote("Since the wolf is significantly stronger than you, you probably won't " +
+                    "win the fight. You should try to sneak past it to continue");
                 GamePrinter.PrintCombatOptions(Monster.wolf.Name);
 
                 string? input = Console.ReadLine();
@@ -159,8 +159,8 @@ namespace Adventure_Game.src.ui {
                     break;
                 } else if (input == "fight" || input == "f") {
                     GamePrinter.WriteLineNote("I told you that if you were to fight the wolf you would lose so " +
-                        " I did not let you. You will get to make these decisions yourself once you have finished " +
-                        " the tutorial. If you want to skip the tutorial, say \"skip\"");
+                        "I did not let you. You will get to make these decisions yourself once you have finished " +
+                        "the tutorial. If you want to skip the tutorial, say \"skip\"");
                     GamePrinter.PrintSnuckSuccessfully(Monster.wolf.Name);
                     break;
                 } else if (input == "skip") {
