@@ -28,7 +28,7 @@ namespace Adventure_Game.src.ui {
             InitializeVariables(player);
             IntroduceTutorial();
 
-            GamePrinter.WriteLineNote("Normally, the direction you choose makes a difference, however, in the tutorial it does not");
+            GamePrinter.WriteLineNote("Normally, the direction you choose makes a difference, however, in the tutorial, it does not");
             GetDirectionPlayerWants();
             if (skipTutorial) return;
 
@@ -143,7 +143,7 @@ namespace Adventure_Game.src.ui {
                 GamePrinter.PrintMonsterEncountered(Monster.wolf, awake: false, seen: false);
                 GamePrinter.PrintPlayerState(player.Health, player.GetTotalStrength());
 
-                GamePrinter.WriteLineNote("Since the wolf is significantly stronger than you, you probably won't " +
+                GamePrinter.WriteLineNote("Since the wolf is significantly stronger than you, you probably will not " +
                     "win the fight. You should try to sneak past it to continue");
                 GamePrinter.PrintCombatOptions(Monster.wolf.Name);
 
