@@ -159,7 +159,7 @@ namespace Adventure_Game.src.ui {
                     break;
                 } else if (input == "fight" || input == "f") {
                     GamePrinter.WriteLineNote("I told you that if you were to fight the wolf you would lose so " +
-                        " I did not let you. You will get to make this decisions yourself once you have finished " +
+                        " I did not let you. You will get to make these decisions yourself once you have finished " +
                         " the tutorial. If you want to skip the tutorial, say \"skip\"");
                     GamePrinter.PrintSnuckSuccessfully(Monster.wolf.Name);
                     break;
