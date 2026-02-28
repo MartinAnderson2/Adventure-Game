@@ -86,7 +86,7 @@ namespace Adventure_Game.src.ui {
         /// </summary>
         /// <param name="text">The text to write on the current line.</param>
         private static void WriteTakingDamage(string text) {
-            ConsolePrinter.WriteLineColouredText(GamePrinter.TakingDamageColour, text);
+            ConsolePrinter.WriteColouredText(GamePrinter.TakingDamageColour, text);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Adventure_Game.src.ui {
         /// </summary>
         /// <param name="text">The text to write on the current line.</param>
         private static void WriteDealingDamage(string text) {
-            ConsolePrinter.WriteLineColouredText(GamePrinter.DealingDamageColour, text);
+            ConsolePrinter.WriteColouredText(GamePrinter.DealingDamageColour, text);
         }
 
         /// <summary>
