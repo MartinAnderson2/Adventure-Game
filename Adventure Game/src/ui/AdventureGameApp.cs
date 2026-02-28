@@ -845,12 +845,12 @@ namespace Adventure_Game.src.ui {
 
                 while (monster.Health > 0 && player.Health > 0) {
                     double damageDealtByPlayer = player.AttackMonster(random, monster);
+                    GamePrinter.PrintPlayerAttackedMonster(monster, damageDealtByPlayer);
                     if (monster.Defeated()) {
                         int droppedGold = monster.DropLoot(random, player);
                         GamePrinter.PrintGotMonsterGold(droppedGold, player.Gold);
                         break;
                     }
-                    GamePrinter.PrintPlayerAttackedMonster(monster, damageDealtByPlayer);
 
                     Thread.Sleep(600);
                     double damageDealtToPlayer = monster.AttackPlayer(random, player);
