@@ -604,7 +604,7 @@ namespace Adventure_Game.src.ui {
         /// <param name="monster">The name of the monster the player failed to sneak past.</param>
         public static void PrintSnuckUnsuccessfully(ReadOnlyName monster) {
             Write("You try to sneak past, but the ");
-            NamePrinter.WriteLineName(monster, " sees", " see");
+            NamePrinter.WriteName(monster, " sees", " see");
             WriteLine(" you");
         }
 
