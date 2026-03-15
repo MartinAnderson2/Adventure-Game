@@ -704,17 +704,15 @@ namespace Adventure_Game.src.ui {
         /// <param name="newWeapon">The new weapon the player is trying to swap to.</param>
         /// <returns>True if the player swapped their weapon for the new weapon, and false if they did not.</returns>
         private bool TrySwapWeapon(Weapon playerWeapon, Weapon newWeapon) {
-            if (player.GetStrengthWeaponGives(newWeapon) >= player.GetWeaponStrength()) {
-                SwapWeapon(playerWeapon, newWeapon);
-                return true;
-            } else {
+            if (player.GetWeaponStrength() > player.GetStrengthWeaponGives(newWeapon)) {
                 if (ConfirmSwapToWorseWeapon(playerWeapon, newWeapon)) {
                     SwapWeapon(playerWeapon, newWeapon);
                     return true;
                 }
+                return false;
             }
-
-            return false;
+            SwapWeapon(playerWeapon, newWeapon);
+            return true;
         }
 
         /// <summary>
@@ -740,17 +738,15 @@ namespace Adventure_Game.src.ui {
         /// <param name="newWeapon">The new weapon the player is trying to sell.</param>
         /// <returns>True if the player sold the new weapon, and false if they did not.</returns>
         private bool TrySellWeapon(Weapon playerWeapon, Weapon newWeapon) {
-            if (player.GetWeaponStrength() >= player.GetStrengthWeaponGives(newWeapon)) {
-                SellWeapon(playerWeapon, newWeapon);
-                return true;
-            } else {
+            if (player.GetStrengthWeaponGives(newWeapon) > player.GetWeaponStrength()) {
                 if (ConfirmSellBetterWeapon(playerWeapon, newWeapon)) {
                     SellWeapon(playerWeapon, newWeapon);
                     return true;
                 }
+                return false;
             }
-
-            return false;
+            SellWeapon(playerWeapon, newWeapon);
+            return true;
         }
 
         /// <summary>
