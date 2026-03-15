@@ -683,28 +683,38 @@ namespace Adventure_Game.src.ui {
                 input = input.ToLower();
 
                 if (input == "swap" || input == "sw") {
-                    if (player.GetStrengthWeaponGives(newWeapon) >= player.GetWeaponStrength()) {
-                        SwapWeapon(playerWeapon, newWeapon);
+                    if (TrySwapWeapon(playerWeapon, newWeapon)) {
                         break;
-                    } else {
-                        if (ConfirmSwapToWorseWeapon(playerWeapon, newWeapon)) {
-                            SwapWeapon(playerWeapon, newWeapon);
-                            break;
-                        }
                     }
                 } else if (input == "sell" || input == "se") {
-                    if (player.GetWeaponStrength() >= player.GetStrengthWeaponGives(newWeapon)) {
-                        SellWeapon(playerWeapon, newWeapon);
+                    if (TrySellWeapon(playerWeapon, newWeapon)) {
                         break;
-                    } else {
-                        if (ConfirmSellBetterWeapon(playerWeapon, newWeapon)) {
-                            SellWeapon(playerWeapon, newWeapon);
-                            break;
-                        }
                     }
                 } else GamePrinter.WriteLine("That is not an option, please state whether you would like to \"swap\" "
                     + " your new weapon for your old weapon or \"sell\" your new weapon");
             }
+        }
+
+        /// <summary>
+        /// If the new weapon gives the player more or the same amount of strength as the old weapon, then swaps them.
+        /// If it gives less strength then asks the player for confirmation that they want to swap the two weapons, and
+        /// then swaps them. Returns true if the weapons were swapped and false if they were not.
+        /// </summary>
+        /// <param name="playerWeapon">The player's currently-held weapon.</param>
+        /// <param name="newWeapon">The new weapon the player is trying to swap to.</param>
+        /// <returns>True if the player swapped their weapon for the new weapon, and false if they did not.</returns>
+        private bool TrySwapWeapon(Weapon playerWeapon, Weapon newWeapon) {
+            if (player.GetStrengthWeaponGives(newWeapon) >= player.GetWeaponStrength()) {
+                SwapWeapon(playerWeapon, newWeapon);
+                return true;
+            } else {
+                if (ConfirmSwapToWorseWeapon(playerWeapon, newWeapon)) {
+                    SwapWeapon(playerWeapon, newWeapon);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -719,6 +729,28 @@ namespace Adventure_Game.src.ui {
 
             GamePrinter.PrintWeaponSuccessfullySwapped(oldWeaponName, newWeapon.Name, player.GetTotalStrength());
             GamePrinter.PrintOldWeaponSold(oldWeaponName, moneyFromSale, player.Gold);
+        }
+
+        /// <summary>
+        /// If the new weapon gives the player less than or the same amount of strength as the old weapon, then sells
+        /// the new weapon. If it gives more strength then asks the player for confirmation that they want to sell the
+        /// new weapon, and then sells it. Returns true if the new weapon was sold and false if it was not.
+        /// </summary>
+        /// <param name="playerWeapon">The player's currently-held weapon.</param>
+        /// <param name="newWeapon">The new weapon the player is trying to sell.</param>
+        /// <returns>True if the player sold the new weapon, and false if they did not.</returns>
+        private bool TrySellWeapon(Weapon playerWeapon, Weapon newWeapon) {
+            if (player.GetWeaponStrength() >= player.GetStrengthWeaponGives(newWeapon)) {
+                SellWeapon(playerWeapon, newWeapon);
+                return true;
+            } else {
+                if (ConfirmSellBetterWeapon(playerWeapon, newWeapon)) {
+                    SellWeapon(playerWeapon, newWeapon);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         /// <summary>
