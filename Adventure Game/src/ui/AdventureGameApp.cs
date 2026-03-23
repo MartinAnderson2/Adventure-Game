@@ -821,8 +821,8 @@ namespace Adventure_Game.src.ui {
         /// <summary>
         /// Randomly decides which monster the player will fight. The hardest monster they can fight is based on their
         /// strength and maximum health. Lets the player try to sneak past monsters. Handles the fighting sequence if
-        /// the player fights the monster. If the player wins, they get gold, if they lose, they are defeated and l the
-        /// game.
+        /// the player fights the monster. If the player wins, they get gold, if they lose, they are defeated and lose
+        /// the game.
         /// </summary>
         private void Monsters() {
             Monster monster = game.GetMonster(random);
