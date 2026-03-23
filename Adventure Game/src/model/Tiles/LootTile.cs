@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Adventure_Game.src.ui;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -13,10 +14,12 @@ namespace Adventure_Game.src.model.Tiles {
     /// </summary>
     internal class LootTile : Tile {
         /// <summary>
-        /// Constructs a new loot tile.
+        /// Randomly decides which weapon the player found in the treasure chest. Lets the player decide beteween
+        /// keeping the old weapon or swapping to the new weapon. The weapon not in use is sold for gold.
         /// </summary>
-        public LootTile() {
-            Type = TileType.TreasureChest;
+        /// <param name="advGameApp">A reference to the adventureGameApp that this tile is being run in.</param>
+        override public void Run(AdventureGameApp advGameApp) {
+            advGameApp.TreasureChests();
         }
 
         /// <summary>

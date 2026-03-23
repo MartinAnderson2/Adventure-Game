@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Adventure_Game.src.ui;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,10 +12,14 @@ namespace Adventure_Game.src.model.Tiles {
     /// </summary>
     internal class MonsterTile : Tile {
         /// <summary>
-        /// Constructs a new monster tile.
+        /// Randomly decides which monster the player will fight. The hardest monster they can fight is based on their
+        /// strength and maximum health. Lets the player try to sneak past monsters. Handles the fighting sequence if
+        /// the player fights the monster. If the player wins, they get gold, if they lose, they are defeated and lose
+        /// the game.
         /// </summary>
-        public MonsterTile() {
-            Type = TileType.Monster;
+        /// <param name="advGameApp">A reference to the adventureGameApp that this tile is being run in.</param>
+        override public void Run(AdventureGameApp advGameApp) {
+            advGameApp.Monsters();
         }
     }
 }

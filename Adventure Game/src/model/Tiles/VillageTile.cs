@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Adventure_Game.src.ui;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,11 +23,19 @@ namespace Adventure_Game.src.model.Tiles {
         /// <param name="cost">The hourly cost to stay in this village's inn.</param>
         /// <param name="healing">The amount of healing the village's inn provides per hour.</param>
         public VillageTile(string name, int cost, double healing) {
-            Type = TileType.Village;
-
             this.VillageName = name;
             this.CostPerHour = cost;
             this.HealingPerHour = healing;
+        }
+
+        /// <summary>
+        /// Lets the player stay at the inn of the village they entered. Asks the player how long they would like to
+        /// sleep for, and makes them pay the innkeeper for the appropriate amount of time and then heal the
+        /// appropriate amount.
+        /// </summary>
+        /// <param name="advGameApp">A reference to the adventureGameApp that this tile is being run in.</param>
+        public override void Run(AdventureGameApp advGameApp) {
+            advGameApp.Villages(this);
         }
     }
 }

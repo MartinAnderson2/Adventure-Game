@@ -553,24 +553,7 @@ namespace Adventure_Game.src.ui {
         ///     if it is a village, or lets the player buy goods if it is a store.
         /// </summary>
         private void RunTile() {
-            Tile currTile = game.CurrentTile;
-            switch (currTile.Type) {
-                case Tile.TileType.TreasureChest:
-                    TreasureChests();
-                    break;
-                case Tile.TileType.Monster:
-                    Monsters();
-                    break;
-                case Tile.TileType.Village:
-                    Villages((VillageTile) currTile);
-                    break;
-                case Tile.TileType.Shop:
-                    Shops((ShopTile) currTile);
-                    break;
-                default:
-                    Debug.Fail("Tile Type was outside valid enum values (it was " + currTile.Type + ")");
-                    break;
-            }
+            game.CurrentTile.Run(this);
         }
 
 
@@ -582,7 +565,7 @@ namespace Adventure_Game.src.ui {
         /// Randomly decides which weapon the player found in the treasure chest. Lets the player decide beteween
         /// keeping the old weapon or swapping to the new weapon. The weapon not in use is sold for gold.
         /// </summary>
-        private void TreasureChests() {
+        public void TreasureChests() {
             Weapon newWeapon = LootTile.GetWeapon(player, random);
 
             GamePrinter.PrintFoundTreasureChest(newWeapon.Name);
@@ -824,7 +807,7 @@ namespace Adventure_Game.src.ui {
         /// the player fights the monster. If the player wins, they get gold, if they lose, they are defeated and lose
         /// the game.
         /// </summary>
-        private void Monsters() {
+        public void Monsters() {
             Monster monster = game.GetMonster(random);
             monster = new Monster(monster);
 
@@ -903,11 +886,11 @@ namespace Adventure_Game.src.ui {
 
         /// <summary>
         /// Lets the player stay at the inn of the village they entered. Asks the player how long they would like to
-        /// sleep form and makes them pay the innkeeper for the appropriate amount of time and then heal the
+        /// sleep for, and makes them pay the innkeeper for the appropriate amount of time and then heal the
         /// appropriate amount.
         /// </summary>
         /// <param name="village">The village the player is in.</param>
-        private void Villages(VillageTile village) {
+        public void Villages(VillageTile village) {
             GamePrinter.WriteLine("You enter the village of " + village.VillageName);
             bool hasSlept = false;
             if (player.Gold < village.CostPerHour) {
@@ -1046,7 +1029,7 @@ namespace Adventure_Game.src.ui {
         /// game.
         /// </summary>
         /// <param name="shop">The shop the player arrived at.</param>
-        private void Shops(ShopTile shop) {
+        public void Shops(ShopTile shop) {
             ConsolePrinter.CreateMiddleText("You enter " + shop.ShopkeeperName + "\'s shop with ", GamePrinter.GoldColour, player.Gold + " gold");
             if (game.DaysPlayed < 5) {
                 ConsolePrinter.CreateMiddleText(shop.ShopkeeperName + " says \"", GamePrinter.DialogueColour, "We don't accept noobs at our shop", "\""); // If the player went straight to a shop
