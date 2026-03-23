@@ -903,7 +903,7 @@ namespace Adventure_Game.src.ui {
 
         /// <summary>
         /// Lets the player stay at the inn of the village they entered. Asks the player how long they would like to
-        /// sleep /// for and makes them pay the innkeeper for the appropriate amount of time and then heal the
+        /// sleep form and makes them pay the innkeeper for the appropriate amount of time and then heal the
         /// appropriate amount.
         /// </summary>
         /// <param name="village">The village the player is in.</param>
