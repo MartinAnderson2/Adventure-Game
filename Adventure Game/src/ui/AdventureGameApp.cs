@@ -1015,7 +1015,7 @@ namespace Adventure_Game.src.ui {
                                 }
                             } else if (maxHours == 1 && secondInput == "no" || secondInput == "n") {
                                 break;
-                            } else GamePrinter.WriteLine("You did not input a number, please input a number from 0-10");
+                            } else GamePrinter.WriteLine("You did not input a number, please input a number from 0-" + Convert.ToString(GameState.MAX_HOURS_OF_SLEEP));
                         }
                     } else if (input == "pass" || input == "p") {
                         GamePrinter.WriteLine("You successfully pass through " + village.VillageName);
