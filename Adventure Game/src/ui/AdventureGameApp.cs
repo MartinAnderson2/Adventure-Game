@@ -933,9 +933,7 @@ namespace Adventure_Game.src.ui {
                             secondInput = secondInput.ToLower();
 
                             if (Int32.TryParse(secondInput, out int hours)) {
-                                if (hours > maxHours) {
-                                    GamePrinter.WriteLine("You would not benefit from sleeping for that long");
-                                } else if (hours > GameState.MAX_HOURS_OF_SLEEP) {
+                                if (hours > GameState.MAX_HOURS_OF_SLEEP) {
                                     ConsolePrinter.CreateMiddleText("You may only sleep up to ", GamePrinter.SleepTimeColour, Convert.ToString(GameState.MAX_HOURS_OF_SLEEP), " hours per night");
                                 } else if (hours == 0) {
                                     GamePrinter.WriteLine("You successfully exited the inn");
@@ -945,6 +943,14 @@ namespace Adventure_Game.src.ui {
                                 } else if (player.Gold < hours * village.CostPerHour) {
                                     GamePrinter.WriteLine("You do not have enough money to sleep for that long");
                                 } else {
+                                    if (hours > maxHours) {
+                                        if (maxHours == 1) {
+                                            ConsolePrinter.CreateMiddleText("You would benefit from sleeping at most ", GamePrinter.SleepTimeColour, maxHours + " hour");
+                                        } else {
+                                            ConsolePrinter.CreateMiddleText("You would benefit from sleeping at most ", GamePrinter.SleepTimeColour, maxHours + " hours");
+                                        }
+                                        hours = maxHours;
+                                    }
                                     while (true) {
                                         double healing = Math.Min(Convert.ToDouble(hours) * healingPerHour, maxHealing);
                                         if (hours == 1) {
