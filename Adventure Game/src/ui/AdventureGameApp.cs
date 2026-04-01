@@ -931,7 +931,7 @@ namespace Adventure_Game.src.ui {
                             if (Int32.TryParse(secondInput, out int hours)) {
                                 if (hours > maxHours) {
                                     GamePrinter.WriteLine("You would not benefit from sleeping for that long");
-                                } else if (hours > 10) {
+                                } else if (hours > GameState.MAX_HOURS_OF_SLEEP) {
                                     GamePrinter.WriteLine("You may only sleep up to 10 hours per night");
                                 } else if (hours == 0) {
                                     GamePrinter.WriteLine("You successfully exited the inn");

@@ -42,6 +42,7 @@ namespace Adventure_Game.src.model {
         private const uint AWAKE_SEEN_AND_FOUGHT_FIRST_HIT_RATE = 50; // out of 100
         private const uint AWAKE_AND_FOUGHT_FIRST_HIT_RATE = 75; // out of 100
 
+        public const int MAX_HOURS_OF_SLEEP = 10;
 
 
         public Player GamePlayer { get; set; }
