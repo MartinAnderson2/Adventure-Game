@@ -985,7 +985,7 @@ namespace Adventure_Game.src.ui {
                                         } else GamePrinter.WriteLine("That was not an option");
                                     }
                                 }
-                            } else if (secondInput == "yes" || secondInput == "y") {
+                            } else if (maxHours == 1 && secondInput == "yes" || secondInput == "y") {
                                 while (true) {
                                     ConsolePrinter.CreateFourMiddlesText("Sleeping for ", GamePrinter.SleepTimeColour, "1 hour", " would cost ", GamePrinter.GoldColour, village.CostPerHour + " gold", " and restore ", GamePrinter.HealthColour, GamePrinter.RoundDouble(village.HealingPerHour * player.MaxHealth) + " health");
                                     ConsolePrinter.CreateTwoMiddlesText("This would bring you up to ", GamePrinter.HealthColour, player.MaxHealth + " health", ", your maximum health, and leave you with ", GamePrinter.GoldColour, player.Gold - village.CostPerHour + " gold", ". Would you like to sleep for that long \"yes\", change how many hours \"no\", or exit the inn \"exit\"");
@@ -1011,6 +1011,8 @@ namespace Adventure_Game.src.ui {
                                         break;
                                     } else GamePrinter.WriteLine("That was not an option");
                                 }
+                            } else if (maxHours == 1 && secondInput == "no" || secondInput == "n") {
+                                break;
                             } else GamePrinter.WriteLine("You did not input a number, please input a number from 0-10");
                         }
                     } else if (input == "pass" || input == "p") {
