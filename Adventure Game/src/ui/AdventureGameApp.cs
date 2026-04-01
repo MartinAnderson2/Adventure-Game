@@ -911,12 +911,13 @@ namespace Adventure_Game.src.ui {
                     if (input == "inn" || input == "i") {
                         bool inInn = true;
                         while (inInn) {
-                            int maxHours;
-                            for (maxHours = 0; maxHours < 100000; maxHours++) {
-                                if (maxHours * village.HealingPerHour * player.MaxHealth + player.Health >= player.MaxHealth) {
-                                    break;
-                                }
-                            }
+                            double maxHealth = Convert.ToDouble(player.MaxHealth);
+                            double maxHealing = maxHealth - player.Health;
+                            double healingPerHour = village.HealingPerHour * maxHealth;
+                            double hoursToFull = maxHealing / healingPerHour;
+                            int maxHours = Convert.ToInt32(Math.Ceiling(hoursToFull));
+                            //maxHours = Math.Clamp(maxHours, 0, GameState.MAX_HOURS_OF_SLEEP);
+
                             if (maxHours == 1) {
                                 ConsolePrinter.CreateFourMiddlesText("Welcome to the Inn! It costs ", GamePrinter.GoldColour, village.CostPerHour + " gold", " per hour and heals ", GamePrinter.HealthColour, (village.HealingPerHour * 100) + "%", " of your maximum health per hour, which means that you currently need to sleep for ", GamePrinter.SleepTimeColour, maxHours + " hour", " to get to full health. Would you like to sleep for ", GamePrinter.SleepTimeColour, "1 hour", "?");
                             } else ConsolePrinter.CreateFourMiddlesText("Welcome to the Inn! It costs ", GamePrinter.GoldColour, village.CostPerHour + " gold", " per hour and heals ", GamePrinter.HealthColour, (village.HealingPerHour * 100) + "%", " of your maximum health per hour, which means that you currently need to sleep for ", GamePrinter.SleepTimeColour, maxHours + " hours", " to get to full health. How many ", GamePrinter.SleepTimeColour, "hours", " would you like to sleep for?");
