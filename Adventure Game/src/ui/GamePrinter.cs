@@ -83,7 +83,7 @@ namespace Adventure_Game.src.ui {
         public static void WriteLineEmphasis(string text) {
             ConsolePrinter.WriteLineColouredText(GamePrinter.EmphasisColour, text);
         }
-        
+
         /// <summary>
         /// Writes text to console in taking damage colour.
         /// </summary>
@@ -347,7 +347,7 @@ namespace Adventure_Game.src.ui {
             secondPrint(newTotal);
             WriteLine();
         }
-        #endif
+#endif
 
         /// <summary>
         /// Writes $"You find a treasure chest with a(n) {newWeapon.Name} inside!" to the console.
@@ -620,11 +620,17 @@ namespace Adventure_Game.src.ui {
         /// <param name="player">The player that was attacked.</param>
         /// <param name="damageDealt">The amount of damage the monster dealt to the player.</param>
         public static void PrintMonsterAttackedPlayer(ReadOnlyName monster, Player player, double damageDealt) {
+            double printingDoubleModifier = 0;
+            if (!player.Defeated() && RoundDouble(player.Health) == 0) {
+                double minDamageIncrement = MathF.Pow(10, -DAMAGE_PRECISION);
+                printingDoubleModifier += minDamageIncrement;
+            }
+
             WriteTakingDamage("The " + monster.Name + " hit you for ");
-            PrintDamageRounded(damageDealt);
+            PrintDamageRounded(damageDealt - printingDoubleModifier);
             if (!player.Defeated()) {
                 WriteTakingDamage(", leaving you with ");
-                PrintHealthRounded(player.Health);
+                PrintHealthRounded(player.Health + printingDoubleModifier);
             } else {
                 WriteTakingDamage(", defeating you");
             }
@@ -639,13 +645,19 @@ namespace Adventure_Game.src.ui {
         /// <param name="monster">The monster that attacked the player.</param>
         /// <param name="damageDealt">The amount of damage the player dealt to the monster.</param>
         public static void PrintPlayerAttackedMonster(Monster monster, double damageDealt) {
+            double printingDoubleModifier = 0;
+            if (!monster.Defeated() && RoundDouble(monster.Health) == 0) {
+                double minDamageIncrement = MathF.Pow(10, -DAMAGE_PRECISION);
+                printingDoubleModifier += minDamageIncrement;
+            }
+
             WriteDealingDamage("You hit the " + monster.Name.Name + " for ");
-            PrintDamageRounded(damageDealt);
+            PrintDamageRounded(damageDealt - printingDoubleModifier);
 
             string pronoun = monster.Name.Plural ? "them" : "it";
             if (!monster.Defeated()) {
                 WriteDealingDamage(", leaving " + pronoun + " with ");
-                PrintHealthRounded(monster.Health);
+                PrintHealthRounded(monster.Health + printingDoubleModifier);
             } else {
                 WriteDealingDamage(", defeating " + pronoun);
             }
