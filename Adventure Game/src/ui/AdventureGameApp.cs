@@ -946,9 +946,10 @@ namespace Adventure_Game.src.ui {
                                         if (hours == 1) {
                                             ConsolePrinter.CreateFourMiddlesText("Sleeping for ", GamePrinter.SleepTimeColour, hours + " hour", " would cost ", GamePrinter.GoldColour, (hours * village.CostPerHour) + " gold", " and restore ", GamePrinter.HealthColour, GamePrinter.RoundDouble(hours * village.HealingPerHour * player.MaxHealth) + " health");
                                         } else ConsolePrinter.CreateFourMiddlesText("Sleeping for ", GamePrinter.SleepTimeColour, hours + " hours", " would cost ", GamePrinter.GoldColour, (hours * village.CostPerHour) + " gold", " and restore ", GamePrinter.HealthColour, GamePrinter.RoundDouble(hours * village.HealingPerHour * player.MaxHealth) + " health");
-                                        if (player.Health + hours * village.HealingPerHour * player.MaxHealth >= player.MaxHealth) {
+
+                                        if (player.Health + Convert.ToDouble(hours) * healingPerHour >= Convert.ToDouble(player.MaxHealth)) {
                                             ConsolePrinter.CreateTwoMiddlesText("This would bring you up to ", GamePrinter.HealthColour, player.MaxHealth + " health", ", your maximum health, and leave you with ", GamePrinter.GoldColour, player.Gold - hours * village.CostPerHour + " gold", ". Would you like to sleep for that long \"yes\", change how many hours \"no\", or exit the inn \"exit\"");
-                                        } else ConsolePrinter.CreateTwoMiddlesText("This would bring you up to ", GamePrinter.HealthColour, GamePrinter.RoundDouble(player.Health + hours * village.HealingPerHour * player.MaxHealth) + " health", ", your maximum health, and leave you with ", GamePrinter.GoldColour, player.Gold - hours * village.CostPerHour + " gold", ". Would you like to sleep for that long \"yes\", change how many hours \"no\", or exit the inn \"exit\"");
+                                        } else ConsolePrinter.CreateTwoMiddlesText("This would bring you up to ", GamePrinter.HealthColour, GamePrinter.RoundDouble(player.Health + hours * village.HealingPerHour * player.MaxHealth) + " health", ", and leave you with ", GamePrinter.GoldColour, player.Gold - hours * village.CostPerHour + " gold", ". Would you like to sleep for that long \"yes\", change how many hours \"no\", or exit the inn \"exit\"");
 
                                         string? thirdInput = Console.ReadLine();
                                         if (thirdInput is null) {
