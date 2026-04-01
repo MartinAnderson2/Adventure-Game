@@ -917,12 +917,20 @@ namespace Adventure_Game.src.ui {
                             double hoursToFull = maxHealing / healingPerHour;
                             int maxHours = Convert.ToInt32(Math.Ceiling(hoursToFull));
 
-                            if (maxHours == 1) {
-                                ConsolePrinter.CreateFourMiddlesText("Welcome to the Inn! It costs ", GamePrinter.GoldColour, village.CostPerHour + " gold", " per hour and heals ", GamePrinter.HealthColour, (village.HealingPerHour * 100) + "%", " of your maximum health per hour, which means that you currently need to sleep for ", GamePrinter.SleepTimeColour, maxHours + " hour", " to get to full health. Would you like to sleep for ", GamePrinter.SleepTimeColour, "1 hour", "?");
-                            } else if (maxHours <= GameState.MAX_HOURS_OF_SLEEP) {
-                                ConsolePrinter.CreateFourMiddlesText("Welcome to the Inn! It costs ", GamePrinter.GoldColour, village.CostPerHour + " gold", " per hour and heals ", GamePrinter.HealthColour, (village.HealingPerHour * 100) + "%", " of your maximum health per hour, which means that you currently need to sleep for ", GamePrinter.SleepTimeColour, maxHours + " hours", " to get to full health. How many ", GamePrinter.SleepTimeColour, "hours", " would you like to sleep for?");
-                            } else {
+                            int maxCost = maxHours * village.CostPerHour;
+
+                            if (maxCost > player.Gold) {
+                                double hoursPlayerCanAfford = Convert.ToDouble(player.Gold) / Convert.ToDouble(village.CostPerHour);
+                                int maxHoursPlayerCanAfford = Convert.ToInt32(Math.Floor(hoursPlayerCanAfford));
+                                ConsolePrinter.CreateFourMiddlesText("Welcome to the Inn! It costs ", GamePrinter.GoldColour, village.CostPerHour + " gold", " per hour and heals ", GamePrinter.HealthColour, (village.HealingPerHour * 100) + "%", " of your maximum health per hour. You have enough gold to sleep for up to ", GamePrinter.SleepTimeColour, maxHoursPlayerCanAfford + " hours", " (but this will not bring you up to your full health). How many ", GamePrinter.SleepTimeColour, "hours", " would you like to sleep for?");
+                            } else if (maxHours > GameState.MAX_HOURS_OF_SLEEP) {
                                 ConsolePrinter.CreateFourMiddlesText("Welcome to the Inn! It costs ", GamePrinter.GoldColour, village.CostPerHour + " gold", " per hour and heals ", GamePrinter.HealthColour, (village.HealingPerHour * 100) + "%", " of your maximum health per hour. You may sleep for up to ", GamePrinter.SleepTimeColour, GameState.MAX_HOURS_OF_SLEEP + " hours", " (but this will not bring you up to your full health). How many ", GamePrinter.SleepTimeColour, "hours", " would you like to sleep for?");
+                            } else {
+                                if (maxHours == 1) {
+                                    ConsolePrinter.CreateFourMiddlesText("Welcome to the Inn! It costs ", GamePrinter.GoldColour, village.CostPerHour + " gold", " per hour and heals ", GamePrinter.HealthColour, (village.HealingPerHour * 100) + "%", " of your maximum health per hour, which means that you currently need to sleep for ", GamePrinter.SleepTimeColour, maxHours + " hour", " to get to full health. Would you like to sleep for ", GamePrinter.SleepTimeColour, "1 hour", "?");
+                                } else {
+                                    ConsolePrinter.CreateFourMiddlesText("Welcome to the Inn! It costs ", GamePrinter.GoldColour, village.CostPerHour + " gold", " per hour and heals ", GamePrinter.HealthColour, (village.HealingPerHour * 100) + "%", " of your maximum health per hour, which means that you currently need to sleep for ", GamePrinter.SleepTimeColour, maxHours + " hours", " to get to full health. How many ", GamePrinter.SleepTimeColour, "hours", " would you like to sleep for?");
+                                }
                             }
 
                             string? secondInput = Console.ReadLine();
