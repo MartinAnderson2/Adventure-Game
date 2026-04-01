@@ -28,6 +28,9 @@ namespace Adventure_Game.src.ui {
         public const ConsoleColor GoldColour = ConsoleColor.DarkYellow;
 
 
+        public const int DAMAGE_PRECISION = 2; // In decimal places (number of digits in the fractional part)
+
+
         public static readonly ReadOnlyName[] forestTypes = {
             new ReadOnlyName("pine"),
             new ReadOnlyName("dark"),
@@ -103,7 +106,7 @@ namespace Adventure_Game.src.ui {
         /// <param name="dbl">The double to round.</param>
         /// <returns>The rounded double.</returns>
         public static double RoundDouble(double dbl) {
-            return Math.Round(dbl, 2);
+            return Math.Round(dbl, DAMAGE_PRECISION);
         }
 
         /// <summary>
