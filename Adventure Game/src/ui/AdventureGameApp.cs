@@ -119,16 +119,17 @@ namespace Adventure_Game.src.ui {
         /// Asks the player what they would like to name their character and sets its name to that.
         /// </summary>
         private void SelectName() {
+            while (true) {
             GamePrinter.WriteLine("Please input your character's name");
 
             string? input = Console.ReadLine();
-            if (input is null) {
-                Console.Clear();
-                CreateCharacter();
+                if (input is not null) {
+                    player.Name = input;
                 return;
             }
 
-            player.Name = input;
+                Console.Clear();
+            }
         }
 
         /// <summary>
