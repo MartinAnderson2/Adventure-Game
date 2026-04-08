@@ -27,24 +27,7 @@ namespace Adventure_Game.src.ui {
             while (true) {
                 InitializeVariables();
 
-                #if DEBUG
-                CreateCharacter();
-                if (player is not null && player.Name != "Me") {
-                    ConsolePrinter.PrintBlankLines(1);
-
-                    ChooseDifficulty();
-
-                    Tutorial.RunTutorial(player);
-                }
-                #else
-                ChooseDifficulty();
-
-                ConsolePrinter.PrintBlankLines(1);
-
-                CreateCharacter();
-
-                Tutorial.RunTutorial(player);
-                #endif
+                PrepareForPlaying();
 
                 ConsolePrinter.PrintBlankLines(2);
 
@@ -63,6 +46,32 @@ namespace Adventure_Game.src.ui {
             player = game.GamePlayer;
 
             random = new Random();
+        }
+
+        /// <summary>
+        /// Sets the game's difficulty level based on the user's choice.
+        /// Creates the user's player object by asking them about their character's name, class, and subclass.
+        /// Runs the tutorial
+        /// </summary>
+        private void PrepareForPlaying() {
+            #if DEBUG
+                CreateCharacter();
+                if (player.Name == "Me") {
+                    return;
+                }
+
+                ConsolePrinter.PrintBlankLines(1);
+
+                ChooseDifficulty();
+            #else
+                ChooseDifficulty();
+
+                ConsolePrinter.PrintBlankLines(1);
+
+                CreateCharacter();
+            #endif
+
+            Tutorial.RunTutorial(player);
         }
 
         /// <summary>
@@ -120,13 +129,13 @@ namespace Adventure_Game.src.ui {
         /// </summary>
         private void SelectName() {
             while (true) {
-            GamePrinter.WriteLine("Please input your character's name");
+                GamePrinter.WriteLine("Please input your character's name");
 
-            string? input = Console.ReadLine();
+                string? input = Console.ReadLine();
                 if (input is not null) {
                     player.Name = input;
-                return;
-            }
+                    return;
+                }
 
                 Console.Clear();
             }
