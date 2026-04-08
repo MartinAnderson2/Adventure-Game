@@ -54,7 +54,6 @@ namespace Adventure_Game.src.ui {
         /// game, and provides basic instructions for the tutorial.
         /// </summary>
         private static void IntroduceTutorial() {
-            GamePrinter.WriteLine();
             GamePrinter.WriteLineEmphasis("Tutorial");
             GamePrinter.WriteLineEmphasis("--------");
             GamePrinter.WriteLineNote("The options you have will be in quotation marks. When choosing the option do not include the quotation marks");

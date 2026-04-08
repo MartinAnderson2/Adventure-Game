@@ -49,9 +49,11 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Sets the game's difficulty level based on the user's choice.
-        /// Creates the user's player object by asking them about their character's name, class, and subclass.
-        /// Runs the tutorial
+        /// Sets the game's difficulty level based on the user's choice. Then creates the user's player object by
+        /// asking them about their character's name, class, and subclass. Finally, runs the tutorial for the player.
+        /// 
+        /// If debugging, first asks the user for their character's name, and if they name it exactly "Me" then skips
+        /// the difficulty selection (chooses the default) and automatically skips the tutorial.
         /// </summary>
         private void PrepareForPlaying() {
             #if DEBUG
@@ -70,6 +72,8 @@ namespace Adventure_Game.src.ui {
 
                 CreateCharacter();
             #endif
+
+            ConsolePrinter.PrintBlankLines(1);
 
             Tutorial.RunTutorial(player);
         }
