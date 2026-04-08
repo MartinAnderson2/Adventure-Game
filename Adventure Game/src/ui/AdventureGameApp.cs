@@ -165,7 +165,7 @@ namespace Adventure_Game.src.ui {
                 if (input == "fighter" || input == "f") {
                     player.ClassType = Player.Class.Fighter;
                     GamePrinter.WriteLine(player.Name + " is now a fighter");
-                    SelectBarbarianSubclass();
+                    SelectFighterSubclass();
                     break;
                 } else if (input == "wizard" || input == "wiz" || input == "w") {
                     player.ClassType = Player.Class.Wizard;
@@ -194,10 +194,10 @@ namespace Adventure_Game.src.ui {
         }
 
         /// <summary>
-        /// Asks the player which of the three barbarian subclasses they would like their character to take. Sets it to
+        /// Asks the player which of the three fighter subclasses they would like their character to take. Sets it to
         /// the subclass they chose. Loops until they select one of the options.
         /// </summary>
-        private void SelectBarbarianSubclass() {
+        private void SelectFighterSubclass() {
             while (true) {
                 GamePrinter.WriteLine("Is " + player.Name + " going to be a barbarian, knight, or samurai?");
 
