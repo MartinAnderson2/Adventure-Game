@@ -21,6 +21,9 @@ namespace Adventure_Game.src.model {
         public const uint MAP_HEIGHT = 7;
         public const int OFFSET = 3;
 
+        public const Difficulty DEFAULT_DIFFICULTY = Difficulty.Normal;
+        public const int STARTING_STOCK = 0;
+
         public const uint STARTING_MAX_HEALTH = 20;
 
         public const int PAUSE_BETWEEN_ATTACKS = 600; // In ms
@@ -87,7 +90,7 @@ namespace Adventure_Game.src.model {
         public GameState() {
             this.GamePlayer = new Player("", Player.Class.Fighter, Player.Subclass.Barbarian, UpdateCurrentTile);
             CurrentTile = GetCurrentTile();
-            this.GameDifficulty = Difficulty.Normal;
+            this.GameDifficulty = DEFAULT_DIFFICULTY;
             this.HealthPotionStock = 0;
             this.BaseStrengthStock = 0;
             this.MaxHealthStock = 0;
@@ -109,9 +112,9 @@ namespace Adventure_Game.src.model {
             this.GamePlayer = new Player(playerName, classType, subclassType, UpdateCurrentTile);
             CurrentTile = GetCurrentTile();
             this.GameDifficulty = difficulty;
-            this.HealthPotionStock = 0;
-            this.BaseStrengthStock = 0;
-            this.MaxHealthStock = 0;
+            this.HealthPotionStock = STARTING_STOCK;
+            this.BaseStrengthStock = STARTING_STOCK;
+            this.MaxHealthStock = STARTING_STOCK;
             this.DaysPlayed = 0;
             this.DateLastShopped = 0;
             this.EverUsedHealthPotion = false;
